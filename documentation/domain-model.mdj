@@ -8775,7 +8775,7 @@
 							"top": 752,
 							"width": 265,
 							"height": 194,
-							"text": "The macAddress allow the identification of the sensor over a sensor network. For example, various Fog Servers could collect all the measurements from the nearby sensors and send them as an HTTP request to the main application through the REST API. However, in order to associate the measurement to a sensor, the main application need the sensor id. The Fog Server in turn needs a way to identify the sensor and retrieve its id from the DB, the most simple way is to use the MAC address (a natural key), the uniquely identify the sensor over the network."
+							"text": "The macAddress allow the identification of the sensor over a sensor network. For example, various Fog Servers could collect all the measurements from the nearby sensors and send them as an HTTP request to the main application through the REST API. However, in order to associate the measurement to a sensor, the main application need the sensor id. In turn he Fog Server needs a way to identify the sensor and retrieve its id from the DB, the most simple way is to use the MAC address (a natural key), the uniquely identify the sensor over the network."
 						},
 						{
 							"_type": "UMLNoteLinkView",
