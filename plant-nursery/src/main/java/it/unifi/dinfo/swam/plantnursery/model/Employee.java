@@ -9,7 +9,14 @@ public class Employee extends BaseEntity{
 
 	private String email;
 	private String password;
-
+	
+	protected Employee() {
+	}
+	
+	public Employee(String uuid) {
+		super(uuid);
+	}
+	
 	public String getEmail() {
 		return email;
 	}
