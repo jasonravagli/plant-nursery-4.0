@@ -2392,17 +2392,17 @@
 										"$ref": "AAAAAAF6Q2ff4xdAwKY="
 									},
 									"font": "Arial;13;0",
-									"left": 327,
-									"top": 491,
-									"width": 98.26806640625,
+									"left": 384,
+									"top": 490,
+									"width": 41.26806640625,
 									"height": 13,
-									"alpha": -1.5889763118392346,
-									"distance": 55.00909015790027,
+									"alpha": -1.6447355804172217,
+									"distance": 27.073972741361768,
 									"hostEdge": {
 										"$ref": "AAAAAAF6Q2ff5BdEGzE="
 									},
 									"edgePosition": 1,
-									"text": "-monitoredPlants"
+									"text": "-plant"
 								},
 								{
 									"_type": "EdgeLabelView",
@@ -2457,15 +2457,17 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": 446,
+									"left": 439,
 									"top": 465,
+									"width": 14.82177734375,
 									"height": 13,
 									"alpha": 0.5235987755982988,
 									"distance": 30,
 									"hostEdge": {
 										"$ref": "AAAAAAF6Q2ff5BdEGzE="
 									},
-									"edgePosition": 2
+									"edgePosition": 2,
+									"text": "+1"
 								},
 								{
 									"_type": "EdgeLabelView",
@@ -2508,7 +2510,7 @@
 										"$ref": "AAAAAAF6Q2ff5BdEGzE="
 									},
 									"edgePosition": 2,
-									"text": "*"
+									"text": "1"
 								},
 								{
 									"_type": "EdgeLabelView",
@@ -7744,9 +7746,9 @@
 										"$ref": "AAAAAAF7JLgQCHgQ5/I="
 									},
 									"font": "Arial;13;0",
-									"left": 584,
+									"left": 583,
 									"top": 494,
-									"width": 52.39990234375,
+									"width": 55.63720703125,
 									"height": 13,
 									"alpha": 2.53843170734967,
 									"distance": 39.01281840626232,
@@ -7860,7 +7862,7 @@
 										"$ref": "AAAAAAF7JLgQCngUtFI="
 									},
 									"edgePosition": 2,
-									"text": "*"
+									"text": "1"
 								},
 								{
 									"_type": "EdgeLabelView",
@@ -8970,7 +8972,7 @@
 							"_parent": {
 								"$ref": "AAAAAAF5W9KljvumUeI="
 							},
-							"name": "monitoredPlants",
+							"name": "plant",
 							"end1": {
 								"_type": "UMLAssociationEnd",
 								"_id": "AAAAAAF6Q2ff4xdBWlk=",
@@ -8980,7 +8982,7 @@
 								"reference": {
 									"$ref": "AAAAAAF5W9KljvumUeI="
 								},
-								"multiplicity": "*"
+								"multiplicity": "1"
 							},
 							"end2": {
 								"_type": "UMLAssociationEnd",
@@ -11702,7 +11704,7 @@
 								"reference": {
 									"$ref": "AAAAAAF6Zl8DKbRjBOQ="
 								},
-								"multiplicity": "*"
+								"multiplicity": "1"
 							},
 							"end2": {
 								"_type": "UMLAssociationEnd",
