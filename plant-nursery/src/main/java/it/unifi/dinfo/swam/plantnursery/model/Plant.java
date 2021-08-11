@@ -26,7 +26,7 @@ public class Plant extends BaseEntity {
 		return platingDate;
 	}
 
-	public void setPlatingDate(Date platingDate) {
+	public void setPlantingDate(Date platingDate) {
 		this.platingDate = platingDate;
 	}
 

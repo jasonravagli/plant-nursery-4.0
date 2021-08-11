@@ -1,45 +1,48 @@
 package it.unifi.dinfo.swam.plantnursery.dao;
 
 import it.unifi.dinfo.swam.plantnursery.model.BaseEntity;
-
-import java.io.Serializable;
-import java.util.Collection;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
+import java.io.Serializable;
+import java.util.Collection;
+
+
 public abstract class BaseDao<T extends BaseEntity> implements Serializable {
 
-    private final Class<T> type;
+	private final Class<T> type;
 
-    @PersistenceContext
-    protected EntityManager entityManager;
+	@PersistenceContext
+	protected EntityManager entityManager;
 
-    public BaseDao( Class<T> type ) {
-        this.type = type;
-    }
+	public BaseDao(Class<T> type) {
+		this.type = type;
+	}
+	
+	// Only for testing purposes to inject dependencies
+	BaseDao(Class<T> type, EntityManager entityManager) {
+		this.type = type;
+		this.entityManager = entityManager;
+	}
 
-    public T findById(Long id ) {
-        return entityManager.find( type, id );
-    }
+	public T findById(Long id) {
+		return entityManager.find(type, id);
+	}
 
-    @Transactional
-    public void save( T entity ) {
-        if(entity.getId() == null)
-            entityManager.persist( entity );
-        else
-            entityManager.merge( entity );
-    }
+	@Transactional
+	public void save(T entity) {
+		entityManager.persist(entity);
+	}
 
-    @Transactional
-    public void save(Collection<T> entities ) {
-        for(BaseEntity entity: entities)
-            this.save( (T) entity );
-    }
+	@Transactional
+	public void update(T entity) {
+		entityManager.merge(entity);
+	}
 
-    public void delete( T entity ) {
-        entityManager.remove( entity );
-    }
+	@Transactional
+	public void delete(T entity) {
+		entityManager.remove(entity);
+	}
 
 }
