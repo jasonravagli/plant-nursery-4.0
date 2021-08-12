@@ -9,7 +9,7 @@ public class FaultPeriod {
 	
 	private Date startDate;
 	private Date endDate;
-
+	
 	public Date getStartDate() {
 		return startDate;
 	}

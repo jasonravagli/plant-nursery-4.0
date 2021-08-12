@@ -3,6 +3,7 @@ package it.unifi.dinfo.swam.plantnursery.dao;
 
 import it.unifi.dinfo.swam.plantnursery.model.Employee;
 
+import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import java.util.List;
@@ -12,6 +13,11 @@ public class EmployeeDao extends BaseDao<Employee> {
     public EmployeeDao() {
         super(Employee.class);
     }
+    
+	// Only for testing purposes to inject dependencies
+    EmployeeDao(EntityManager entityManager) {
+		super(Employee.class, entityManager);
+	}
 
     public Employee findByEmail(String email) {
         try {
@@ -22,11 +28,11 @@ public class EmployeeDao extends BaseDao<Employee> {
         }
     }
 
-    public List<Employee> search(String employee, Integer firstResult, Integer maxResults) {
-    	employee = employee.toLowerCase();
+    public List<Employee> search(String email, Integer firstResult, Integer maxResults) {
+    	email = email.toLowerCase();
         Query q = entityManager.createQuery("FROM employees " +
-                "WHERE LOWER(description) LIKE :employees")
-                .setParameter("employees", "%" + employee + "%");
+                "WHERE email=:email")
+                .setParameter("email", "%" + email + "%");
         if(firstResult != null)
             q.setFirstResult(firstResult);
         if(maxResults != null)
