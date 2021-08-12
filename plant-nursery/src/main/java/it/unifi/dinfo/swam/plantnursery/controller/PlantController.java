@@ -1,4 +1,4 @@
-package controller;
+package it.unifi.dinfo.swam.plantnursery.controller;
 
 import javax.enterprise.context.RequestScoped;
 
