@@ -39,7 +39,7 @@ public class EmployeeDaoTest extends JpaTest{
 		Employee employee = ModelFactory.employee();
 		employeeDao.save(employee);
 		
-		TypedQuery<Employee> query = this.entityManager.createQuery("FROM employee where uuid = :uuid", Employee.class);
+		TypedQuery<Employee> query = this.entityManager.createQuery("FROM Employee where uuid = :uuid", Employee.class);
 		query.setParameter("uuid", employee.getUuid());
 		
 		try {

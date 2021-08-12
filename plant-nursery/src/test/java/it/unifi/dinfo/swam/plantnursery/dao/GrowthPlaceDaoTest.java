@@ -38,7 +38,7 @@ class GrowthPlaceDaoTest extends JpaTest {
 		GrowthPlace growthPlace = ModelFactory.growthPlace();
 		growthPlaceDao.save(growthPlace);
 		
-		TypedQuery<GrowthPlace> query = this.entityManager.createQuery("FROM GrowthPlaces where uuid = :uuid", GrowthPlace.class);
+		TypedQuery<GrowthPlace> query = this.entityManager.createQuery("FROM GrowthPlace where uuid = :uuid", GrowthPlace.class);
 		query.setParameter("uuid", growthPlace.getUuid());
 		
 		try {

@@ -10,6 +10,9 @@
     	
     	<class>it.unifi.dinfo.swam.plantnursery.model.Plant</class>
 		<class>it.unifi.dinfo.swam.plantnursery.model.Species</class>
+		<class>it.unifi.dinfo.swam.plantnursery.model.GrowthPlace</class>
+		<class>it.unifi.dinfo.swam.plantnursery.model.Eployee</class>
+	
 		
  		<properties>
  			<property name="javax.persistence.validation.mode" value="none" />
