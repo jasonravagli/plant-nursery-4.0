@@ -12240,6 +12240,18 @@
 					"name": "UseCaseDiagram",
 					"ownedViews": [
 						{
+							"_type": "RectangleView",
+							"_id": "AAAAAAF7OYGs7ZwYPYM=",
+							"_parent": {
+								"$ref": "AAAAAAF7JSFUcEd+Bns="
+							},
+							"font": "Arial;13;0",
+							"left": 96,
+							"top": 136,
+							"width": 1049,
+							"height": 1009
+						},
+						{
 							"_type": "UMLActorView",
 							"_id": "AAAAAAF7JSKSdE0hpn8=",
 							"_parent": {
@@ -12661,7 +12673,7 @@
 									"font": "Arial;13;0",
 									"left": 355,
 									"top": 196.5,
-									"width": 90,
+									"width": 90.67236328125,
 									"height": 25,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAF7JVK+a0138vo="
@@ -12857,7 +12869,7 @@
 									"font": "Arial;13;0",
 									"left": 629,
 									"top": 164.5,
-									"width": 140,
+									"width": 140.52685546875,
 									"height": 25,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAF7JVMhjk2mvI0="
@@ -13051,7 +13063,7 @@
 									"font": "Arial;13;0",
 									"left": 631,
 									"top": 228.5,
-									"width": 111,
+									"width": 111.16259765625,
 									"height": 25,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAF7JVOydU3VzhE="
@@ -13707,7 +13719,7 @@
 									"font": "Arial;13;0",
 									"left": 501,
 									"top": 297.5,
-									"width": 99,
+									"width": 100.30810546875,
 									"height": 25,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAF7JVm8T1ATp50="
@@ -13906,7 +13918,7 @@
 									"font": "Arial;13;0",
 									"left": 469.5,
 									"top": 345.5,
-									"width": 141,
+									"width": 141.47265625,
 									"height": 25,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAF7JVnadVBWODQ="
@@ -14105,7 +14117,7 @@
 									"font": "Arial;13;0",
 									"left": 491,
 									"top": 489.5,
-									"width": 89,
+									"width": 90.17724609375,
 									"height": 25,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAF7JVpIXlDI/Vo="
@@ -14304,7 +14316,7 @@
 									"font": "Arial;13;0",
 									"left": 461.5,
 									"top": 620.5,
-									"width": 101,
+									"width": 102.46630859375,
 									"height": 25,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAF7JVp1+1EqT9U="
@@ -14503,7 +14515,7 @@
 									"font": "Arial;13;0",
 									"left": 665,
 									"top": 420.5,
-									"width": 159,
+									"width": 159.50634765625,
 									"height": 25,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAF7JVqsCVG4Yig="
@@ -14702,7 +14714,7 @@
 									"font": "Arial;13;0",
 									"left": 643.5,
 									"top": 556.5,
-									"width": 171,
+									"width": 171.79541015625,
 									"height": 25,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAF7JVrYjlIahRQ="
@@ -15290,7 +15302,7 @@
 									"font": "Arial;13;0",
 									"left": 441.5,
 									"top": 753.5,
-									"width": 200,
+									"width": 200.505859375,
 									"height": 25,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAF7JWBBSVhfbKE="
@@ -15489,7 +15501,7 @@
 									"font": "Arial;13;0",
 									"left": 455,
 									"top": 809.5,
-									"width": 188,
+									"width": 188.216796875,
 									"height": 25,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAF7JWG7kFnYPZ0="
@@ -15688,7 +15700,7 @@
 									"font": "Arial;13;0",
 									"left": 425.5,
 									"top": 857.5,
-									"width": 239,
+									"width": 239.51220703125,
 									"height": 25,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAF7JWIYwlo6ySA="
@@ -15887,7 +15899,7 @@
 									"font": "Arial;13;0",
 									"left": 671,
 									"top": 684.5,
-									"width": 147,
+									"width": 147.998046875,
 									"height": 25,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAF7JWZOJ1xRqBg="
@@ -18660,10 +18672,10 @@
 								"$ref": "AAAAAAF7JSFUcEd+Bns="
 							},
 							"font": "Arial;13;0",
-							"left": 1048,
-							"top": 512,
-							"width": 377,
-							"height": 51,
+							"left": 960,
+							"top": 472,
+							"width": 177,
+							"height": 116,
 							"text": "Can be further extended to allow more complex data analysis. For the moment (and for the didactic purpose of the project) let us keep the diagram simple, with only the main use cases."
 						},
 						{
@@ -18915,7 +18927,7 @@
 									"font": "Arial;13;0",
 									"left": 383,
 									"top": 1084.5,
-									"width": 149,
+									"width": 149.43896484375,
 									"height": 25,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAF7JduPlBs/pEk="
