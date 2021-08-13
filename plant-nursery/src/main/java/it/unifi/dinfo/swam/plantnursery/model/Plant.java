@@ -9,11 +9,11 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "plants")
 public class Plant extends BaseEntity {
-
-	Date platingDate;
+	
+	private Date plantingDate;
 
 	@ManyToOne
-	Species species;
+	private Species species;
 	
 	protected Plant() {
 	}
@@ -22,12 +22,12 @@ public class Plant extends BaseEntity {
 		super(uuid);
 	}
 
-	public Date getPlatingDate() {
-		return platingDate;
+	public Date getPlantingDate() {
+		return plantingDate;
 	}
 
-	public void setPlantingDate(Date platingDate) {
-		this.platingDate = platingDate;
+	public void setPlantingDate(Date plantingDate) {
+		this.plantingDate = plantingDate;
 	}
 
 	public Species getSpecies() {

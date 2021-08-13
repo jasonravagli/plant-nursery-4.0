@@ -6,7 +6,6 @@ import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
 import java.io.Serializable;
-import java.util.Collection;
 
 
 public abstract class BaseDao<T extends BaseEntity> implements Serializable {
@@ -42,6 +41,7 @@ public abstract class BaseDao<T extends BaseEntity> implements Serializable {
 
 	@Transactional
 	public void delete(T entity) {
+		entity = entityManager.merge(entity);
 		entityManager.remove(entity);
 	}
 

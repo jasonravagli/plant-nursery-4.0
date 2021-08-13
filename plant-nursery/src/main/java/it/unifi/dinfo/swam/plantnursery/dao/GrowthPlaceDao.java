@@ -2,12 +2,14 @@ package it.unifi.dinfo.swam.plantnursery.dao;
 
 import java.util.List;
 
+import javax.enterprise.context.Dependent;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
 import it.unifi.dinfo.swam.plantnursery.model.GrowthPlace;
 
+@Dependent
 public class GrowthPlaceDao extends BaseDao<GrowthPlace> {
 
 	public GrowthPlaceDao() {
@@ -20,17 +22,7 @@ public class GrowthPlaceDao extends BaseDao<GrowthPlace> {
 	}
 	
 	public List<GrowthPlace> getGrowthPlaces() {
-		TypedQuery<GrowthPlace> query = this.entityManager.createQuery("FROM GrowthPlaces", GrowthPlace.class);
+		TypedQuery<GrowthPlace> query = this.entityManager.createQuery("FROM GrowthPlace", GrowthPlace.class);
 		return  query.getResultList();
 	}
-	
-	public GrowthPlace findByLatitudeLongitude(float latitude, float longitude) {
-        try {
-            return (GrowthPlace) entityManager.createQuery("FROM GrowthPlaces WHERE latitude=:latitude AND longitude:=longitude")
-            		.setParameter("latitude", latitude).setParameter("longitude", longitude).getSingleResult();
-        }
-        catch (NoResultException nre){
-            return null;
-        }
-    }
 }

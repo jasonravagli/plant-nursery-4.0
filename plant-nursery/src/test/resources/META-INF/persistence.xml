@@ -8,10 +8,12 @@
      <persistence-unit name="test" transaction-type="RESOURCE_LOCAL">
     	<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
     	
-    	<class>it.unifi.dinfo.swam.plantnursery.model.Plant</class>
-		<class>it.unifi.dinfo.swam.plantnursery.model.Species</class>
+		<class>it.unifi.dinfo.swam.plantnursery.model.Employee</class>
 		<class>it.unifi.dinfo.swam.plantnursery.model.GrowthPlace</class>
-		<class>it.unifi.dinfo.swam.plantnursery.model.Eployee</class>
+    	<class>it.unifi.dinfo.swam.plantnursery.model.Plant</class>
+    	<class>it.unifi.dinfo.swam.plantnursery.model.Position</class>
+    	<class>it.unifi.dinfo.swam.plantnursery.model.Sensor</class>
+		<class>it.unifi.dinfo.swam.plantnursery.model.Species</class>
 	
 		
  		<properties>

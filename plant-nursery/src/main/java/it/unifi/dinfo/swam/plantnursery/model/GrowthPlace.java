@@ -5,16 +5,19 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "growth_places")
 public class GrowthPlace extends BaseEntity {
 	
+	@NotNull
 	@Column(unique = true)
 	private String name;
 	private float latitude;
 	private float longitude;
 	
+	@NotNull
 	@Enumerated(EnumType.STRING)
 	private GrowthPlaceType type;
 	
