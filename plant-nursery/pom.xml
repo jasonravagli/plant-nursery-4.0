@@ -8,7 +8,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 
 	<name>plant-nursery</name>
-	<description>Add project description here</description>
+	<description>A prototipal software system for the management of a plant nursery 4.0</description>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -24,7 +24,19 @@
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
 			<version>5.5.0.Final</version>
+			<exclusions>
+				<exclusion>
+					<groupId>javax</groupId>
+					<artifactId>javaee-api</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
+		<dependency>
+		    <groupId>tech.tablesaw</groupId>
+		    <artifactId>tablesaw-core</artifactId>
+		    <version>0.38.3</version>
+		</dependency>
+				
 
 		<!-- TEST DEPENDENCIES -->
 		<dependency>
@@ -45,7 +57,12 @@
 			<version>2.3.2</version>
 			<scope>test</scope>
 		</dependency>
-		
+		<dependency>
+		    <groupId>org.apache.commons</groupId>
+		    <artifactId>commons-lang3</artifactId>
+		    <version>3.12.0</version>
+		    <scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<build>

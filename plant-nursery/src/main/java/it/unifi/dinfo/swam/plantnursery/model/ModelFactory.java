@@ -7,8 +7,8 @@ public class ModelFactory {
 	private ModelFactory() {
 	}
 	
-	public static Employee employee() {
-		return new Employee(UUID.randomUUID().toString());
+	public static User user() {
+		return new User(UUID.randomUUID().toString());
 	}
 	
 	public static GrowthPlace growthPlace() {

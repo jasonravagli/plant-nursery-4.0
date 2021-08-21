@@ -1,6 +1,6 @@
 package it.unifi.dinfo.swam.plantnursery.dao;
 
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import it.unifi.dinfo.swam.plantnursery.model.GrowthPlace;
@@ -11,9 +11,10 @@ import javax.enterprise.context.Dependent;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
-
 @Dependent
 public class PlantDao extends BaseDao<Plant> {
+
+	private static final long serialVersionUID = 1859451193977065121L;
 
 	public PlantDao() {
 		super(Plant.class);
@@ -29,14 +30,14 @@ public class PlantDao extends BaseDao<Plant> {
 		return query.getResultList();
 	}
 
-	public List<Plant> getPlantsBySpecies(Species species1) {
+	public List<Plant> getPlantsBySpecies(Species species) {
 		TypedQuery<Plant> query = this.entityManager.createQuery("FROM Plant WHERE species = :species", Plant.class);
-		query.setParameter("species", species1);
+		query.setParameter("species", species);
 		return query.getResultList();
 	}
 
-	public List<Plant> getPlantsByPlantingDateRange(Date dateStart, Date dateEnd) {
-		if (dateEnd.before(dateStart))
+	public List<Plant> getPlantsByPlantingDateRange(LocalDate dateStart, LocalDate dateEnd) {
+		if (dateEnd.isBefore(dateStart))
 			throw new IllegalArgumentException("dateEnd must be after dateStart");
 
 		TypedQuery<Plant> query = this.entityManager
@@ -47,9 +48,19 @@ public class PlantDao extends BaseDao<Plant> {
 	}
 
 	public List<Plant> getPlantsByGrowthPlace(GrowthPlace growthPlace) {
-		TypedQuery<Plant> query = this.entityManager.createQuery(
-				"SELECT pl FROM Position pos JOIN pos.plant pl WHERE pos.growthPlace = :growthPlace", Plant.class);
+		TypedQuery<Plant> query = this.entityManager
+				.createQuery("SELECT p.plant FROM Position p WHERE p.growthPlace = :growthPlace", Plant.class);
 		query.setParameter("growthPlace", growthPlace);
+		return query.getResultList();
+	}
+
+	public List<Plant> getNotSoldPlants() {
+		TypedQuery<Plant> query = this.entityManager.createQuery("FROM Plant WHERE sold = false", Plant.class);
+		return query.getResultList();
+	}
+
+	public List<Plant> getSoldPlants() {
+		TypedQuery<Plant> query = this.entityManager.createQuery("FROM Plant WHERE sold = true", Plant.class);
 		return query.getResultList();
 	}
 

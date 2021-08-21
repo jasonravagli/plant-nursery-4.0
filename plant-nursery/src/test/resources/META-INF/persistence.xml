@@ -14,7 +14,8 @@
     	<class>it.unifi.dinfo.swam.plantnursery.model.Position</class>
     	<class>it.unifi.dinfo.swam.plantnursery.model.Sensor</class>
 		<class>it.unifi.dinfo.swam.plantnursery.model.Species</class>
-	
+		<class>it.unifi.dinfo.swam.plantnursery.model.Measurement</class>
+		<class>it.unifi.dinfo.swam.plantnursery.model.User</class>
 		
  		<properties>
  			<property name="javax.persistence.validation.mode" value="none" />

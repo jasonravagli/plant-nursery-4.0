@@ -8,7 +8,7 @@ import javax.persistence.Enumerated;
 public class LifeParameter {
 
 	private float rangeStart;
-	private float rangEnd;
+	private float rangeEnd;
 
 	@Enumerated(EnumType.STRING)
 	private Unit unit;
@@ -24,12 +24,12 @@ public class LifeParameter {
 		this.rangeStart = rangeStart;
 	}
 
-	public float getRangEnd() {
-		return rangEnd;
+	public float getRangeEnd() {
+		return rangeEnd;
 	}
 
-	public void setRangEnd(float rangEnd) {
-		this.rangEnd = rangEnd;
+	public void setRangeEnd(float rangeEnd) {
+		this.rangeEnd = rangeEnd;
 	}
 
 	public Unit getUnit() {
