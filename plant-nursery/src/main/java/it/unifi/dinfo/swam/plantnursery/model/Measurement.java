@@ -1,32 +1,38 @@
 package it.unifi.dinfo.swam.plantnursery.model;
 
-import java.sql.Date;
+import java.time.LocalDateTime;
+
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "measurements")
 public class Measurement extends BaseEntity {
-
-	private Date date;
+	
+	@NotNull
+	private LocalDateTime date;
+	@NotNull
 	private float value;
-
+	
+	@NotNull
 	@Enumerated(EnumType.STRING)
 	private Unit unit;
-
+	
+	@NotNull
 	@Enumerated(EnumType.STRING)
 	private MeasureType type;
 
-	@ManyToOne
+	@ManyToOne(optional = true)
 	private Plant plant;
 
-	@ManyToOne
+	@ManyToOne(optional = false)
 	private Sensor sensor;
 
-	@ManyToOne
+	@ManyToOne(optional = false)
 	private Position position;
 	
 	protected Measurement() {
@@ -36,11 +42,11 @@ public class Measurement extends BaseEntity {
 		super(uuid);
 	}
 
-	public Date getDate() {
+	public LocalDateTime getDate() {
 		return date;
 	}
 
-	public void setDate(Date date) {
+	public void setDate(LocalDateTime date) {
 		this.date = date;
 	}
 

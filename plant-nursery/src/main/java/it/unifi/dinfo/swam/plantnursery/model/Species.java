@@ -1,20 +1,26 @@
 package it.unifi.dinfo.swam.plantnursery.model;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CollectionTable;
+import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "species")
 public class Species extends BaseEntity {
 
+	@NotNull
+	@Column(unique = true)
 	private String name;
 	private String description;
 
@@ -31,10 +37,15 @@ public class Species extends BaseEntity {
 	private List<LifeParameter> lifeParams;
 	
 	protected Species() {
+		growthPlaceTypes = new HashSet<>();
+		lifeParams = new ArrayList<>();
 	}
 	
 	public Species(String uuid) {
 		super(uuid);
+		
+		growthPlaceTypes = new HashSet<>();
+		lifeParams = new ArrayList<>();
 	}
 
 	public String getName() {

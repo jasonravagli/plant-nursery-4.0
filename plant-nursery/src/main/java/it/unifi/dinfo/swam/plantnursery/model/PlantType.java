@@ -3,7 +3,7 @@ package it.unifi.dinfo.swam.plantnursery.model;
 public enum PlantType {
 	AQUATIC,
 	CLIMBING,
-	CONIFFER,
+	CONIFER,
 	FRUIT,
 	FLOWER,
 	GRASS,

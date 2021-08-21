@@ -1,6 +1,10 @@
 package it.unifi.dinfo.swam.plantnursery.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -12,20 +16,23 @@ public class Position extends BaseEntity {
 	private int rowIndex;
 	private int columnIndex;
 	
-	@ManyToOne
+	@ManyToOne(optional = false)
 	private GrowthPlace growthPlace;
 	
-	@ManyToOne
-	private Sensor sensor;
+	@ManyToMany
+	private List<Sensor> sensors;
 	
 	@OneToOne
 	private Plant plant;
 	
 	protected Position() {
+		sensors = new ArrayList<Sensor>();
 	}
 	
 	public Position(String uuid) {
 		super(uuid);
+		
+		sensors = new ArrayList<Sensor>();
 	}
 
 	public int getRowIndex() {
@@ -51,13 +58,21 @@ public class Position extends BaseEntity {
 	public void setGrowthPlace(GrowthPlace growthPlace) {
 		this.growthPlace = growthPlace;
 	}
-
-	public Sensor getSensor() {
-		return sensor;
+	
+	public void addSensor(Sensor sensor) {
+		this.sensors.add(sensor);
 	}
 
-	public void setSensor(Sensor sensor) {
-		this.sensor = sensor;
+	public List<Sensor> getSensors() {
+		return sensors;
+	}
+	
+	public boolean removeSensor(Sensor sensor) {
+		return this.sensors.remove(sensor);
+	}
+
+	public void setSensors(List<Sensor> sensors) {
+		this.sensors = sensors;
 	}
 
 	public Plant getPlant() {

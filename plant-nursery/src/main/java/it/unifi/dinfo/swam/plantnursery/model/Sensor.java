@@ -1,6 +1,8 @@
 package it.unifi.dinfo.swam.plantnursery.model;
 
-import java.sql.Date;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -22,8 +24,8 @@ public class Sensor extends BaseEntity{
 	private String company;
 	private String model;
 	private String serialNumber;
-	private Date installationDate;
-	private Date disposalDate;
+	private LocalDate installationDate;
+	private LocalDate disposalDate;
 	
 	@ElementCollection
 	@CollectionTable(name = "sensor_measure_types", joinColumns = @JoinColumn(name = "sensor_id"))
@@ -35,10 +37,15 @@ public class Sensor extends BaseEntity{
 	private List<FaultPeriod> faultPeriods;
 
 	protected Sensor() {
+		measureTypes = new HashSet<>();
+		faultPeriods = new ArrayList<FaultPeriod>();
 	}
 	
 	public Sensor(String uuid) {
 		super(uuid);
+		
+		measureTypes = new HashSet<>();
+		faultPeriods = new ArrayList<FaultPeriod>();
 	}
 	
 	public String getMacAddress() {
@@ -73,19 +80,19 @@ public class Sensor extends BaseEntity{
 		this.serialNumber = serialNumber;
 	}
 
-	public Date getInstallationDate() {
+	public LocalDate getInstallationDate() {
 		return installationDate;
 	}
 
-	public void setInstallationDate(Date installationDate) {
+	public void setInstallationDate(LocalDate installationDate) {
 		this.installationDate = installationDate;
 	}
 
-	public Date getDisposalDate() {
+	public LocalDate getDisposalDate() {
 		return disposalDate;
 	}
 
-	public void setDisposalDate(Date disposalDate) {
+	public void setDisposalDate(LocalDate disposalDate) {
 		this.disposalDate = disposalDate;
 	}
 
