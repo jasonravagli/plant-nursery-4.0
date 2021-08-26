@@ -28,23 +28,20 @@ public class SpeciesDao extends BaseDao<Species> {
 		TypedQuery<Species> query = this.entityManager.createQuery("FROM Species", Species.class);
 		return query.getResultList();
 	}
-	
+
 	public Species getSpeciesByName(String name) {
-		TypedQuery<Species> query = this.entityManager.createQuery("FROM Species WHERE name = :name",
-				Species.class);
+		TypedQuery<Species> query = this.entityManager.createQuery("FROM Species WHERE name = :name", Species.class);
 		query.setParameter("name", name);
-		
+
 		try {
 			return query.getSingleResult();
-		}
-		catch(NoResultException e) {
+		} catch (NoResultException e) {
 			return null;
 		}
 	}
 
 	public List<Species> getSpeciesByPlantType(PlantType plantType) {
-		TypedQuery<Species> query = this.entityManager.createQuery("FROM Species WHERE type = :type",
-				Species.class);
+		TypedQuery<Species> query = this.entityManager.createQuery("FROM Species WHERE type = :type", Species.class);
 		query.setParameter("type", plantType);
 		return query.getResultList();
 	}
@@ -53,6 +50,16 @@ public class SpeciesDao extends BaseDao<Species> {
 		TypedQuery<Species> query = this.entityManager.createQuery("FROM Species WHERE name LIKE CONCAT(:name, '%')",
 				Species.class);
 		query.setParameter("name", prefixName);
+		return query.getResultList();
+	}
+
+	public List<Species> getFilteredSpecies(PlantType plantType, String prefixName) {
+		TypedQuery<Species> query = this.entityManager.createQuery(
+				"FROM Species WHERE (:name is null OR name LIKE CONCAT(:name, '%')) AND (:plantType is null OR type = :plantType)",
+				Species.class);
+		query.setParameter("plantType", plantType);
+		query.setParameter("name", prefixName);
+		
 		return query.getResultList();
 	}
 }

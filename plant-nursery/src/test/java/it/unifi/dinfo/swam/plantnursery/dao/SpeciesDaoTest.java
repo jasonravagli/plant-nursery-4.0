@@ -10,7 +10,6 @@ import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Test;
 
-import it.unifi.dinfo.swam.plantnursery.model.GrowthPlace;
 import it.unifi.dinfo.swam.plantnursery.model.GrowthPlaceType;
 import it.unifi.dinfo.swam.plantnursery.model.LifeParameter;
 import it.unifi.dinfo.swam.plantnursery.model.MeasureType;
@@ -36,7 +35,7 @@ public class SpeciesDaoTest extends JpaTest {
 	private float rangeStart1 = 4;
 	private float rangeEnd1 = 7;
 	
-	private String name2 = "test-2";
+	private String name2 = "name-2";
 	private String description2 = "desc-2";
 	private PlantType plantType2 = PlantType.CONIFER;
 	private GrowthPlaceType gpType2 = GrowthPlaceType.OPEN_FIELD;
@@ -164,8 +163,9 @@ public class SpeciesDaoTest extends JpaTest {
 		String namePrefix = "name";
 		List<Species> listSpecies = speciesDao.getSpeciesStartingByName(namePrefix);
 		
-		assertEquals(1, listSpecies.size());
+		assertEquals(2, listSpecies.size());
 		assertEquals(true, listSpecies.stream().anyMatch(p -> areSpeciesEqual(p, species1)));
+		assertEquals(true, listSpecies.stream().anyMatch(p -> areSpeciesEqual(p, species2)));
 	}
 	
 	@Test
@@ -174,6 +174,34 @@ public class SpeciesDaoTest extends JpaTest {
 		
 		assertEquals(1, listSpecies.size());
 		assertEquals(true, listSpecies.stream().anyMatch(p -> areSpeciesEqual(p, species2)));
+	}
+	
+	@Test
+	void testGetFilteredSpeciesWhenNoParamsAreProvided() {
+		List<Species> listSpecies = speciesDao.getFilteredSpecies(null, null);
+		
+		assertEquals(2, listSpecies.size());
+		assertEquals(true, listSpecies.stream().anyMatch(p -> areSpeciesEqual(p, species1)));
+		assertEquals(true, listSpecies.stream().anyMatch(p -> areSpeciesEqual(p, species2)));
+	}
+	
+	@Test
+	void testGetFilteredSpeciesWhenAllParamsAreProvided() {
+		String prefixName = "name";
+		PlantType filterType =  plantType1;
+		List<Species> listSpecies = speciesDao.getFilteredSpecies(filterType, prefixName);
+		
+		assertEquals(1, listSpecies.size());
+		assertEquals(true, listSpecies.stream().anyMatch(p -> areSpeciesEqual(p, species1)));
+	}
+	
+	@Test
+	void testGetFilteredSpeciesWhenAllParamsAreProvidedAndNoSpeciesMatch() {
+		String prefixName = "name";
+		PlantType filterType =  PlantType.AQUATIC;
+		List<Species> listSpecies = speciesDao.getFilteredSpecies(filterType, prefixName);
+		
+		assertEquals(0, listSpecies.size());
 	}
 	
 	// Method for field-based equality check between GrowthPlace entities

@@ -70,4 +70,32 @@ public class SensorDao extends BaseDao<Sensor> {
 				Sensor.class);
 		return query.getResultList();
 	}
+
+	public List<Sensor> getFilteredSensors(GrowthPlace growthPlace, String company, String model, String macAddress,
+			Boolean active) {
+		TypedQuery<Sensor> query;
+		String queryString = "";
+
+		if (growthPlace != null) {
+			queryString = "SELECT DISTINCT s FROM Position p JOIN p.sensors s WHERE p.growthPlace = :growthPlace AND "
+					+ "(:company is null OR company = :company) AND (:model is null OR model = :model) AND (:macAddress is null OR macAddress = :macAddress)";
+		} else { 
+			queryString = "FROM Sensor WHERE (:company is null OR company = :company) AND "
+					+ "(:model is null OR model = :model) AND (:macAddress is null OR macAddress = :macAddress)";
+		}
+
+		if (active != null) {
+			queryString += active ? " AND disposalDate IS NOT NULL" : " AND disposalDate IS NULL";
+		}
+		query = this.entityManager.createQuery(queryString, Sensor.class);
+
+		if (growthPlace != null) {
+			query.setParameter("growthPlace", growthPlace);
+		}
+		query.setParameter("company", company);
+		query.setParameter("model", model);
+		query.setParameter("macAddress", macAddress);
+
+		return query.getResultList();
+	}
 }

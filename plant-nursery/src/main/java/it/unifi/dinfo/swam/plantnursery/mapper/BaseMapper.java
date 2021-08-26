@@ -8,9 +8,13 @@ import java.util.stream.Collectors;
 
 public abstract class BaseMapper<T extends BaseEntity, dtoT> {
 
-	public abstract dtoT convert(T obj);
+	public abstract dtoT toDto(T obj) throws IllegalArgumentException;
 
-	public List<dtoT> convert(Collection<T> list) {
-		return list.stream().map(this::convert).collect(Collectors.toList());
+	public abstract T toEntity(dtoT dto) throws IllegalArgumentException;
+
+	public abstract T updateEntity(T obj, dtoT dto) throws IllegalArgumentException;
+
+	public List<dtoT> toDto(Collection<T> list) throws IllegalArgumentException {
+		return list.stream().map(this::toDto).collect(Collectors.toList());
 	}
 }

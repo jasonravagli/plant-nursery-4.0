@@ -64,4 +64,30 @@ public class PlantDao extends BaseDao<Plant> {
 		return query.getResultList();
 	}
 
+	public List<Plant> getFilteredPlants(GrowthPlace growthPlace, Species species, Boolean sold, LocalDate dateStart,
+			LocalDate dateEnd) {
+		if (dateStart != null && dateEnd != null && dateEnd.isBefore(dateStart))
+			throw new IllegalArgumentException("dateEnd must be after dateStart");
+		
+		TypedQuery<Plant> query;
+		if (growthPlace != null) {
+			query = this.entityManager.createQuery(
+					"SELECT pl FROM Position pos JOIN pos.plant pl WHERE (pos.growthPlace = :growthPlace) AND (:species is null OR pl.species = :species) AND "
+							+ "(:sold is null OR pl.sold = :sold) AND (:dateStart is null OR pl.plantingDate >= :dateStart) AND (:dateEnd is null OR pl.plantingDate <= :dateEnd)",
+					Plant.class);
+			query.setParameter("growthPlace", growthPlace);
+		} else {
+			query = this.entityManager.createQuery(
+					"FROM Plant WHERE (:species is null OR species = :species) AND (:sold is null OR sold = :sold) AND "
+							+ "(:dateStart is null OR plantingDate >= :dateStart) AND (:dateEnd is null OR plantingDate <= :dateEnd)",
+					Plant.class);
+		}
+		query.setParameter("species", species);
+		query.setParameter("sold", sold);
+		query.setParameter("dateStart", dateStart);
+		query.setParameter("dateEnd", dateEnd);
+
+		return query.getResultList();
+	}
+
 }

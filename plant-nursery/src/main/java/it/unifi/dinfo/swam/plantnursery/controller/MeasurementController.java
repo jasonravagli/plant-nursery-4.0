@@ -26,7 +26,7 @@ import tech.tablesaw.api.Table;
 import tech.tablesaw.aggregate.AggregateFunctions;
 
 @RequestScoped
-public class MeasurementController {
+public class MeasurementController extends BaseController{
 
 	@Inject
 	private GrowthPlaceDao growthPlaceDao;
@@ -45,13 +45,21 @@ public class MeasurementController {
 
 	public Table getMeasurementsByGrowthPlace(Long idGrowthPlace, LocalDateTime startDateTime,
 			LocalDateTime endDateTime) {
-		// Check if the sensor exists
+		this.cleanErrorFields();
+		
+		// Check if the growth place exists
 		GrowthPlace growthPlace = growthPlaceDao.findById(idGrowthPlace);
-		if (growthPlace == null)
+		if (growthPlace == null) {
+			this.setErrorOccurred(true);
+			this.setErrorMessage("The growth place does not exists");
 			return null;
+		}
 
-		if (endDateTime.isBefore(startDateTime))
+		if (endDateTime.isBefore(startDateTime)) {
+			this.setErrorOccurred(true);
+			this.setErrorMessage("The end date must be after the start date");
 			return null;
+		}
 
 		List<Measurement> listMeas = measurementDao.getMeasurementsByGrowthPlace(growthPlace, startDateTime,
 				endDateTime);
@@ -72,13 +80,21 @@ public class MeasurementController {
 	}
 
 	public Table getMeasurementsByPlant(Long idPlant, LocalDateTime startDateTime, LocalDateTime endDateTime) {
+		this.cleanErrorFields();
+		
 		// Check if the sensor exists
 		Plant plant = plantDao.findById(idPlant);
-		if (plant == null)
+		if (plant == null) {
+			this.setErrorOccurred(true);
+			this.setErrorMessage("The plant does not exists");
 			return null;
+		}
 
-		if (endDateTime.isBefore(startDateTime))
+		if (endDateTime.isBefore(startDateTime)) {
+			this.setErrorOccurred(true);
+			this.setErrorMessage("The end date must be after the start date");
 			return null;
+		}
 
 		List<Measurement> listMeas = measurementDao.getMeasurementsByPlant(plant, startDateTime, endDateTime);
 		double[] colValues = listMeas.stream().mapToDouble(m -> m.getValue()).toArray();
@@ -93,13 +109,22 @@ public class MeasurementController {
 	}
 
 	public Table getMeasurementsBySensor(Long idSensor, LocalDateTime startDateTime, LocalDateTime endDateTime) {
+		this.cleanErrorFields();
+		
 		// Check if the sensor exists
 		Sensor sensor = sensorDao.findById(idSensor);
-		if (sensor == null)
+		if (sensor == null) {
+			this.setErrorOccurred(true);
+			this.setErrorMessage("The plant does not exists");
 			return null;
+		}
 
-		if (endDateTime.isBefore(startDateTime))
+
+		if (endDateTime.isBefore(startDateTime)) {
+			this.setErrorOccurred(true);
+			this.setErrorMessage("The end date must be after the start date");
 			return null;
+		}
 
 		List<Measurement> listMeas = measurementDao.getMeasurementsBySensor(sensor, startDateTime, endDateTime);
 		double[] colValues = listMeas.stream().mapToDouble(m -> m.getValue()).toArray();
@@ -114,21 +139,32 @@ public class MeasurementController {
 	}
 
 	public boolean saveMeasurement(Measurement measurement) {
-		if (!areAllRequiredFieldsFilled(measurement))
+		this.cleanErrorFields();
+		
+		if (!areAllRequiredFieldsFilled(measurement)) {
+			this.setErrorOccurred(true);
+			this.setErrorMessage("Invalid measurement: missing mandatory fields");
 			return false;
+		}
 
 		// Check if the sensor exists
 		Sensor sensor = sensorDao.findById(measurement.getSensor().getId());
-		if (sensor == null)
+		if (sensor == null) {
+			this.setErrorOccurred(true);
+			this.setErrorMessage("The sensor does not exists");
 			return false;
+		}
 
 		// Check if the plant exists
 		Plant plant = null;
 		if (measurement.getPlant() != null) {
 			plant = plantDao.findById(measurement.getPlant().getId());
 
-			if (plant == null)
+			if (plant == null) {
+				this.setErrorOccurred(true);
+				this.setErrorMessage("The plant does not exists");
 				return false;
+			}
 		}
 
 		// Retrieve the positions covered by the sensors which gathered the measure

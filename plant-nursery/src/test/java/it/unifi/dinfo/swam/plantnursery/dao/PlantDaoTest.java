@@ -2,25 +2,17 @@ package it.unifi.dinfo.swam.plantnursery.dao;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.fail;
-
-import java.text.SimpleDateFormat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.time.LocalDate;
-import java.util.Calendar;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
-import org.omg.PortableInterceptor.SUCCESSFUL;
-
 import it.unifi.dinfo.swam.plantnursery.model.GrowthPlace;
 import it.unifi.dinfo.swam.plantnursery.model.ModelFactory;
 import it.unifi.dinfo.swam.plantnursery.model.Plant;
 import it.unifi.dinfo.swam.plantnursery.model.Position;
 import it.unifi.dinfo.swam.plantnursery.model.Species;
 import it.unifi.dinfo.swam.plantnursery.utils.Utilities;
-
-import javax.persistence.NoResultException;
-import javax.persistence.TypedQuery;
 
 public class PlantDaoTest extends JpaTest {
 
@@ -195,12 +187,7 @@ public class PlantDaoTest extends JpaTest {
 
 	@Test
 	public void testGetPlantsByPlantingDateRangeWithInvalidRange() {
-		try {
-			List<Plant> plants = plantDao.getPlantsByPlantingDateRange(plantingDate2, plantingDate3);
-			fail();
-		} catch (IllegalArgumentException e) {
-
-		}
+		assertThrows(IllegalArgumentException.class, () -> plantDao.getPlantsByPlantingDateRange(plantingDate2, plantingDate3));
 	}
 	
 	@Test
@@ -227,6 +214,37 @@ public class PlantDaoTest extends JpaTest {
 		
 		assertEquals(1, plants.size());
 		assertEquals(true, plants.stream().anyMatch(p -> arePlantsEqual(p, plant1)));
+	}
+	
+	@Test
+	void testGetFilteredPlantsWhenNoParamsAreProvided() {
+		List<Plant> plants = plantDao.getFilteredPlants(null, null, null, null, null);
+		
+		assertEquals(N_PLANTS, plants.size());
+		assertEquals(true, plants.stream().anyMatch(p -> arePlantsEqual(p, plant1)));
+		assertEquals(true, plants.stream().anyMatch(p -> arePlantsEqual(p, plant2)));
+		assertEquals(true, plants.stream().anyMatch(p -> arePlantsEqual(p, plant3)));
+	}
+	
+	@Test
+	void testGetFilteredPlantsWhenAllParamsAreProvided() {
+		Boolean sold = true;
+		LocalDate dateStart = LocalDate.parse("2021-08-11");
+		LocalDate dateEnd = LocalDate.parse("2021-09-11");
+		List<Plant> plants = plantDao.getFilteredPlants(growthPlace1, species1, sold, dateStart, dateEnd);
+		
+		assertEquals(1, plants.size());
+		assertEquals(true, plants.stream().anyMatch(p -> arePlantsEqual(p, plant1)));
+	}
+	
+	@Test
+	void testGetFilteredPlantsWhenAllParamsAreProvidedAndNoPlantMatch() {
+		Boolean sold = false;
+		LocalDate dateStart = LocalDate.parse("2022-08-11");
+		LocalDate dateEnd = LocalDate.parse("2022-09-11");
+		List<Plant> plants = plantDao.getFilteredPlants(growthPlace2, species1, sold, dateStart, dateEnd);
+		
+		assertEquals(0, plants.size());
 	}
 	
 	// Method for field-based equality check between Plant entities

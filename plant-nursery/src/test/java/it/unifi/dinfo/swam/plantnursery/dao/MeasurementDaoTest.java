@@ -330,6 +330,35 @@ public class MeasurementDaoTest extends JpaTest {
 		assertThrows(IllegalArgumentException.class, () -> measurementDao.getMeasurementsByGrowthPlace(growthPlace12, startDateTime, endDateTime));
 	}
 	
+	@Test
+	void testGetFilteredMeasurementsWhenNoParamsAreProvided() {
+		List<Measurement> measurements = measurementDao.getFilteredMeasurements(null, null, null, null, null);
+		
+		assertEquals(3, measurements.size());
+		assertEquals(true, measurements.stream().anyMatch(p -> areMeasurementsEqual(p, measurement1)));
+		assertEquals(true, measurements.stream().anyMatch(p -> areMeasurementsEqual(p, measurement2)));
+		assertEquals(true, measurements.stream().anyMatch(p -> areMeasurementsEqual(p, measurement3)));
+	}
+	
+	@Test
+	void testGetFilteredMeasurementsWhenAllParamsAreProvided() {
+		LocalDateTime dateStart = date1;
+		LocalDateTime dateEnd = date1.plusHours(1);
+		List<Measurement> measurements = measurementDao.getFilteredMeasurements(plant1, sensor12, growthPlace12, dateStart, dateEnd);
+		
+		assertEquals(1, measurements.size());
+		assertEquals(true, measurements.stream().anyMatch(p -> areMeasurementsEqual(p, measurement1)));
+	}
+	
+	@Test
+	void testGetFilteredMeasurementsWhenAllParamsAreProvidedAndNoMeasurementMatch() {
+		LocalDateTime dateStart = date2;
+		LocalDateTime dateEnd = date2.plusHours(1);
+		List<Measurement> measurements = measurementDao.getFilteredMeasurements(plant1, sensor3, growthPlace3, dateStart, dateEnd);
+		
+		assertEquals(0, measurements.size());
+	}
+	
 	// Method for field-based equality check between Position entities
 	private boolean areMeasurementsEqual(Measurement meas1, Measurement meas2) {
 		if (meas1 == null || meas2 == null)

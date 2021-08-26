@@ -17,9 +17,9 @@ import com.google.common.net.HttpHeaders;
 import it.unifi.dinfo.swam.plantnursery.dao.UserDao;
 import it.unifi.dinfo.swam.plantnursery.model.User;
 
+//@AuthenticationBinding
 @Provider
 @Priority(Priorities.AUTHENTICATION)
-@AuthenticationBinding
 public class SecurityRequestFilter implements ContainerRequestFilter {
 	
 	@Inject

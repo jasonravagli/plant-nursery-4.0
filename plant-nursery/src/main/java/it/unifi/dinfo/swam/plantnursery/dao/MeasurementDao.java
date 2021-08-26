@@ -25,7 +25,7 @@ public class MeasurementDao extends BaseDao<Measurement> {
 	MeasurementDao(EntityManager entityManager) {
 		super(Measurement.class, entityManager);
 	}
-
+	
 	public List<Measurement> getMeasurementsBySensor(Sensor sensor, LocalDateTime startDateTime,
 			LocalDateTime endDateTime) {
 		if (endDateTime.isBefore(startDateTime))
@@ -62,6 +62,24 @@ public class MeasurementDao extends BaseDao<Measurement> {
 		TypedQuery<Measurement> query = this.entityManager.createQuery(
 				"FROM Measurement WHERE position.growthPlace = :growthPlace AND date >= :startDateTime AND date <= :endDateTime",
 				Measurement.class);
+		query.setParameter("growthPlace", growthPlace);
+		query.setParameter("startDateTime", startDateTime);
+		query.setParameter("endDateTime", endDateTime);
+		return query.getResultList();
+	}
+	
+	public List<Measurement> getFilteredMeasurements(Plant plant, Sensor sensor, GrowthPlace growthPlace, LocalDateTime startDateTime,
+			LocalDateTime endDateTime) {
+		if (startDateTime != null && endDateTime != null && endDateTime.isBefore(startDateTime))
+			throw new IllegalArgumentException("endDateTime must be after startDateTime");
+
+		TypedQuery<Measurement> query = this.entityManager.createQuery(
+				"FROM Measurement WHERE (:plant is null OR plant = :plant) AND (:sensor is null OR sensor = :sensor) AND "
+				+ "(:growthPlace is null OR position.growthPlace = :growthPlace) AND (:startDateTime is null OR date >= :startDateTime) AND "
+				+ "(:endDateTime is null OR date <= :endDateTime)",
+				Measurement.class);
+		query.setParameter("plant", plant);
+		query.setParameter("sensor", sensor);
 		query.setParameter("growthPlace", growthPlace);
 		query.setParameter("startDateTime", startDateTime);
 		query.setParameter("endDateTime", endDateTime);

@@ -269,6 +269,33 @@ public class SensorDaoTest extends JpaTest {
 		assertEquals(true, sensors.stream().anyMatch(p -> areSensorsEqual(p, sensor1)));
 		assertEquals(true, sensors.stream().anyMatch(p -> areSensorsEqual(p, sensor2)));
 	}
+	
+	@Test
+	void testGetFilteredSensorsWhenNoParamsAreProvided() {
+		List<Sensor> sensors = sensorDao.getFilteredSensors(null, null, null, null, null);
+		
+		assertEquals(N_SENSORS, sensors.size());
+		assertEquals(true, sensors.stream().anyMatch(p -> areSensorsEqual(p, sensor1)));
+		assertEquals(true, sensors.stream().anyMatch(p -> areSensorsEqual(p, sensor2)));
+		assertEquals(true, sensors.stream().anyMatch(p -> areSensorsEqual(p, sensor3)));
+	}
+	
+	@Test
+	void testGetFilteredSensorsWhenAllParamsAreProvided() {
+		Boolean active = false;
+		List<Sensor> sensors = sensorDao.getFilteredSensors(growthPlace1, company1, model1, macAddress1, active);
+		
+		assertEquals(1, sensors.size());
+		assertEquals(true, sensors.stream().anyMatch(p -> areSensorsEqual(p, sensor1)));
+	}
+	
+	@Test
+	void testGetFilteredSensorsWhenAllParamsAreProvidedAndNoSensorMatch() {
+		Boolean active = true;
+		List<Sensor> sensors = sensorDao.getFilteredSensors(growthPlace1, company3, model2, macAddress1, active);
+		
+		assertEquals(0, sensors.size());
+	}
 
 	// Method for field-based equality check between Sensor entities
 	private boolean areSensorsEqual(Sensor sensor1, Sensor sensor2) {

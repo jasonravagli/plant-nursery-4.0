@@ -2,20 +2,14 @@ package it.unifi.dinfo.swam.plantnursery.dao;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.sql.Date;
 import java.util.List;
-
-import javax.persistence.NoResultException;
-import javax.persistence.TypedQuery;
 
 import org.junit.jupiter.api.Test;
 
 import it.unifi.dinfo.swam.plantnursery.model.GrowthPlace;
 import it.unifi.dinfo.swam.plantnursery.model.GrowthPlaceType;
 import it.unifi.dinfo.swam.plantnursery.model.ModelFactory;
-import it.unifi.dinfo.swam.plantnursery.model.Plant;
 import it.unifi.dinfo.swam.plantnursery.model.Species;
-import it.unifi.dinfo.swam.plantnursery.utils.Utilities;
 
 class GrowthPlaceDaoTest extends JpaTest {
 	
