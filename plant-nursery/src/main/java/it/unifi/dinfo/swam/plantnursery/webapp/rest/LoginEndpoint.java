@@ -22,10 +22,10 @@ public class LoginEndpoint {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response login(User user) {
-		boolean success = userController.login(user.getUsername(), user.getPassword());
+		userController.login(user.getUsername(), user.getPassword());
 		
-		if(!success) {
-			throw new NotAuthorizedException("Wrong credentials");
+		if(userController.isErrorOccurred()) {
+			throw new NotAuthorizedException(userController.getErrorMessage());
 		}
 		
 		return Response.ok().build();
