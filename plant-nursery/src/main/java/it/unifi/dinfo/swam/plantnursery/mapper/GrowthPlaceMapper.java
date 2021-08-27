@@ -28,7 +28,7 @@ public class GrowthPlaceMapper extends BaseMapper<GrowthPlace, GrowthPlaceDto> {
 		dto.setId(obj.getId());
 		dto.setName(obj.getName());
 		dto.setLatitude(obj.getLatitude());
-		dto.setLongitude(dto.getLongitude());
+		dto.setLongitude(obj.getLongitude());
 		dto.setType(obj.getType().toString());
 		
 		int nRows = 0;

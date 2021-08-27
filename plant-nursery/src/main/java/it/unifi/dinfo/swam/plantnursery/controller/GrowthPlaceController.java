@@ -132,7 +132,13 @@ public class GrowthPlaceController extends BaseController {
 		else
 			growthPlaces = growthPlaceDao.getGrowthPlacesStartingByName(prefixName);
 		
-		return growthPlaceMapper.toDto(growthPlaces);
+		List<GrowthPlaceDto> dtoList = new ArrayList<GrowthPlaceDto>();
+		for (int i = 0; i < growthPlaces.size(); i++) {
+			GrowthPlace growthPlace = growthPlaces.get(i);
+			List<Position> positions = positionDao.getPositionsByGrowthPlace(growthPlace);
+			dtoList.add(growthPlaceMapper.toDto(growthPlace, positions));
+        }
+		return dtoList;
 	}
 
 //	public boolean removePlantFromPosition(Long idPosition) {
