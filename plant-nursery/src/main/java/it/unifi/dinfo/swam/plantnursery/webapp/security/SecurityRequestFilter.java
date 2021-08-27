@@ -18,10 +18,10 @@ import it.unifi.dinfo.swam.plantnursery.dao.UserDao;
 import it.unifi.dinfo.swam.plantnursery.model.User;
 
 //@AuthenticationBinding
-@Provider
+//@Provider
 @Priority(Priorities.AUTHENTICATION)
 public class SecurityRequestFilter implements ContainerRequestFilter {
-	
+
 	@Inject
 	private UserDao userDao;
 
@@ -33,12 +33,12 @@ public class SecurityRequestFilter implements ContainerRequestFilter {
 			requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED).entity("Request is not authorized")
 					.type("text/plain").build());
 		}
-		
-		if(!authorizationHeader.startsWith("Basic") && !authorizationHeader.startsWith("BASIC")) {
+
+		if (!authorizationHeader.startsWith("Basic") && !authorizationHeader.startsWith("BASIC")) {
 			requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED).entity("Request is not authorized")
 					.type("text/plain").build());
 		}
-		
+
 		String base64Credentials = authorizationHeader.substring("Basic".length()).trim();
 		byte[] bytes = Base64.getDecoder().decode(base64Credentials);
 		String credentials = new String(bytes, Charset.forName("UTF-8"));
@@ -46,16 +46,16 @@ public class SecurityRequestFilter implements ContainerRequestFilter {
 		String[] tmp = credentials.split(":", 2);
 		String username = tmp[0];
 		String password = tmp[1];
-		
+
 		// Authenticate the User
 		User user = userDao.getUserByCredentials(username, password);
-		
+
 		// Authentication failed
-		if(user == null) {
+		if (user == null) {
 			requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED).entity("User authentication failed")
 					.type("text/plain").build());
 		}
-		
+
 		requestContext.setSecurityContext(new PlantNurserySecurityContext(username, requestContext));
 	}
 

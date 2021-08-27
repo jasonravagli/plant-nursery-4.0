@@ -7,6 +7,9 @@ import javax.inject.Inject;
 
 import it.unifi.dinfo.swam.plantnursery.dao.PlantDao;
 import it.unifi.dinfo.swam.plantnursery.dao.SpeciesDao;
+import it.unifi.dinfo.swam.plantnursery.dto.SpeciesDto;
+import it.unifi.dinfo.swam.plantnursery.mapper.SpeciesMapper;
+import it.unifi.dinfo.swam.plantnursery.model.ModelFactory;
 import it.unifi.dinfo.swam.plantnursery.model.Plant;
 import it.unifi.dinfo.swam.plantnursery.model.PlantType;
 import it.unifi.dinfo.swam.plantnursery.model.Species;
@@ -19,6 +22,9 @@ public class SpeciesController extends BaseController {
 
 	@Inject
 	private PlantDao plantDao;
+	
+	@Inject
+	private SpeciesMapper speciesMapper;
 
 	public boolean deleteSpecies(Long idSpecies) {
 		this.cleanErrorFields();
@@ -44,10 +50,10 @@ public class SpeciesController extends BaseController {
 	}
 
 
-	public List<Species> getFilteredSpecies(PlantType plantType, String prefixName) {
+	public List<SpeciesDto> getFilteredSpecies(PlantType plantType, String prefixName) {
 		this.cleanErrorFields();
 		
-		return speciesDao.getFilteredSpecies(plantType, prefixName);
+		return speciesMapper.toDto(speciesDao.getFilteredSpecies(plantType, prefixName));
 	}
 
 	public Species getSpeciesById(Long idSpecies) {
@@ -87,6 +93,13 @@ public class SpeciesController extends BaseController {
 			this.setErrorMessage("A species with the same name already exists");
 			return false;
 		}
+		
+		Species newSpecies = ModelFactory.species();
+		newSpecies.setName(species.getName());
+		newSpecies.setDescription(species.getDescription());
+		newSpecies.setType(species.getType());
+		newSpecies.setGrowthPlaceTypes(species.getGrowthPlaceTypes());
+		newSpecies.setLifeParams(species.getLifeParams());
 
 		speciesDao.save(species);
 		return true;

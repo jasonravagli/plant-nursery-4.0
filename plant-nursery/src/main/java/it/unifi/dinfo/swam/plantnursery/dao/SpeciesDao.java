@@ -24,6 +24,20 @@ public class SpeciesDao extends BaseDao<Species> {
 		super(Species.class, entityManager);
 	}
 
+	public Species findById(Long id) {
+		System.out.println("QUERY ID " + id);
+		TypedQuery<Species> query = this.entityManager.createQuery(
+				"FROM Species s JOIN FETCH s.growthPlaceTypes WHERE s.id = :id", Species.class);
+		query.setParameter("id", id);
+
+		try {
+			return query.getSingleResult();
+		} catch (NoResultException e) {
+			System.out.println("NoResultException");
+			return null;
+		}
+	}
+
 	public List<Species> getSpecies() {
 		TypedQuery<Species> query = this.entityManager.createQuery("FROM Species", Species.class);
 		return query.getResultList();
@@ -59,7 +73,7 @@ public class SpeciesDao extends BaseDao<Species> {
 				Species.class);
 		query.setParameter("plantType", plantType);
 		query.setParameter("name", prefixName);
-		
+
 		return query.getResultList();
 	}
 }
