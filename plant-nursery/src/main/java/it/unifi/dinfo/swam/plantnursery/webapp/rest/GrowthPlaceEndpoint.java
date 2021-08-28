@@ -3,7 +3,6 @@ package it.unifi.dinfo.swam.plantnursery.webapp.rest;
 import java.util.List;
 
 import javax.inject.Inject;
-import javax.ws.rs.BadRequestException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -22,72 +21,72 @@ import it.unifi.dinfo.swam.plantnursery.dto.GrowthPlaceDto;
 
 @Path("growth-places")
 public class GrowthPlaceEndpoint {
-	
+
 	@Inject
 	private GrowthPlaceController growthPlaceController;
-	
+
 	@DELETE
 	@Path("{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response deleteGrowthPlace(@PathParam("id") Long id) {
 		growthPlaceController.deleteGrowthPlace(id);
-		
-		if(growthPlaceController.isErrorOccurred()) {
-			throw new BadRequestException(growthPlaceController.getErrorMessage());
+
+		if (growthPlaceController.isErrorOccurred()) {
+			return Response.status(Status.BAD_REQUEST).entity(growthPlaceController.getErrorMessage()).build();
 		}
-		
+
 		return Response.ok().build();
 	}
-	
+
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getGrowthPlaces(@QueryParam("name") String prefixName) {
 		List<GrowthPlaceDto> growthPlaces = growthPlaceController.getGrowthPlaces(prefixName);
-		if(growthPlaceController.isErrorOccurred()) {
+
+		if (growthPlaceController.isErrorOccurred()) {
 			return Response.status(Status.BAD_REQUEST).entity(growthPlaceController.getErrorMessage()).build();
 		}
+
 		return Response.ok().entity(growthPlaces).build();
 	}
-	
+
 	@GET
 	@Path("{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getGrowthPlaceById(@PathParam("id") Long id) {
 		GrowthPlaceDto growthPlace = growthPlaceController.getGrowthPlaceById(id);
-		if(growthPlaceController.isErrorOccurred()) {
+
+		if (growthPlaceController.isErrorOccurred()) {
 			return Response.status(Status.BAD_REQUEST).entity(growthPlaceController.getErrorMessage()).build();
 		}
+
 		return Response.ok().entity(growthPlace).build();
 	}
-	
+
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response saveGrowthPlace(GrowthPlaceDto growthPlace) {
 		growthPlaceController.saveGrowthPlace(growthPlace);
-		
-		if(growthPlaceController.isErrorOccurred()) {
-			throw new BadRequestException(growthPlaceController.getErrorMessage());
+
+		if (growthPlaceController.isErrorOccurred()) {
+			return Response.status(Status.BAD_REQUEST).entity(growthPlaceController.getErrorMessage()).build();
 		}
-		
+
 		return Response.ok().build();
 	}
-	
+
 	@PUT
 	@Path("{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response updateGrowthPlace(@PathParam("id") Long id, GrowthPlaceDto growthPlace) {
-		if(id != growthPlace.getId()) {
-			throw new BadRequestException("Invalid URI: inconsistency with the id of the growth place to update");
+	public Response updateGrowthPlace(@PathParam("id") Long idGrowthPlace, GrowthPlaceDto growthPlace) {
+		growthPlaceController.updateGrowthPlace(idGrowthPlace, growthPlace);
+
+		if (growthPlaceController.isErrorOccurred()) {
+			return Response.status(Status.BAD_REQUEST).entity(growthPlaceController.getErrorMessage()).build();
 		}
-		
-		growthPlaceController.updateGrowthPlace(growthPlace);
-		
-		if(growthPlaceController.isErrorOccurred()) {
-			throw new BadRequestException(growthPlaceController.getErrorMessage());
-		}
-		
+
 		return Response.ok().build();
 	}
 }

@@ -27,8 +27,8 @@ public class PositionDao extends BaseDao<Position> {
 	}
 
 	public List<Position> getPositionsByGrowthPlace(GrowthPlace growthPlace) {
-		TypedQuery<Position> query = this.entityManager.createQuery("FROM Position WHERE growthPlace = :growthPlace",
-				Position.class);
+		TypedQuery<Position> query = this.entityManager
+				.createQuery("FROM Position p WHERE p.growthPlace = :growthPlace", Position.class);
 		query.setParameter("growthPlace", growthPlace);
 		return query.getResultList();
 	}

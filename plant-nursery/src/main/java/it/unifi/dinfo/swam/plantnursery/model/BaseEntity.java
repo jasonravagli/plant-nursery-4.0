@@ -2,6 +2,7 @@ package it.unifi.dinfo.swam.plantnursery.model;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
@@ -12,7 +13,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public abstract class BaseEntity {
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	@Column(unique = true)

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
@@ -19,7 +20,7 @@ public class Position extends BaseEntity {
 	@ManyToOne(optional = false)
 	private GrowthPlace growthPlace;
 	
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	private List<Sensor> sensors;
 	
 	@OneToOne

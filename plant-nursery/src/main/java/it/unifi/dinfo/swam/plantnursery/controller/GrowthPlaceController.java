@@ -36,50 +36,6 @@ public class GrowthPlaceController extends BaseController {
 	@Inject
 	private GrowthPlaceMapper growthPlaceMapper;
 
-//	public boolean addPlantToPosition(Long idPlant, Long idPosition) {
-//		Position position = positionDao.findById(idPosition);
-//
-//		if (position == null)
-//			return false;
-//
-//		if (position.getPlant() != null)
-//			return false;
-//
-//		Plant plant = plantDao.findById(idPlant);
-//
-//		if (plant == null)
-//			return false;
-//
-//		position.setPlant(plant);
-//		positionDao.update(position);
-//
-//		return true;
-//	}
-//
-//	public boolean addSensorToPosition(Long idSensor, Long idPosition) {
-//		Position position = positionDao.findById(idPosition);
-//
-//		if (position == null)
-//			return false;
-//
-//		Sensor sensor = sensorDao.findById(idSensor);
-//
-//		if (sensor == null)
-//			return false;
-//
-//		// Check if the sensor is already placed in this position
-//		List<Sensor> placedSensors = position.getSensors();
-//		for (Sensor s : placedSensors) {
-//			if (s.equals(sensor))
-//				return false;
-//		}
-//
-//		position.addSensor(sensor);
-//		positionDao.update(position);
-//
-//		return true;
-//	}
-
 	public boolean deleteGrowthPlace(Long idGrowthPlace) {
 		this.cleanErrorFields();
 		
@@ -120,7 +76,11 @@ public class GrowthPlaceController extends BaseController {
 		
 		GrowthPlace growthPlace = growthPlaceDao.findById(id); 
 		
-		return growthPlace == null? null : growthPlaceMapper.toDto(growthPlace);
+		if(growthPlace == null)
+			return null;
+		
+		List<Position> positions = positionDao.getPositionsByGrowthPlace(growthPlace);
+		return growthPlaceMapper.toDto(growthPlace, positions);
 	}
 
 	public List<GrowthPlaceDto> getGrowthPlaces(String prefixName) {
@@ -132,6 +92,7 @@ public class GrowthPlaceController extends BaseController {
 		else
 			growthPlaces = growthPlaceDao.getGrowthPlacesStartingByName(prefixName);
 		
+		// Manually convert retrieved growth places to DTO
 		List<GrowthPlaceDto> dtoList = new ArrayList<GrowthPlaceDto>();
 		for (int i = 0; i < growthPlaces.size(); i++) {
 			GrowthPlace growthPlace = growthPlaces.get(i);
@@ -140,41 +101,7 @@ public class GrowthPlaceController extends BaseController {
         }
 		return dtoList;
 	}
-
-//	public boolean removePlantFromPosition(Long idPosition) {
-//		Position position = positionDao.findById(idPosition);
-//
-//		if (position == null)
-//			return false;
-//
-//		if (position.getPlant() == null)
-//			return false;
-//
-//		position.setPlant(null);
-//		return true;
-//	}
-//
-//	public boolean removeSensorFromPosition(Long idSensor, Long idPosition) {
-//		Position position = positionDao.findById(idPosition);
-//
-//		if (position == null)
-//			return false;
-//
-//		Sensor sensor = sensorDao.findById(idSensor);
-//
-//		if (sensor == null)
-//			return false;
-//
-//		// Check if the sensor is actually placed in this position
-//		boolean removed = position.removeSensor(sensor);
-//		if (!removed)
-//			return false;
-//
-//		positionDao.update(position);
-//
-//		return true;
-//	}
-
+	
 	public boolean saveGrowthPlace(GrowthPlaceDto growthPlaceDto) {
 		this.cleanErrorFields();
 		
@@ -200,9 +127,9 @@ public class GrowthPlaceController extends BaseController {
 		}
 		
 		List<Position> positions = new ArrayList<Position>();
-		if(growthPlaceDto.getRowsPositions() > 0 && growthPlaceDto.getRowsPositions() > 0) {
+		if(growthPlaceDto.getColumnsPositions() > 0 && growthPlaceDto.getRowsPositions() > 0) {
 			for(int r = 0; r < growthPlaceDto.getRowsPositions(); r++) {
-				for(int c = 0; c < growthPlaceDto.getRowsPositions(); c++) {
+				for(int c = 0; c < growthPlaceDto.getColumnsPositions(); c++) {
 					Position pos = ModelFactory.position();
 					pos.setRowIndex(r);
 					pos.setColumnIndex(c);
@@ -221,7 +148,7 @@ public class GrowthPlaceController extends BaseController {
 		return true;
 	}
 
-	public boolean updateGrowthPlace(GrowthPlaceDto growthPlaceDto) {
+	public boolean updateGrowthPlace(Long idGrowthPlace, GrowthPlaceDto growthPlaceDto) {
 		this.cleanErrorFields();
 		
 		if(growthPlaceDto == null) {
@@ -230,7 +157,7 @@ public class GrowthPlaceController extends BaseController {
 			return false;
 		}
 		
-		GrowthPlace growthPlace = growthPlaceDao.findById(growthPlaceDto.getId()); 
+		GrowthPlace growthPlace = growthPlaceDao.findById(idGrowthPlace); 
 		
 		if (growthPlace == null) {
 			this.setErrorOccurred(true);
@@ -264,7 +191,7 @@ public class GrowthPlaceController extends BaseController {
 
 			newPositions = new ArrayList<Position>();
 			for(int r = 0; r < growthPlaceDto.getRowsPositions(); r++) {
-				for(int c = 0; c < growthPlaceDto.getRowsPositions(); c++) {
+				for(int c = 0; c < growthPlaceDto.getColumnsPositions(); c++) {
 					Position pos = ModelFactory.position();
 					pos.setRowIndex(r);
 					pos.setColumnIndex(c);
