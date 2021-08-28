@@ -5,6 +5,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 @MappedSuperclass
 public abstract class BaseEntity {
 
@@ -51,5 +54,23 @@ public abstract class BaseEntity {
 		
 		return uuid.equals(other.getUuid());
 	}
+	
+	@Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + uuid.hashCode();
+        return result;
+    }
+	
+	@Override
+    public String toString(){
+        try {
+            return new ObjectMapper().writeValueAsString(this);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
 }

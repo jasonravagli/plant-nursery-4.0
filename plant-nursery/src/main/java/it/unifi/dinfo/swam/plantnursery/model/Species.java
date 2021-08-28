@@ -1,8 +1,6 @@
 package it.unifi.dinfo.swam.plantnursery.model;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CollectionTable;
@@ -34,18 +32,18 @@ public class Species extends BaseEntity {
 
 	@ElementCollection
 	@CollectionTable(name = "life_parameters", joinColumns = @JoinColumn(name = "species_id"))
-	private List<LifeParameter> lifeParams;
+	private Set<LifeParameter> lifeParams;
 	
 	protected Species() {
 		growthPlaceTypes = new HashSet<>();
-		lifeParams = new ArrayList<>();
+		lifeParams = new HashSet<>();
 	}
 	
 	public Species(String uuid) {
 		super(uuid);
 		
 		growthPlaceTypes = new HashSet<>();
-		lifeParams = new ArrayList<>();
+		lifeParams = new HashSet<>();
 	}
 
 	public String getName() {
@@ -72,11 +70,11 @@ public class Species extends BaseEntity {
 		this.type = type;
 	}
 
-	public List<LifeParameter> getLifeParams() {
+	public Set<LifeParameter> getLifeParams() {
 		return lifeParams;
 	}
 
-	public void setLifeParams(List<LifeParameter> lifeParams) {
+	public void setLifeParams(Set<LifeParameter> lifeParams) {
 		this.lifeParams = lifeParams;
 	}
 	

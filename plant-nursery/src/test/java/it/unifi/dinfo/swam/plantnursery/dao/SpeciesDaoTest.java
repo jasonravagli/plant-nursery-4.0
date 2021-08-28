@@ -3,8 +3,10 @@ package it.unifi.dinfo.swam.plantnursery.dao;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -19,11 +21,11 @@ import it.unifi.dinfo.swam.plantnursery.model.Species;
 import it.unifi.dinfo.swam.plantnursery.model.Unit;
 
 public class SpeciesDaoTest extends JpaTest {
-	
+
 	private SpeciesDao speciesDao;
-	
+
 	private final int N_SPECIES = 2;
-	
+
 	private String name1 = "name-1";
 	private String description1 = "desc-1";
 	private PlantType plantType1 = PlantType.FLOWER;
@@ -34,17 +36,17 @@ public class SpeciesDaoTest extends JpaTest {
 	private MeasureType measureType1 = MeasureType.SOIL_PH;
 	private float rangeStart1 = 4;
 	private float rangeEnd1 = 7;
-	
+
 	private String name2 = "name-2";
 	private String description2 = "desc-2";
 	private PlantType plantType2 = PlantType.CONIFER;
 	private GrowthPlaceType gpType2 = GrowthPlaceType.OPEN_FIELD;
 	private Species species2;
-	
+
 	@Override
 	protected void init() throws IllegalAccessException {
 		speciesDao = new SpeciesDao(this.entityManager);
-		
+
 		species1 = ModelFactory.species();
 		species1.setName(name1);
 		species1.setDescription(description1);
@@ -55,24 +57,24 @@ public class SpeciesDaoTest extends JpaTest {
 		lp1.setRangeEnd(rangeEnd1);
 		lp1.setType(measureType1);
 		lp1.setUnit(unit1);
-		species1.setLifeParams(Stream.of(lp1).collect(Collectors.toList()));
-		
+		species1.setLifeParams(Stream.of(lp1).collect(Collectors.toSet()));
+
 		species2 = ModelFactory.species();
 		species2.setName(name2);
 		species2.setDescription(description2);
 		species2.setType(plantType2);
 		species2.setGrowthPlaceTypes(Stream.of(gpType2).collect(Collectors.toSet()));
-		
+
 		this.entityManager.persist(species1);
 		this.entityManager.persist(species2);
 	}
-	
+
 	// ---- Testing BaseDAO methods
 
 	@Test
 	public void testDelete() {
 		speciesDao.delete(species1);
-		
+
 		Species retrievedSpecies = this.entityManager.find(Species.class, species1.getId());
 		assertNull(retrievedSpecies);
 	}
@@ -80,14 +82,14 @@ public class SpeciesDaoTest extends JpaTest {
 	@Test
 	public void testFindById() {
 		Species retrievedSpecies = speciesDao.findById(species1.getId());
-		
+
 		assertEquals(true, this.areSpeciesEqual(retrievedSpecies, species1));
 	}
-	
+
 	@Test
 	public void testFindByIdWithWrongId() {
 		Species retrievedSpecies = speciesDao.findById(0L);
-		
+
 		assertNull(retrievedSpecies);
 	}
 
@@ -97,7 +99,8 @@ public class SpeciesDaoTest extends JpaTest {
 		species.setName("new-name");
 		species.setDescription("new-desc");
 		species.setType(PlantType.AQUATIC);
-		species.setGrowthPlaceTypes(Stream.of(GrowthPlaceType.OPEN_FIELD, GrowthPlaceType.CONTAINER).collect(Collectors.toSet()));
+		species.setGrowthPlaceTypes(
+				Stream.of(GrowthPlaceType.OPEN_FIELD, GrowthPlaceType.CONTAINER).collect(Collectors.toSet()));
 		LifeParameter lp1 = new LifeParameter();
 		lp1.setRangeStart(20);
 		lp1.setRangeEnd(50);
@@ -108,10 +111,10 @@ public class SpeciesDaoTest extends JpaTest {
 		lp2.setRangeEnd(20);
 		lp2.setType(MeasureType.LIGHT);
 		lp2.setUnit(Unit.LUX);
-		species.setLifeParams(Stream.of(lp1, lp2).collect(Collectors.toList()));
-		
+		species.setLifeParams(Stream.of(lp1, lp2).collect(Collectors.toSet()));
+
 		speciesDao.save(species);
-		
+
 		Species retrievedSpecies = this.entityManager.find(Species.class, species.getId());
 
 		assertEquals(true, this.areSpeciesEqual(retrievedSpecies, species));
@@ -123,122 +126,127 @@ public class SpeciesDaoTest extends JpaTest {
 		species1.setDescription("desc-update");
 		species1.setType(PlantType.GRASS);
 		species1.setGrowthPlaceTypes(Stream.of(GrowthPlaceType.TUNNEL).collect(Collectors.toSet()));
-		species1.setLifeParams(new ArrayList<>());
-		
+		species1.setLifeParams(new HashSet<>());
+
 		speciesDao.update(species1);
-		
+
 		Species retrievedSpecies = this.entityManager.find(Species.class, species1.getId());
 
 		assertEquals(true, this.areSpeciesEqual(retrievedSpecies, species1));
 	}
 
 	// ----- Testing SpeciesDaoTest methods
-	
+
 	@Test
 	void testGetSpecies() {
-		List<Species> listSpecies = speciesDao.getSpecies();		
-		
+		List<Species> listSpecies = speciesDao.getSpecies();
+
 		assertEquals(N_SPECIES, listSpecies.size());
 		assertEquals(true, listSpecies.stream().anyMatch(p -> areSpeciesEqual(p, species1)));
 		assertEquals(true, listSpecies.stream().anyMatch(p -> areSpeciesEqual(p, species2)));
 	}
-	
+
 	@Test
 	void testGetSpeciesByName() {
 		Species retrievedSpecies = speciesDao.getSpeciesByName(name2);
-		
+
 		assertEquals(true, areSpeciesEqual(retrievedSpecies, species2));
 	}
-	
+
 	@Test
 	void testGetSpeciesByNameWhenNameIsNotPresent() {
 		String name = "no-name";
 		Species retrievedSpecies = speciesDao.getSpeciesByName(name);
-		
+
 		assertNull(retrievedSpecies);
 	}
-	
+
 	@Test
 	void testGetSpeciesStartingByName() {
 		String namePrefix = "name";
 		List<Species> listSpecies = speciesDao.getSpeciesStartingByName(namePrefix);
-		
+
 		assertEquals(2, listSpecies.size());
 		assertEquals(true, listSpecies.stream().anyMatch(p -> areSpeciesEqual(p, species1)));
 		assertEquals(true, listSpecies.stream().anyMatch(p -> areSpeciesEqual(p, species2)));
 	}
-	
+
 	@Test
 	void testGetSpeciesByPlantType() {
 		List<Species> listSpecies = speciesDao.getSpeciesByPlantType(plantType2);
-		
+
 		assertEquals(1, listSpecies.size());
 		assertEquals(true, listSpecies.stream().anyMatch(p -> areSpeciesEqual(p, species2)));
 	}
-	
+
 	@Test
 	void testGetFilteredSpeciesWhenNoParamsAreProvided() {
 		List<Species> listSpecies = speciesDao.getFilteredSpecies(null, null);
-		
+
 		assertEquals(2, listSpecies.size());
 		assertEquals(true, listSpecies.stream().anyMatch(p -> areSpeciesEqual(p, species1)));
 		assertEquals(true, listSpecies.stream().anyMatch(p -> areSpeciesEqual(p, species2)));
 	}
-	
+
 	@Test
 	void testGetFilteredSpeciesWhenAllParamsAreProvided() {
 		String prefixName = "name";
-		PlantType filterType =  plantType1;
+		PlantType filterType = plantType1;
 		List<Species> listSpecies = speciesDao.getFilteredSpecies(filterType, prefixName);
-		
+
 		assertEquals(1, listSpecies.size());
 		assertEquals(true, listSpecies.stream().anyMatch(p -> areSpeciesEqual(p, species1)));
 	}
-	
+
 	@Test
 	void testGetFilteredSpeciesWhenAllParamsAreProvidedAndNoSpeciesMatch() {
 		String prefixName = "name";
-		PlantType filterType =  PlantType.AQUATIC;
+		PlantType filterType = PlantType.AQUATIC;
 		List<Species> listSpecies = speciesDao.getFilteredSpecies(filterType, prefixName);
-		
+
 		assertEquals(0, listSpecies.size());
 	}
-	
+
 	// Method for field-based equality check between GrowthPlace entities
 	private boolean areSpeciesEqual(Species species1, Species species2) {
-		if(species1 == null || species2 == null)
+		if (species1 == null || species2 == null)
 			return false;
-		if(!species1.getId().equals(species2.getId()))
+		if (!species1.getId().equals(species2.getId()))
 			return false;
-		if(!species1.getUuid().equals(species2.getUuid()))
+		if (!species1.getUuid().equals(species2.getUuid()))
 			return false;
-		if(!species1.getName().equals(species2.getName()))
+		if (!species1.getName().equals(species2.getName()))
 			return false;
-		if(!species1.getDescription().equals(species2.getDescription()))
+		if (!species1.getDescription().equals(species2.getDescription()))
 			return false;
-		if(!species1.getType().equals(species2.getType()))
+		if (!species1.getType().equals(species2.getType()))
 			return false;
-		if(!species1.getGrowthPlaceTypes().equals(species2.getGrowthPlaceTypes()))
+		if (!species1.getGrowthPlaceTypes().equals(species2.getGrowthPlaceTypes()))
+			return false;
+
+		if (species1.getLifeParams().size() != species2.getLifeParams().size())
 			return false;
 		
-		if(species1.getLifeParams().size() != species2.getLifeParams().size())
-			return false;
-		
-		for(int i = 0; i < species1.getLifeParams().size(); i++) {
-			LifeParameter lp1 = species1.getLifeParams().get(i);
-			LifeParameter lp2 = species2.getLifeParams().get(i);
-			
-			if(lp1.getRangeStart() != lp2.getRangeStart())
-				return false;
-			if(lp1.getRangeEnd() != lp2.getRangeEnd())
-				return false;
-			if(!lp1.getType().equals(lp2.getType()))
-				return false;
-			if(!lp1.getUnit().equals(lp2.getUnit()))
+		Iterator<LifeParameter> it = species1.getLifeParams().iterator();
+		while (it.hasNext()) {
+			LifeParameter lifeParam = it.next();
+			if(!isLifeParamInSet(lifeParam, species2.getLifeParams()))
 				return false;
 		}
-		
+
 		return true;
+	}
+
+	private boolean isLifeParamInSet(LifeParameter lifeParam, Set<LifeParameter> set) {
+		Iterator<LifeParameter> it = set.iterator();
+		while (it.hasNext()) {
+			LifeParameter lp = it.next();
+
+			if (lifeParam.equals(lp))
+				return true;
+		}
+
+		return false;
 	}
 
 }

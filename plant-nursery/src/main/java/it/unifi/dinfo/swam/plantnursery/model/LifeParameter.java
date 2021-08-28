@@ -47,5 +47,29 @@ public class LifeParameter {
 	public void setType(MeasureType type) {
 		this.type = type;
 	}
+	
+	@Override
+	public int hashCode() {
+		int hash = 7;
+	    hash = 31 * hash + Float.hashCode(rangeStart);
+	    hash = 31 * hash + Float.hashCode(rangeEnd);
+	    hash = 31 * hash + unit.hashCode();
+	    hash = 31 * hash + type.hashCode();
+	    return hash;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		LifeParameter other = (LifeParameter) obj;
+		return Float.floatToIntBits(rangeEnd) == Float.floatToIntBits(other.rangeEnd)
+				&& Float.floatToIntBits(rangeStart) == Float.floatToIntBits(other.rangeStart) && type == other.type
+				&& unit == other.unit;
+	}
 
 }

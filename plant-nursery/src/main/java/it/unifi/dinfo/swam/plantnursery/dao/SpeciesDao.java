@@ -1,7 +1,6 @@
 package it.unifi.dinfo.swam.plantnursery.dao;
 
 import java.util.List;
-
 import javax.enterprise.context.Dependent;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -25,15 +24,14 @@ public class SpeciesDao extends BaseDao<Species> {
 	}
 
 	public Species findById(Long id) {
-		System.out.println("QUERY ID " + id);
 		TypedQuery<Species> query = this.entityManager.createQuery(
-				"FROM Species s JOIN FETCH s.growthPlaceTypes WHERE s.id = :id", Species.class);
+				"SELECT DISTINCT s FROM Species s JOIN FETCH s.growthPlaceTypes LEFT JOIN FETCH s.lifeParams lp WHERE s.id = :id",
+				Species.class);
 		query.setParameter("id", id);
 
 		try {
 			return query.getSingleResult();
 		} catch (NoResultException e) {
-			System.out.println("NoResultException");
 			return null;
 		}
 	}

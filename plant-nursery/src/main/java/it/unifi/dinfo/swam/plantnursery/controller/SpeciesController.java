@@ -62,22 +62,6 @@ public class SpeciesController extends BaseController {
 		return speciesDao.findById(idSpecies);
 	}
 
-//	public List<Species> getSpecies() {
-//		return speciesDao.getSpecies();
-//	}
-//	
-//	public Species getSpeciesByName(String name) {
-//		return speciesDao.getSpeciesByName(name);
-//	}
-//
-//	public List<Species> getSpeciesByPlantType(PlantType type) {
-//		return speciesDao.getSpeciesByPlantType(type);
-//	}
-//
-//	public List<Species> getSpeciesStartingByName(String prefixName) {
-//		return speciesDao.getSpeciesStartingByName(prefixName);
-//	}
-
 	public boolean saveSpecies(Species species) {
 		this.cleanErrorFields();
 		
@@ -101,11 +85,11 @@ public class SpeciesController extends BaseController {
 		newSpecies.setGrowthPlaceTypes(species.getGrowthPlaceTypes());
 		newSpecies.setLifeParams(species.getLifeParams());
 
-		speciesDao.save(species);
+		speciesDao.save(newSpecies);
 		return true;
 	}
 
-	public boolean updateSpecies(Species species) {
+	public boolean updateSpecies(Long idSpecies, Species species) {
 		this.cleanErrorFields();
 		
 		if (species == null) {
@@ -114,7 +98,9 @@ public class SpeciesController extends BaseController {
 			return false;
 		}
 		
-		if (speciesDao.findById(species.getId()) == null) {
+		Species speciesToUpdate = speciesDao.findById(idSpecies); 
+		
+		if (speciesToUpdate == null) {
 			this.setErrorOccurred(true);
 			this.setErrorMessage("The species does not exists");
 			return false;
@@ -122,13 +108,19 @@ public class SpeciesController extends BaseController {
 
 		// Check if there is already another species with the same name
 		Species sameNameSpecies = speciesDao.getSpeciesByName(species.getName());
-		if (sameNameSpecies != null && !sameNameSpecies.equals(species)) {
+		if (sameNameSpecies != null && !sameNameSpecies.equals(speciesToUpdate)) {
 			this.setErrorOccurred(true);
 			this.setErrorMessage("A species with the same name already exists");
 			return false;
 		}
+		
+		speciesToUpdate.setDescription(species.getDescription());
+		speciesToUpdate.setName(species.getName());
+		speciesToUpdate.setType(species.getType());
+		speciesToUpdate.setGrowthPlaceTypes(species.getGrowthPlaceTypes());
+		speciesToUpdate.setLifeParams(species.getLifeParams());
 
-		speciesDao.update(species);
+		speciesDao.update(speciesToUpdate);
 		return true;
 	}
 }

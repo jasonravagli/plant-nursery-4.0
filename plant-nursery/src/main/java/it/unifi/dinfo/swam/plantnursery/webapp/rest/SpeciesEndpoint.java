@@ -3,7 +3,6 @@ package it.unifi.dinfo.swam.plantnursery.webapp.rest;
 import java.util.List;
 
 import javax.inject.Inject;
-import javax.ws.rs.BadRequestException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -16,8 +15,6 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
-import javax.ws.rs.core.Response.StatusType;
-
 import it.unifi.dinfo.swam.plantnursery.controller.SpeciesController;
 import it.unifi.dinfo.swam.plantnursery.dto.SpeciesDto;
 import it.unifi.dinfo.swam.plantnursery.model.PlantType;
@@ -86,12 +83,7 @@ public class SpeciesEndpoint {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response updateSpecies(@PathParam("id") Long idSpecies, Species species) {
-		if (idSpecies != species.getId()) {
-			return Response.status(Status.BAD_REQUEST)
-					.entity("Invalid URI: inconsistency with the id of the species to update").build();
-		}
-
-		speciesController.updateSpecies(species);
+		speciesController.updateSpecies(idSpecies, species);
 
 		if (speciesController.isErrorOccurred()) {
 			return Response.status(Status.BAD_REQUEST).entity(speciesController.getErrorMessage()).build();
