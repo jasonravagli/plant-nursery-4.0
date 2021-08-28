@@ -1,9 +1,7 @@
 package it.unifi.dinfo.swam.plantnursery.model;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CollectionTable;
@@ -34,18 +32,18 @@ public class Sensor extends BaseEntity{
 	
 	@ElementCollection
 	@CollectionTable(name = "fault_periods", joinColumns = @JoinColumn(name = "sensor_id"))
-	private List<FaultPeriod> faultPeriods;
+	private Set<FaultPeriod> faultPeriods;
 
 	protected Sensor() {
 		measureTypes = new HashSet<>();
-		faultPeriods = new ArrayList<FaultPeriod>();
+		faultPeriods = new HashSet<>();
 	}
 	
 	public Sensor(String uuid) {
 		super(uuid);
 		
 		measureTypes = new HashSet<>();
-		faultPeriods = new ArrayList<FaultPeriod>();
+		faultPeriods = new HashSet<>();
 	}
 	
 	public String getMacAddress() {
@@ -112,11 +110,11 @@ public class Sensor extends BaseEntity{
 		this.measureTypes.remove(measureType);
 	}
 
-	public List<FaultPeriod> getFaultPeriods() {
+	public Set<FaultPeriod> getFaultPeriods() {
 		return faultPeriods;
 	}
 
-	public void setFaultPeriods(List<FaultPeriod> faultPeriods) {
+	public void setFaultPeriods(Set<FaultPeriod> faultPeriods) {
 		this.faultPeriods = faultPeriods;
 	}
 	

@@ -25,7 +25,7 @@ public class SpeciesDao extends BaseDao<Species> {
 
 	public Species findById(Long id) {
 		TypedQuery<Species> query = this.entityManager.createQuery(
-				"SELECT DISTINCT s FROM Species s JOIN FETCH s.growthPlaceTypes LEFT JOIN FETCH s.lifeParams lp WHERE s.id = :id",
+				"SELECT s FROM Species s JOIN FETCH s.growthPlaceTypes LEFT JOIN FETCH s.lifeParams lp WHERE s.id = :id",
 				Species.class);
 		query.setParameter("id", id);
 

@@ -4,9 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -227,26 +225,10 @@ public class SpeciesDaoTest extends JpaTest {
 		if (species1.getLifeParams().size() != species2.getLifeParams().size())
 			return false;
 		
-		Iterator<LifeParameter> it = species1.getLifeParams().iterator();
-		while (it.hasNext()) {
-			LifeParameter lifeParam = it.next();
-			if(!isLifeParamInSet(lifeParam, species2.getLifeParams()))
-				return false;
-		}
+		if(!species1.getLifeParams().equals(species2.getLifeParams()))
+			return false;
 
 		return true;
-	}
-
-	private boolean isLifeParamInSet(LifeParameter lifeParam, Set<LifeParameter> set) {
-		Iterator<LifeParameter> it = set.iterator();
-		while (it.hasNext()) {
-			LifeParameter lp = it.next();
-
-			if (lifeParam.equals(lp))
-				return true;
-		}
-
-		return false;
 	}
 
 }

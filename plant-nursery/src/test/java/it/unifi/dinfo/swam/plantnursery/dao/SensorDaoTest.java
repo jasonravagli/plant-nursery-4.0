@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -35,7 +35,7 @@ public class SensorDaoTest extends JpaTest {
 	private LocalDate disposalDate1 = null;
 	private Set<MeasureType> measureTypes1 = Stream.of(MeasureType.SOIL_MOISTURE, MeasureType.SOIL_PH)
 			.collect(Collectors.toSet());
-	private List<FaultPeriod> faultPeriods1;
+	private Set<FaultPeriod> faultPeriods1;
 	private Sensor sensor1;
 	
 	// Fault periods for sensor1
@@ -62,7 +62,7 @@ public class SensorDaoTest extends JpaTest {
 	private LocalDate disposalDate2 = null;
 	private Set<MeasureType> measureTypes2 = Stream.of(MeasureType.SOIL_MOISTURE, MeasureType.SOIL_PH)
 			.collect(Collectors.toSet());
-	private List<FaultPeriod> faultPeriods2 = new ArrayList<FaultPeriod>();
+	private Set<FaultPeriod> faultPeriods2 = new HashSet<FaultPeriod>();
 	private Sensor sensor2;
 	
 	// Disposed sensor
@@ -73,7 +73,7 @@ public class SensorDaoTest extends JpaTest {
 	private LocalDate installationDate3 = LocalDate.parse("2020-06-15");
 	private LocalDate disposalDate3 = LocalDate.parse("2021-08-15");
 	private Set<MeasureType> measureTypes3 = Stream.of(MeasureType.TEMPERATURE).collect(Collectors.toSet());
-	private List<FaultPeriod> faultPeriods3 = new ArrayList<FaultPeriod>();
+	private Set<FaultPeriod> faultPeriods3 = new HashSet<FaultPeriod>();
 	private Sensor sensor3;
 
 	@Override
@@ -94,7 +94,7 @@ public class SensorDaoTest extends JpaTest {
 		fp2 = new FaultPeriod();
 		fp2.setStartDate(startFault2);
 		fp2.setEndDate(endFault2);
-		faultPeriods1 = Stream.of(fp1, fp2).collect(Collectors.toList());
+		faultPeriods1 = Stream.of(fp1, fp2).collect(Collectors.toSet());
 		sensor1.setFaultPeriods(faultPeriods1);
 
 		sensor2 = ModelFactory.sensor();
@@ -176,7 +176,7 @@ public class SensorDaoTest extends JpaTest {
 		FaultPeriod fp = new FaultPeriod();
 		fp.setStartDate(LocalDateTime.parse("2020-10-01T10:00:00"));
 		fp.setEndDate(LocalDateTime.parse("2020-10-15T11:00:00"));
-		sensor.setFaultPeriods(Stream.of(fp).collect(Collectors.toList()));
+		sensor.setFaultPeriods(Stream.of(fp).collect(Collectors.toSet()));
 		sensorDao.save(sensor);
 
 		Sensor retrievedSensor = this.entityManager.find(Sensor.class, sensor.getId());
@@ -196,7 +196,7 @@ public class SensorDaoTest extends JpaTest {
 		FaultPeriod fp = new FaultPeriod();
 		fp.setStartDate(LocalDateTime.parse("2020-10-01T16:00:00"));
 		fp.setEndDate(LocalDateTime.parse("2020-10-15T17:00:00"));
-		sensor1.setFaultPeriods(Stream.of(fp).collect(Collectors.toList()));
+		sensor1.setFaultPeriods(Stream.of(fp).collect(Collectors.toSet()));
 		sensorDao.update(sensor1);
 
 		Sensor retrievedSensor = this.entityManager.find(Sensor.class, sensor1.getId());
@@ -282,7 +282,7 @@ public class SensorDaoTest extends JpaTest {
 	
 	@Test
 	void testGetFilteredSensorsWhenAllParamsAreProvided() {
-		Boolean active = false;
+		Boolean active = true;
 		List<Sensor> sensors = sensorDao.getFilteredSensors(growthPlace1, company1, model1, macAddress1, active);
 		
 		assertEquals(1, sensors.size());
@@ -291,7 +291,7 @@ public class SensorDaoTest extends JpaTest {
 	
 	@Test
 	void testGetFilteredSensorsWhenAllParamsAreProvidedAndNoSensorMatch() {
-		Boolean active = true;
+		Boolean active = false;
 		List<Sensor> sensors = sensorDao.getFilteredSensors(growthPlace1, company3, model2, macAddress1, active);
 		
 		assertEquals(0, sensors.size());
@@ -323,15 +323,8 @@ public class SensorDaoTest extends JpaTest {
 		if (sensor1.getFaultPeriods().size() != sensor2.getFaultPeriods().size())
 			return false;
 
-		for (int i = 0; i < sensor1.getFaultPeriods().size(); i++) {
-			FaultPeriod fp1 = sensor1.getFaultPeriods().get(i);
-			FaultPeriod fp2 = sensor2.getFaultPeriods().get(i);
-
-			if (!fp1.getStartDate().equals(fp2.getStartDate()))
-				return false;
-			if (!Utilities.areDateEqualsOrBothNull(fp1.getEndDate(), fp2.getEndDate()))				
-				return false;
-		}
+		if(!sensor1.getFaultPeriods().equals(sensor2.getFaultPeriods()))
+			return false;
 
 		return true;
 	}

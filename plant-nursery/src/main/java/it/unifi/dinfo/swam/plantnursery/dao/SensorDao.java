@@ -24,6 +24,20 @@ public class SensorDao extends BaseDao<Sensor> {
 		super(Sensor.class, entityManager);
 	}
 
+	public Sensor findById(Long id) {
+		TypedQuery<Sensor> query = this.entityManager.createQuery(
+				"SELECT s FROM Sensor s LEFT JOIN FETCH s.faultPeriods "
+				+ "JOIN FETCH s.measureTypes WHERE s.id = :id",
+				Sensor.class);
+		query.setParameter("id", id);
+
+		try {
+			return query.getSingleResult();
+		} catch (NoResultException e) {
+			return null;
+		}
+	}
+
 	public List<Sensor> getSensors() {
 		TypedQuery<Sensor> query = this.entityManager.createQuery("FROM Sensor", Sensor.class);
 		return query.getResultList();
@@ -77,15 +91,17 @@ public class SensorDao extends BaseDao<Sensor> {
 		String queryString = "";
 
 		if (growthPlace != null) {
-			queryString = "SELECT DISTINCT s FROM Position p JOIN p.sensors s WHERE p.growthPlace = :growthPlace AND "
+			queryString = "SELECT DISTINCT s FROM Position p JOIN p.sensors s LEFT JOIN FETCH s.faultPeriods "
+					+ "JOIN FETCH s.measureTypes WHERE p.growthPlace = :growthPlace AND "
 					+ "(:company is null OR company = :company) AND (:model is null OR model = :model) AND (:macAddress is null OR macAddress = :macAddress)";
-		} else { 
-			queryString = "FROM Sensor WHERE (:company is null OR company = :company) AND "
+		} else {
+			queryString = "SELECT DISTINCT s FROM Sensor s LEFT JOIN FETCH s.faultPeriods JOIN FETCH s.measureTypes "
+					+ "WHERE (:company is null OR company = :company) AND "
 					+ "(:model is null OR model = :model) AND (:macAddress is null OR macAddress = :macAddress)";
 		}
 
 		if (active != null) {
-			queryString += active ? " AND disposalDate IS NOT NULL" : " AND disposalDate IS NULL";
+			queryString += active ? " AND disposalDate IS NULL" : " AND disposalDate IS NOT NULL";
 		}
 		query = this.entityManager.createQuery(queryString, Sensor.class);
 
