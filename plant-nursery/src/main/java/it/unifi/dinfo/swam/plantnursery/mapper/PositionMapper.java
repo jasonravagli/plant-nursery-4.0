@@ -12,6 +12,7 @@ import it.unifi.dinfo.swam.plantnursery.dao.GrowthPlaceDao;
 import it.unifi.dinfo.swam.plantnursery.dao.PlantDao;
 import it.unifi.dinfo.swam.plantnursery.dao.SensorDao;
 import it.unifi.dinfo.swam.plantnursery.dto.PositionDto;
+import it.unifi.dinfo.swam.plantnursery.model.Plant;
 import it.unifi.dinfo.swam.plantnursery.model.Position;
 import it.unifi.dinfo.swam.plantnursery.model.Sensor;
 
@@ -62,21 +63,29 @@ public class PositionMapper extends BaseMapper<Position, PositionDto> {
 			throw new IllegalArgumentException("The dto cannot be null");
 		}
 		
-		obj.setRowIndex(dto.getRowIndex());
-		obj.setColumnIndex(dto.getColIndex());
-		obj.setGrowthPlace(growthPlaceDao.findById(dto.getGrowthPlaceId()));
-
-		if (dto.getPlantId() != null)
-			obj.setPlant(plantDao.findById(dto.getPlantId()));
-		else
-			obj.setPlant(null);
+		
+		Plant plant = null;
+		if (dto.getPlantId() != null) {
+			plant = plantDao.findById(dto.getPlantId());
+			if(plant == null)
+				throw new IllegalArgumentException("The plant does not exists");
+		}
 
 		List<Sensor> sensors = new ArrayList<>();
 		if (dto.getListSensorsId() != null) {
 			for (Long idSensor : dto.getListSensorsId()) {
-				sensors.add(sensorDao.findById(idSensor));
+				Sensor sensor = sensorDao.findById(idSensor);
+				if(sensor == null) {
+					throw new IllegalArgumentException("One of the sensors does not exists");
+				}
+				sensors.add(sensor);
 			}
 		}
+		
+		obj.setRowIndex(dto.getRowIndex());
+		obj.setColumnIndex(dto.getColIndex());
+		obj.setGrowthPlace(growthPlaceDao.findById(dto.getGrowthPlaceId()));
+		obj.setPlant(plant);
 		obj.setSensors(sensors);
 
 		return obj;

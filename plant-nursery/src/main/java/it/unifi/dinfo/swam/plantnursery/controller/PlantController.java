@@ -105,55 +105,23 @@ public class PlantController extends BaseController {
 
 	public PlantDto getPlantById(Long id) {
 		this.cleanErrorFields();
-
-		PlantDto plant;
+		
+		Plant plant = plantDao.findById(id);
+		if(plant == null) {
+			return null;
+		}
+		
+		PlantDto plantDto;
 		try {
-			plant = plantMapper.toDto(plantDao.findById(id));
+			plantDto = plantMapper.toDto(plant);
 		} catch (IllegalArgumentException e) {
 			this.setErrorOccurred(true);
 			this.setErrorMessage(e.getMessage());
 			return null;
 		}
 
-		return plant;
+		return plantDto;
 	}
-
-//	public List<Plant> getPlants() {
-//		return plantDao.getPlants();
-//	}
-//	
-//	public List<Plant> getPlantsByGrowthPlace(Long idGrowthPlace){
-//		GrowthPlace growthPlace = growthPlaceDao.findById(idGrowthPlace);
-//		
-//		if(growthPlace == null)
-//			return null;
-//		
-//		return plantDao.getPlantsByGrowthPlace(growthPlace);
-//	}
-//	
-//	public List<Plant> getPlantsByPlantingDate(LocalDate dateStart, LocalDate dateEnd){
-//		if(dateEnd.isBefore(dateStart))
-//			return null;
-//		
-//		return plantDao.getPlantsByPlantingDateRange(dateStart, dateEnd);
-//	}
-//	
-//	public List<Plant> getPlantsBySpecies(Long idSpecies){
-//		Species species = speciesDao.findById(idSpecies);
-//		
-//		if(species == null)
-//			return null;
-//		
-//		return plantDao.getPlantsBySpecies(species);
-//	}
-//	
-//	public List<Plant> getNotSoldPlants() {
-//		return plantDao.getNotSoldPlants();
-//	}
-//	
-//	public List<Plant> getSoldPlants() {
-//		return plantDao.getSoldPlants();
-//	}
 
 	public boolean savePlant(PlantDto plantDto) {
 		this.cleanErrorFields();
@@ -177,14 +145,14 @@ public class PlantController extends BaseController {
 		return true;
 	}
 
-	public boolean updatePlant(PlantDto plantDto) {
+	public boolean updatePlant(Long idPlant, PlantDto plantDto) {
 		if (plantDto == null) {
 			this.setErrorOccurred(true);
 			this.setErrorMessage("The plant cannot be null");
 			return false;
 		}
 
-		Plant plant = plantDao.findById(plantDto.getId());
+		Plant plant = plantDao.findById(idPlant);
 		if (plant == null) {
 			this.setErrorOccurred(true);
 			this.setErrorMessage("The plant to update does not exists");

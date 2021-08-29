@@ -9,10 +9,9 @@ import javax.inject.Inject;
 import javax.ws.rs.Priorities;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.Provider;
-
-import com.google.common.net.HttpHeaders;
 
 import it.unifi.dinfo.swam.plantnursery.dao.UserDao;
 import it.unifi.dinfo.swam.plantnursery.model.User;

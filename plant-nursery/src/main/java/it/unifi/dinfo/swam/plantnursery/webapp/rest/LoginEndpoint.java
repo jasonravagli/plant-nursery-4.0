@@ -7,8 +7,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.NotAuthorizedException;
-
+import javax.ws.rs.core.Response.Status;
 import it.unifi.dinfo.swam.plantnursery.controller.UserController;
 import it.unifi.dinfo.swam.plantnursery.model.User;
 
@@ -25,7 +24,7 @@ public class LoginEndpoint {
 		userController.login(user.getUsername(), user.getPassword());
 		
 		if(userController.isErrorOccurred()) {
-			throw new NotAuthorizedException(userController.getErrorMessage());
+			return Response.status(Status.UNAUTHORIZED).entity(userController.getErrorMessage()).build();
 		}
 		
 		return Response.ok().build();
