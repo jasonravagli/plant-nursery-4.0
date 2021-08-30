@@ -13,9 +13,11 @@ import it.unifi.dinfo.swam.plantnursery.dao.MeasurementDao;
 import it.unifi.dinfo.swam.plantnursery.dao.PlantDao;
 import it.unifi.dinfo.swam.plantnursery.dao.PositionDao;
 import it.unifi.dinfo.swam.plantnursery.dao.SensorDao;
+import it.unifi.dinfo.swam.plantnursery.dto.MeasurementDto;
+import it.unifi.dinfo.swam.plantnursery.mapper.MeasurementMapper;
 import it.unifi.dinfo.swam.plantnursery.model.GrowthPlace;
+import it.unifi.dinfo.swam.plantnursery.model.MeasureType;
 import it.unifi.dinfo.swam.plantnursery.model.Measurement;
-import it.unifi.dinfo.swam.plantnursery.model.ModelFactory;
 import it.unifi.dinfo.swam.plantnursery.model.Plant;
 import it.unifi.dinfo.swam.plantnursery.model.Position;
 import it.unifi.dinfo.swam.plantnursery.model.Sensor;
@@ -26,7 +28,7 @@ import tech.tablesaw.api.Table;
 import tech.tablesaw.aggregate.AggregateFunctions;
 
 @RequestScoped
-public class MeasurementController extends BaseController{
+public class MeasurementController extends BaseController {
 
 	@Inject
 	private GrowthPlaceDao growthPlaceDao;
@@ -43,15 +45,24 @@ public class MeasurementController extends BaseController{
 	@Inject
 	private SensorDao sensorDao;
 
+	@Inject
+	private MeasurementMapper measurementMapper;
+
 	public Table getMeasurementsByGrowthPlace(Long idGrowthPlace, LocalDateTime startDateTime,
 			LocalDateTime endDateTime) {
 		this.cleanErrorFields();
-		
+
 		// Check if the growth place exists
 		GrowthPlace growthPlace = growthPlaceDao.findById(idGrowthPlace);
 		if (growthPlace == null) {
 			this.setErrorOccurred(true);
 			this.setErrorMessage("The growth place does not exists");
+			return null;
+		}
+
+		if (startDateTime == null || endDateTime == null) {
+			this.setErrorOccurred(true);
+			this.setErrorMessage("A time interval must be specified");
 			return null;
 		}
 
@@ -63,9 +74,15 @@ public class MeasurementController extends BaseController{
 
 		List<Measurement> listMeas = measurementDao.getMeasurementsByGrowthPlace(growthPlace, startDateTime,
 				endDateTime);
-		double[] colValues = listMeas.stream().mapToDouble(m -> m.getValue()).toArray();
-		LocalDateTime[] colDate = (LocalDateTime[]) listMeas.stream().map(m -> m.getDate()).toArray();
-		String[] colType = (String[]) listMeas.stream().map(m -> m.getType().toString()).toArray();
+		
+		double[] colValues = new double[listMeas.size()];
+		LocalDateTime[] colDate = new LocalDateTime[listMeas.size()];
+		String[] colType = new String[listMeas.size()];
+		for(int i = 0; i < listMeas.size(); i++) {
+			colValues[i] = listMeas.get(i).getValue();
+			colDate[i] = listMeas.get(i).getDate();
+			colType[i] = listMeas.get(i).getType().toString();
+		}
 
 		Table table = Table.create().addColumns(DateTimeColumn.create("timestamp", colDate),
 				StringColumn.create("type", colType), DoubleColumn.create("value", colValues));
@@ -81,12 +98,18 @@ public class MeasurementController extends BaseController{
 
 	public Table getMeasurementsByPlant(Long idPlant, LocalDateTime startDateTime, LocalDateTime endDateTime) {
 		this.cleanErrorFields();
-		
+
 		// Check if the sensor exists
 		Plant plant = plantDao.findById(idPlant);
 		if (plant == null) {
 			this.setErrorOccurred(true);
 			this.setErrorMessage("The plant does not exists");
+			return null;
+		}
+
+		if (startDateTime == null || endDateTime == null) {
+			this.setErrorOccurred(true);
+			this.setErrorMessage("A time interval must be specified");
 			return null;
 		}
 
@@ -110,7 +133,7 @@ public class MeasurementController extends BaseController{
 
 	public Table getMeasurementsBySensor(Long idSensor, LocalDateTime startDateTime, LocalDateTime endDateTime) {
 		this.cleanErrorFields();
-		
+
 		// Check if the sensor exists
 		Sensor sensor = sensorDao.findById(idSensor);
 		if (sensor == null) {
@@ -119,6 +142,11 @@ public class MeasurementController extends BaseController{
 			return null;
 		}
 
+		if (startDateTime == null || endDateTime == null) {
+			this.setErrorOccurred(true);
+			this.setErrorMessage("A time interval must be specified");
+			return null;
+		}
 
 		if (endDateTime.isBefore(startDateTime)) {
 			this.setErrorOccurred(true);
@@ -138,37 +166,26 @@ public class MeasurementController extends BaseController{
 		return table;
 	}
 
-	public boolean saveMeasurement(Measurement measurement) {
+	public boolean saveMeasurement(MeasurementDto measDto) {
 		this.cleanErrorFields();
-		
-		if (!areAllRequiredFieldsFilled(measurement)) {
+
+		if (!areAllRequiredFieldsFilled(measDto)) {
 			this.setErrorOccurred(true);
 			this.setErrorMessage("Invalid measurement: missing mandatory fields");
 			return false;
 		}
 
 		// Check if the sensor exists
-		Sensor sensor = sensorDao.findById(measurement.getSensor().getId());
+		Sensor sensor = sensorDao.findById(measDto.getIdSensor());
 		if (sensor == null) {
 			this.setErrorOccurred(true);
 			this.setErrorMessage("The sensor does not exists");
 			return false;
 		}
 
-		// Check if the plant exists
-		Plant plant = null;
-		if (measurement.getPlant() != null) {
-			plant = plantDao.findById(measurement.getPlant().getId());
-
-			if (plant == null) {
-				this.setErrorOccurred(true);
-				this.setErrorMessage("The plant does not exists");
-				return false;
-			}
-		}
-		
 		// Check if the sensor measure types contain the type of the measurement
-		if(!sensor.getMeasureTypes().contains(measurement.getType())) {
+		MeasureType type = MeasureType.valueOf(measDto.getType());
+		if (!sensor.getMeasureTypes().contains(type)) {
 			this.setErrorOccurred(true);
 			this.setErrorMessage("The sensor cannot acquire this type of measurement");
 			return false;
@@ -180,15 +197,7 @@ public class MeasurementController extends BaseController{
 		// Create a Measurement for each position
 		List<Measurement> listMeas = new ArrayList<>();
 		for (Position pos : listPositions) {
-			Measurement meas = ModelFactory.measurement();
-			meas.setDate(measurement.getDate());
-			meas.setType(measurement.getType());
-			meas.setUnit(measurement.getUnit());
-			meas.setValue(measurement.getValue());
-			meas.setPlant(plant);
-			meas.setSensor(sensor);
-			meas.setPosition(pos);
-
+			Measurement meas = measurementMapper.toEntity(measDto, pos, sensor);
 			listMeas.add(meas);
 		}
 		measurementDao.saveAll(listMeas);
@@ -196,7 +205,7 @@ public class MeasurementController extends BaseController{
 		return true;
 	}
 
-	private boolean areAllRequiredFieldsFilled(Measurement meas) {
+	private boolean areAllRequiredFieldsFilled(MeasurementDto meas) {
 		if (meas.getDate() == null)
 			return false;
 
@@ -206,7 +215,7 @@ public class MeasurementController extends BaseController{
 		if (meas.getUnit() == null)
 			return false;
 
-		if (meas.getSensor() == null)
+		if (meas.getIdSensor() == null)
 			return false;
 
 		return true;

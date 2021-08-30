@@ -14,7 +14,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import it.unifi.dinfo.swam.plantnursery.controller.MeasurementController;
-import it.unifi.dinfo.swam.plantnursery.model.Measurement;
+import it.unifi.dinfo.swam.plantnursery.dto.MeasurementDto;
 import tech.tablesaw.api.Table;
 
 @Path("measurements")
@@ -27,7 +27,12 @@ public class MeasurementEndpoint {
 	@Path("growth-place/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getMeasurementsByGrowthPlace(@PathParam("id") Long idGrowthPlace,
-			@QueryParam("start-date") LocalDateTime startDateTime, @QueryParam("end-date") LocalDateTime endDateTime) {
+			@QueryParam("start-date") String startDateTimeStr, @QueryParam("end-date") String endDateTimeStr) {
+		
+		System.out.println(startDateTimeStr);
+		System.out.println(endDateTimeStr);
+		LocalDateTime startDateTime = LocalDateTime.parse(startDateTimeStr);
+		LocalDateTime endDateTime = LocalDateTime.parse(endDateTimeStr);
 		Table tableMeasures = measurementController.getMeasurementsByGrowthPlace(idGrowthPlace, startDateTime,
 				endDateTime);
 
@@ -69,8 +74,8 @@ public class MeasurementEndpoint {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response saveMeasurement(Measurement measurement) {
-		measurementController.saveMeasurement(measurement);
+	public Response saveMeasurement(MeasurementDto measurementDto) {
+		measurementController.saveMeasurement(measurementDto);
 
 		if (measurementController.isErrorOccurred()) {
 			return Response.status(Status.BAD_REQUEST).entity(measurementController.getErrorMessage()).build();
