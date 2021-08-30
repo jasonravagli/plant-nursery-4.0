@@ -1,15 +1,14 @@
 package it.unifi.dinfo.swam.plantnursery.dto;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import javax.json.bind.JsonbBuilder;
 
 public abstract class BaseDto {
 	
 	@Override
     public String toString(){
         try {
-            return new ObjectMapper().writeValueAsString(this);
-        } catch (JsonProcessingException e) {
+        	return JsonbBuilder.create().toJson(this);
+        } catch (Exception e) {
             e.printStackTrace();
             return "";
         }

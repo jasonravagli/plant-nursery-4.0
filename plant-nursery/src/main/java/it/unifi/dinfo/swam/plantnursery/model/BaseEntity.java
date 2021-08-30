@@ -1,13 +1,11 @@
 package it.unifi.dinfo.swam.plantnursery.model;
 
+import javax.json.bind.JsonbBuilder;
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 @MappedSuperclass
 public abstract class BaseEntity {
@@ -67,8 +65,8 @@ public abstract class BaseEntity {
 	@Override
     public String toString(){
         try {
-            return new ObjectMapper().writeValueAsString(this);
-        } catch (JsonProcessingException e) {
+        	return JsonbBuilder.create().toJson(this);
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }

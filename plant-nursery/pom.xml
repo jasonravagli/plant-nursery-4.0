@@ -37,11 +37,6 @@
 		    <artifactId>tablesaw-core</artifactId>
 		    <version>0.38.4</version>
 		</dependency>
-		<dependency>
-		    <groupId>com.fasterxml.jackson.core</groupId>
-		    <artifactId>jackson-databind</artifactId>
-		    <version>2.12.4</version>
-		</dependency>
 
 		<!-- TEST DEPENDENCIES -->
 		<dependency>
