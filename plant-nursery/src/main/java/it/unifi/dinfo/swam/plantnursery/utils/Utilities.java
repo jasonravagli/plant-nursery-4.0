@@ -1,7 +1,11 @@
 package it.unifi.dinfo.swam.plantnursery.utils;
 
+import java.io.ByteArrayOutputStream;
+import java.io.UnsupportedEncodingException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+
+import tech.tablesaw.api.Table;
 
 public class Utilities {
 	
@@ -32,5 +36,11 @@ public class Utilities {
 			return true;
 		
 		return false;
+	}
+	
+	public static String convertTableToCsvString(Table table) throws UnsupportedEncodingException {
+		ByteArrayOutputStream bos = new ByteArrayOutputStream();
+		table.write().csv(bos);
+		return new String(bos.toByteArray(), "UTF-8");
 	}
 }

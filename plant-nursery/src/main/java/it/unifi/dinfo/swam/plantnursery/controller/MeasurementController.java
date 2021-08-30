@@ -120,9 +120,15 @@ public class MeasurementController extends BaseController {
 		}
 
 		List<Measurement> listMeas = measurementDao.getMeasurementsByPlant(plant, startDateTime, endDateTime);
-		double[] colValues = listMeas.stream().mapToDouble(m -> m.getValue()).toArray();
-		LocalDateTime[] colDate = (LocalDateTime[]) listMeas.stream().map(m -> m.getDate()).toArray();
-		String[] colType = (String[]) listMeas.stream().map(m -> m.getType().toString()).toArray();
+		
+		double[] colValues = new double[listMeas.size()];
+		LocalDateTime[] colDate = new LocalDateTime[listMeas.size()];
+		String[] colType = new String[listMeas.size()];
+		for(int i = 0; i < listMeas.size(); i++) {
+			colValues[i] = listMeas.get(i).getValue();
+			colDate[i] = listMeas.get(i).getDate();
+			colType[i] = listMeas.get(i).getType().toString();
+		}
 
 		Table table = Table.create().addColumns(DateTimeColumn.create("timestamp", colDate),
 				StringColumn.create("type", colType), DoubleColumn.create("value", colValues));
@@ -155,9 +161,15 @@ public class MeasurementController extends BaseController {
 		}
 
 		List<Measurement> listMeas = measurementDao.getMeasurementsBySensor(sensor, startDateTime, endDateTime);
-		double[] colValues = listMeas.stream().mapToDouble(m -> m.getValue()).toArray();
-		LocalDateTime[] colDate = (LocalDateTime[]) listMeas.stream().map(m -> m.getDate()).toArray();
-		String[] colType = (String[]) listMeas.stream().map(m -> m.getType().toString()).toArray();
+		
+		double[] colValues = new double[listMeas.size()];
+		LocalDateTime[] colDate = new LocalDateTime[listMeas.size()];
+		String[] colType = new String[listMeas.size()];
+		for(int i = 0; i < listMeas.size(); i++) {
+			colValues[i] = listMeas.get(i).getValue();
+			colDate[i] = listMeas.get(i).getDate();
+			colType[i] = listMeas.get(i).getType().toString();
+		}
 
 		Table table = Table.create().addColumns(DateTimeColumn.create("timestamp", colDate),
 				StringColumn.create("type", colType), DoubleColumn.create("value", colValues));
