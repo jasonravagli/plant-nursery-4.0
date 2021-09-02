@@ -4,8 +4,8 @@ package it.unifi.dinfo.swam.plantnursery.model;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-import javax.persistence.Embeddable;
-import javax.validation.constraints.NotNull;
+import jakarta.persistence.Embeddable;
+import jakarta.validation.constraints.NotNull;
 
 @Embeddable
 public class FaultPeriod {

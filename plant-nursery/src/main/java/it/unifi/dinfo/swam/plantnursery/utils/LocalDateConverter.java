@@ -2,7 +2,7 @@ package it.unifi.dinfo.swam.plantnursery.utils;
 
 import java.time.LocalDate;
 
-import javax.ws.rs.ext.ParamConverter;
+import jakarta.ws.rs.ext.ParamConverter;
 
 public class LocalDateConverter implements ParamConverter<LocalDate> {
 

@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.enterprise.context.Dependent;
-import javax.inject.Inject;
-import javax.ws.rs.NotSupportedException;
+import jakarta.enterprise.context.Dependent;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.NotSupportedException;
 
 import it.unifi.dinfo.swam.plantnursery.dao.GrowthPlaceDao;
 import it.unifi.dinfo.swam.plantnursery.dao.PlantDao;

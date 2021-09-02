@@ -2,9 +2,9 @@ package it.unifi.dinfo.swam.plantnursery.webapp.security;
 
 import java.security.Principal;
 
-import javax.inject.Inject;
-import javax.ws.rs.container.ContainerRequestContext;
-import javax.ws.rs.core.SecurityContext;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.container.ContainerRequestContext;
+import jakarta.ws.rs.core.SecurityContext;
 
 import it.unifi.dinfo.swam.plantnursery.dao.UserDao;
 import it.unifi.dinfo.swam.plantnursery.model.User;

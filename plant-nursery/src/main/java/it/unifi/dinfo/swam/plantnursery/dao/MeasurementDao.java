@@ -3,9 +3,9 @@ package it.unifi.dinfo.swam.plantnursery.dao;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import javax.enterprise.context.Dependent;
-import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
+import jakarta.enterprise.context.Dependent;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
 
 import it.unifi.dinfo.swam.plantnursery.model.GrowthPlace;
 import it.unifi.dinfo.swam.plantnursery.model.Measurement;

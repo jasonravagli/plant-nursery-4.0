@@ -1,7 +1,7 @@
 package it.unifi.dinfo.swam.plantnursery.controller;
 
-import javax.enterprise.context.RequestScoped;
-import javax.inject.Inject;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
 
 import it.unifi.dinfo.swam.plantnursery.dao.UserDao;
 import it.unifi.dinfo.swam.plantnursery.model.User;

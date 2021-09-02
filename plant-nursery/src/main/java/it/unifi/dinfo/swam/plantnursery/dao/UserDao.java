@@ -1,9 +1,9 @@
 package it.unifi.dinfo.swam.plantnursery.dao;
 
-import javax.enterprise.context.Dependent;
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.TypedQuery;
+import jakarta.enterprise.context.Dependent;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
+import jakarta.persistence.TypedQuery;
 
 import it.unifi.dinfo.swam.plantnursery.model.User;
 

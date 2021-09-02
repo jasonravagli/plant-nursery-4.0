@@ -1,6 +1,6 @@
 package it.unifi.dinfo.swam.plantnursery.mapper;
 
-import javax.enterprise.context.Dependent;
+import jakarta.enterprise.context.Dependent;
 
 import it.unifi.dinfo.swam.plantnursery.dto.MeasurementDto;
 import it.unifi.dinfo.swam.plantnursery.model.MeasureType;

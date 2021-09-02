@@ -2,8 +2,8 @@ package it.unifi.dinfo.swam.plantnursery.mapper;
 
 import java.util.List;
 
-import javax.enterprise.context.Dependent;
-import javax.ws.rs.NotSupportedException;
+import jakarta.enterprise.context.Dependent;
+import jakarta.ws.rs.NotSupportedException;
 
 import it.unifi.dinfo.swam.plantnursery.dto.GrowthPlaceDto;
 import it.unifi.dinfo.swam.plantnursery.model.GrowthPlace;

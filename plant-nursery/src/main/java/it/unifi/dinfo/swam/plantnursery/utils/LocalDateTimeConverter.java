@@ -1,7 +1,7 @@
 package it.unifi.dinfo.swam.plantnursery.utils;
 
 import java.time.LocalDateTime;
-import javax.ws.rs.ext.ParamConverter;
+import jakarta.ws.rs.ext.ParamConverter;
 
 public class LocalDateTimeConverter implements ParamConverter<LocalDateTime> {
 	

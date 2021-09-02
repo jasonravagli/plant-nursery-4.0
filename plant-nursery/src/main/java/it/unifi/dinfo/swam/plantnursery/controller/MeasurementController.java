@@ -5,8 +5,8 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.enterprise.context.RequestScoped;
-import javax.inject.Inject;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
 
 import it.unifi.dinfo.swam.plantnursery.dao.GrowthPlaceDao;
 import it.unifi.dinfo.swam.plantnursery.dao.MeasurementDao;

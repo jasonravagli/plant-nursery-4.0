@@ -1,6 +1,6 @@
 package it.unifi.dinfo.swam.plantnursery.dto;
 
-import javax.json.bind.JsonbBuilder;
+import jakarta.json.bind.JsonbBuilder;
 
 public abstract class BaseDto {
 	

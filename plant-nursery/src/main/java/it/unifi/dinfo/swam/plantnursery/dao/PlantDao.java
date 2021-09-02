@@ -7,9 +7,9 @@ import it.unifi.dinfo.swam.plantnursery.model.GrowthPlace;
 import it.unifi.dinfo.swam.plantnursery.model.Plant;
 import it.unifi.dinfo.swam.plantnursery.model.Species;
 
-import javax.enterprise.context.Dependent;
-import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
+import jakarta.enterprise.context.Dependent;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
 
 @Dependent
 public class PlantDao extends BaseDao<Plant> {
