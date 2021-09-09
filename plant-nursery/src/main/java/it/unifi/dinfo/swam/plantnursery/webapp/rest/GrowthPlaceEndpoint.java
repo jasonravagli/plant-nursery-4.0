@@ -15,7 +15,6 @@ import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
-
 import it.unifi.dinfo.swam.plantnursery.controller.GrowthPlaceController;
 import it.unifi.dinfo.swam.plantnursery.dto.GrowthPlaceDto;
 

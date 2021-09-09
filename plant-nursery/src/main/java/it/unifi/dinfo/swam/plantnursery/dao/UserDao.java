@@ -4,7 +4,6 @@ import jakarta.enterprise.context.Dependent;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
-
 import it.unifi.dinfo.swam.plantnursery.model.User;
 
 @Dependent

@@ -1,0 +1,228 @@
+CREATE KEYSPACE plant-nursery WITH replication = {'class': 'SimpleStrategy', 'replication_factor' : 1};
+
+
+------------- SPECIES -------------
+CREATE TYPE life_parameter (
+    range_start float,
+    range_end float,
+    unit text,
+    type text
+);
+CREATE TABLE species_by_id (
+   id timeuuid PRIMARY KEY, uuid text,
+   name text,
+   description text,
+   type text,
+   growth_place_types set<text>,
+   life_params set<frozen<life_parameter>>
+);
+CREATE TABLE species_by_filter(
+   id timeuuid,
+   uuid text,
+   name text,
+   type text PRIMARY KEY
+);
+CREATE CUSTOM INDEX sp_name_prefix ON species_by_filter(name) USING 'org.apache.cassandra.index.sasi.SASIIndex';
+
+
+------------- PLANTS -------------
+CREATE TABLE plants_by_id(
+   id timeuuid PRIMARY KEY,
+   uuid text,
+   planting_date date,
+   sold boolean,
+   sale_date date,
+   species_id timeuuid,
+   species_name text,
+   id_growth_place timeuuid
+);
+CREATE TABLE plants_by_gp(
+   id timeuuid PRIMARY KEY,
+   uuid text,
+   planting_date date,
+   sold boolean,
+   sale_date date,
+   species_id timeuuid,
+   species_name text,
+   id_growth_place timeuuid,
+   PRIMARY KEY(id_growth_place, planting_date, id)
+);
+CREATE TABLE plants_by_species(
+   id timeuuid PRIMARY KEY,
+   uuid text,
+   planting_date date,
+   sold boolean,
+   sale_date date,
+   species_id timeuuid,
+   species_name text,
+   id_growth_place timeuuid,
+   PRIMARY KEY(species_id, planting_date, id)
+);
+CREATE TABLE plants_by_sold(
+   id timeuuid PRIMARY KEY,
+   uuid text,
+   planting_date date,
+   sold boolean,
+   sale_date date,
+   species_id timeuuid,
+   species_name text,
+   id_growth_place timeuuid,
+   PRIMARY KEY(sold, planting_date, id)
+);
+
+
+------------- GROWTH PLACES -------------
+CREATE TABLE growth_places_by_id(
+   id timeuuid PRIMARY KEY,
+   uuid text,
+   name text,
+   type text,
+   latitude float,
+   longitude float,
+   row_positions int,
+   col_positions int
+);
+CREATE CUSTOM INDEX gp_name_prefix ON growth_places_by_id(name) USING 'org.apache.cassandra.index.sasi.SASIIndex';
+
+
+------------- SENSORS -------------
+CREATE TYPE fault_period (
+    start_date date,
+    end_date date
+);
+CREATE TABLE sensors_by_id(
+   id timeuuid PRIMARY KEY,
+   uuid text,
+   mac_address text,
+   company text,
+   model text,
+   serial_number text,
+   installation_date date,
+   disposal_date date,
+   measure_types set<text>,
+   fault_periods set<fault_perdiod>
+);
+CREATE TABLE sensors_by_mac_address(
+   id timeuuid,
+   uuid text,
+   mac_address text PRIMARY KEY,
+   company text,
+   model text,
+   serial_number text,
+   installation_date date,
+   disposal_date date,
+   measure_types set<text>,
+   fault_periods set<fault_perdiod>
+);
+CREATE TABLE sensors_by_gp(
+   id timeuuid,
+   uuid text,
+   mac_address text,
+   company text,
+   model text,
+   serial_number text,
+   installation_date date,
+   disposal_date date,
+   measure_types set<text>,
+   fault_periods set<fault_perdiod>,
+   id_growth_place timeuuid,
+   active boolean,
+   PRIMARY KEY(id_growth_place, id)
+);
+CREATE TABLE sensors_by_company(
+   id timeuuid,
+   uuid text,
+   mac_address text,
+   company text,
+   model text,
+   serial_number text,
+   installation_date date,
+   disposal_date date,
+   measure_types set<text>,
+   fault_periods set<fault_perdiod>,
+   id_growth_place timeuuid,
+   active boolean,
+   PRIMARY KEY(company, id)
+);
+CREATE TABLE sensors_by_model(
+   id timeuuid,
+   uuid text,
+   mac_address text,
+   company text,
+   model text,
+   serial_number text,
+   installation_date date,
+   disposal_date date,
+   measure_types set<text>,
+   fault_periods set<fault_perdiod>,
+   id_growth_place timeuuid,
+   active boolean,
+   PRIMARY KEY(model, id)
+);
+
+
+------------- POSITIONS -------------
+CREATE TABLE positions_by_gp(
+   id timeuuid,
+   uuid text,
+   row_index int,
+   col_index int,
+   growth_place_id timeuuid,
+   growth_place_name text,
+   id_plant timeuuid,
+   id_sensor set<timeuuid>,
+   free boolean,
+   PRIMARY KEY(growth_place_id, id)
+);
+
+
+------------- MEASUREMENTS -------------
+CREATE TABLE measurements_by_gp(
+   id timeuuid,
+   uuid text,
+   meas_date date,
+   value float,
+   unit text,
+   type text,
+   id_sensor timeuuid,
+   id_plant timeuuid,
+   id_position timeuuid,
+   id_growth_place timeuuid,
+   PRIMARY KEY(id_growth_place, meas_date, id)
+);
+CREATE TABLE measurements_by_plant(
+   id timeuuid,
+   uuid text,
+   meas_date date,
+   value float,
+   unit text,
+   type text,
+   id_sensor timeuuid,
+   id_plant timeuuid,
+   id_position timeuuid,
+   id_growth_place timeuuid,
+   PRIMARY KEY(id_plant, meas_date, id)
+);
+CREATE TABLE measurements_by_sensor(
+   id timeuuid,
+   uuid text,
+   meas_date date,
+   value float,
+   unit text,
+   type text,
+   id_sensor timeuuid,
+   id_plant timeuuid,
+   id_position timeuuid,
+   id_growth_place timeuuid,
+   PRIMARY KEY(id_sensor, meas_date, id)
+);
+
+
+------------- USERS -------------
+CREATE TABLE user_by_username (
+   id timeuuid PRIMARY KEY, 
+   uuid text, 
+   username text, 
+   password text,
+   PRIMARY KEY(id, username)
+);

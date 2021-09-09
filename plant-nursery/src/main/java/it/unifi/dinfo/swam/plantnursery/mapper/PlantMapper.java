@@ -2,7 +2,6 @@ package it.unifi.dinfo.swam.plantnursery.mapper;
 
 import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
-
 import it.unifi.dinfo.swam.plantnursery.dao.SpeciesDao;
 import it.unifi.dinfo.swam.plantnursery.dto.PlantDto;
 import it.unifi.dinfo.swam.plantnursery.model.ModelFactory;

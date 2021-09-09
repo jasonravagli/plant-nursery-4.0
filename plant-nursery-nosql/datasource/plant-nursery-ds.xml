@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<datasources xmlns="http://www.ironjacamar.org/doc/schema">
+	<datasource jndi-name="plantNursery" enabled="true" use-java-context="true" pool-name="plantNurseryDs">
+		<connection-url>jdbc:mysql://localhost:3306/plant-nursery</connection-url>
+		<driver>mysql</driver>
+		<security>
+			<user-name>root</user-name>
+			<password>password</password>
+		</security>
+	</datasource>
+</datasources>

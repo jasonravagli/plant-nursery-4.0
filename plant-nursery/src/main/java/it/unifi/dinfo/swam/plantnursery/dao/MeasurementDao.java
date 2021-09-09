@@ -6,7 +6,6 @@ import java.util.List;
 import jakarta.enterprise.context.Dependent;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
-
 import it.unifi.dinfo.swam.plantnursery.model.GrowthPlace;
 import it.unifi.dinfo.swam.plantnursery.model.Measurement;
 import it.unifi.dinfo.swam.plantnursery.model.Plant;

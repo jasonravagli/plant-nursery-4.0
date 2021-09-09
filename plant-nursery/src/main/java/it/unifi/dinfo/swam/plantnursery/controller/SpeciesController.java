@@ -4,7 +4,6 @@ import java.util.List;
 
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
-
 import it.unifi.dinfo.swam.plantnursery.dao.PlantDao;
 import it.unifi.dinfo.swam.plantnursery.dao.SpeciesDao;
 import it.unifi.dinfo.swam.plantnursery.dto.SpeciesDto;

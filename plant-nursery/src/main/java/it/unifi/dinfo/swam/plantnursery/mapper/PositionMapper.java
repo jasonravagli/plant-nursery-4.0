@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.NotSupportedException;
-
 import it.unifi.dinfo.swam.plantnursery.dao.GrowthPlaceDao;
 import it.unifi.dinfo.swam.plantnursery.dao.PlantDao;
 import it.unifi.dinfo.swam.plantnursery.dao.SensorDao;

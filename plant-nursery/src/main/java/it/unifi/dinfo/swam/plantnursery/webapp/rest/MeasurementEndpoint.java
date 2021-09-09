@@ -13,7 +13,6 @@ import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
-
 import it.unifi.dinfo.swam.plantnursery.controller.MeasurementController;
 import it.unifi.dinfo.swam.plantnursery.dto.MeasurementDto;
 import it.unifi.dinfo.swam.plantnursery.utils.Utilities;

@@ -24,7 +24,10 @@ public abstract class BaseDao<T extends BaseEntity> implements Serializable {
 		this.type = type;
 	}
 
-	// Only for testing purposes to inject dependencies
+	/***
+	 * Only for testing purposes to inject dependencies
+	 * @param entityManager
+	 */
 	BaseDao(Class<T> type, EntityManager entityManager) {
 		this.type = type;
 		this.entityManager = entityManager;
