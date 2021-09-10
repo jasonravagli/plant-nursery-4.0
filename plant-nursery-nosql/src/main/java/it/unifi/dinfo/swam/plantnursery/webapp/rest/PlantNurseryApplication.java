@@ -12,6 +12,6 @@ public class PlantNurseryApplication extends Application {
 	@GET
     @Produces(MediaType.TEXT_PLAIN)
     public Response hello(){
-        return Response.ok("Hello from the plant nursery 4.0 server").build();
+        return Response.ok("Hello from the plant nursery 4.0  NoSql server").build();
     }
 }

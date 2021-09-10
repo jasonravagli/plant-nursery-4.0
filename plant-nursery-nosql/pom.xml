@@ -33,11 +33,6 @@
 			<version>1.0.0-b3</version>
 		</dependency>
 		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-core-jakarta</artifactId>
-			<version>5.5.7.Final</version>
-		</dependency>
-		<dependency>
 			<groupId>tech.tablesaw</groupId>
 			<artifactId>tablesaw-core</artifactId>
 			<version>0.38.4</version>

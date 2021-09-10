@@ -1,4 +1,4 @@
-package it.unifi.dinfo.swam.plantnursery.dto;
+package it.unifi.dinfo.swam.plantnursery.nosql.dto;
 
 import jakarta.json.bind.JsonbBuilder;
 

@@ -1,25 +1,32 @@
 package it.unifi.dinfo.swam.plantnursery.nosql.dao;
 
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
 
-import it.unifi.dinfo.swam.plantnursery.nosql.model.NoSqlSpeciesById;
-import jakarta.enterprise.context.RequestScoped;
+import it.unifi.dinfo.swam.plantnursery.nosql.model.SpeciesById;
+import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
 import jakarta.nosql.mapping.column.ColumnTemplate;
 
-@RequestScoped
-public class NoSqlSpeciesDao {
+@Dependent
+public class SpeciesByIdDao {
 	
 	@Inject
     private ColumnTemplate columnTemplate;
 
-    public NoSqlSpeciesById save(NoSqlSpeciesById species) {
+    public SpeciesById save(SpeciesById species) {
         return columnTemplate.insert(species);
     }
 	
-	public NoSqlSpeciesById findById(UUID id) {
-		Optional<NoSqlSpeciesById> species = columnTemplate.find(NoSqlSpeciesById.class, id);
-		return species.get();
+	public SpeciesById findById(UUID id) {
+		Optional<SpeciesById> species = columnTemplate.find(SpeciesById.class, id);
+		
+		try {
+			return species.get();
+		}
+		catch(NoSuchElementException e) {
+			return null;
+		}
 	}
 }

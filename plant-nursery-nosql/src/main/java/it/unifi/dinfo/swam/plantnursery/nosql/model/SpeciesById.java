@@ -1,23 +1,20 @@
 package it.unifi.dinfo.swam.plantnursery.nosql.model;
 
-import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-import it.unifi.dinfo.swam.plantnursery.model.GrowthPlaceType;
-import it.unifi.dinfo.swam.plantnursery.model.PlantType;
 import jakarta.nosql.mapping.Column;
 import jakarta.nosql.mapping.Entity;
 import jakarta.nosql.mapping.Id;
 
 @Entity("species_by_id")
-public class NoSqlSpeciesById {
+public class SpeciesById {
 	
 	@Id("id")
 	private UUID id;
 	
 	@Column("uuid")
-	private String uuid;
+	private UUID uuid;
 	
 	@Column("name")
 	private String name;
@@ -26,28 +23,28 @@ public class NoSqlSpeciesById {
 	private String description;
 	
 	@Column("type")
-	private PlantType type;
+	private String type;
 	
 	@Column("growth_place_types")
-	private HashSet<String> growthPlaceTypes;
+	private Set<String> growthPlaceTypes;
 	
 	@Column("life_params")
-	private Set<NoSqlLifeParameter> lifeParams;
+	private Set<String> lifeParams;
+	
+	public SpeciesById() {
+		
+	}
+	
+	public SpeciesById(UUID uuid) {
+		this.uuid = uuid;
+	}
 
 	public UUID getId() {
 		return id;
 	}
 
-	public void setId(UUID id) {
-		this.id = id;
-	}
-
-	public String getUuid() {
+	public UUID getUuid() {
 		return uuid;
-	}
-
-	public void setUuid(String uuid) {
-		this.uuid = uuid;
 	}
 
 	public String getName() {
@@ -66,27 +63,27 @@ public class NoSqlSpeciesById {
 		this.description = description;
 	}
 
-	public PlantType getType() {
+	public String getType() {
 		return type;
 	}
 
-	public void setType(PlantType type) {
+	public void setType(String type) {
 		this.type = type;
 	}
 
-	public HashSet<String> getGrowthPlaceTypes() {
+	public Set<String> getGrowthPlaceTypes() {
 		return growthPlaceTypes;
 	}
 
-	public void setGrowthPlaceTypes(HashSet<String> growthPlaceTypes) {
+	public void setGrowthPlaceTypes(Set<String> growthPlaceTypes) {
 		this.growthPlaceTypes = growthPlaceTypes;
 	}
 
-	public Set<NoSqlLifeParameter> getLifeParams() {
+	public Set<String> getLifeParams() {
 		return lifeParams;
 	}
 
-	public void setLifeParams(Set<NoSqlLifeParameter> lifeParams) {
+	public void setLifeParams(Set<String> lifeParams) {
 		this.lifeParams = lifeParams;
 	}
 }

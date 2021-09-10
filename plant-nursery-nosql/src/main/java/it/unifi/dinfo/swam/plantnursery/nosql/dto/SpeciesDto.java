@@ -1,17 +1,32 @@
-package it.unifi.dinfo.swam.plantnursery.dto;
+package it.unifi.dinfo.swam.plantnursery.nosql.dto;
 
-public class SpeciesDto {
+import java.util.Set;
+import java.util.UUID;
 
-	private Long id;
+public class SpeciesDto extends BaseDto {
+
+	private UUID id;
+	private UUID uuid;
 	private String name;
-	private String plantType;
+	private String description;
+	private PlantType type;
+	private Set<GrowthPlaceType> growthPlaceTypes;
+	private Set<LifeParameterDto> lifeParams;
 
-	public Long getId() {
+	public UUID getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(UUID id) {
 		this.id = id;
+	}
+
+	public UUID getUuid() {
+		return uuid;
+	}
+
+	public void setUuid(UUID uuid) {
+		this.uuid = uuid;
 	}
 
 	public String getName() {
@@ -22,12 +37,35 @@ public class SpeciesDto {
 		this.name = name;
 	}
 
-	public String getPlantType() {
-		return plantType;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setPlantType(String plantType) {
-		this.plantType = plantType;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
+	public PlantType getType() {
+		return type;
+	}
+
+	public void setType(PlantType type) {
+		this.type = type;
+	}
+
+	public Set<GrowthPlaceType> getGrowthPlaceTypes() {
+		return growthPlaceTypes;
+	}
+
+	public void setGrowthPlaceTypes(Set<GrowthPlaceType> growthPlaceTypes) {
+		this.growthPlaceTypes = growthPlaceTypes;
+	}
+
+	public Set<LifeParameterDto> getLifeParams() {
+		return lifeParams;
+	}
+
+	public void setLifeParams(Set<LifeParameterDto> lifeParams) {
+		this.lifeParams = lifeParams;
+	}
 }

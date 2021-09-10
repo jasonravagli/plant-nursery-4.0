@@ -1,9 +1,7 @@
 package it.unifi.dinfo.swam.plantnursery.nosql.model;
 
 import java.util.Set;
-import java.util.UUID;
-
-import it.unifi.dinfo.swam.plantnursery.model.PlantType;
+import it.unifi.dinfo.swam.plantnursery.nosql.dto.PlantType;
 import jakarta.nosql.mapping.Column;
 import jakarta.nosql.mapping.Entity;
 import jakarta.nosql.mapping.Id;
