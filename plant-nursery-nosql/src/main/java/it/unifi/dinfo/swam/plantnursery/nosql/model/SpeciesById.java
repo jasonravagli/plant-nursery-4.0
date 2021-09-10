@@ -1,17 +1,11 @@
 package it.unifi.dinfo.swam.plantnursery.nosql.model;
 
 import java.util.Set;
-import java.util.UUID;
-
 import jakarta.nosql.mapping.Column;
 import jakarta.nosql.mapping.Entity;
-import jakarta.nosql.mapping.Id;
 
 @Entity("species_by_id")
-public class SpeciesById {
-	
-	@Id("id")
-	private UUID id;
+public class SpeciesById extends BaseEntity {
 	
 	@Column("name")
 	private String name;
@@ -27,18 +21,6 @@ public class SpeciesById {
 	
 	@Column("life_params")
 	private Set<String> lifeParams;
-	
-	public SpeciesById() {
-		
-	}
-	
-	public SpeciesById(UUID id) {
-		this.id = id;
-	}
-
-	public UUID getId() {
-		return id;
-	}
 
 	public String getName() {
 		return name;

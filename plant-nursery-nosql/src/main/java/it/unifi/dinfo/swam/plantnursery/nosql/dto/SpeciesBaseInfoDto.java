@@ -1,15 +1,18 @@
 package it.unifi.dinfo.swam.plantnursery.nosql.dto;
 
-public class SpeciesBaseInfoDto extends BaseDto {
-	private Long id;
-	private String name;
-	private String plantType;
+import java.util.UUID;
 
-	public Long getId() {
+public class SpeciesBaseInfoDto extends BaseDto {
+	
+	private UUID id;
+	private String name;
+	private PlantType plantType;
+
+	public UUID getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(UUID id) {
 		this.id = id;
 	}
 
@@ -21,11 +24,11 @@ public class SpeciesBaseInfoDto extends BaseDto {
 		this.name = name;
 	}
 
-	public String getPlantType() {
+	public PlantType getPlantType() {
 		return plantType;
 	}
 
-	public void setPlantType(String plantType) {
+	public void setPlantType(PlantType plantType) {
 		this.plantType = plantType;
 	}
 }

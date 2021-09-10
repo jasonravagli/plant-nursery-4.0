@@ -15,8 +15,12 @@ public class SpeciesByIdDao {
 	@Inject
     private ColumnTemplate columnTemplate;
 
-    public SpeciesById save(SpeciesById species) {
-        return columnTemplate.insert(species);
+    public void save(SpeciesById species) {
+        columnTemplate.insert(species);
+    }
+    
+    public void update(SpeciesById species) {
+        columnTemplate.update(species);
     }
 	
 	public SpeciesById findById(UUID id) {

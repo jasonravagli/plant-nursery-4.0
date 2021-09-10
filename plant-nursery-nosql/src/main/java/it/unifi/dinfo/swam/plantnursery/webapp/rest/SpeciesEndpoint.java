@@ -17,6 +17,8 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
 import it.unifi.dinfo.swam.plantnursery.nosql.controller.SpeciesController;
+import it.unifi.dinfo.swam.plantnursery.nosql.dto.PlantType;
+import it.unifi.dinfo.swam.plantnursery.nosql.dto.SpeciesBaseInfoDto;
 import it.unifi.dinfo.swam.plantnursery.nosql.dto.SpeciesDto;
 import it.unifi.dinfo.swam.plantnursery.nosql.model.SpeciesById;
 
@@ -39,18 +41,18 @@ public class SpeciesEndpoint {
 //
 //		return Response.ok().build();
 //	}
-//
-//	@GET
-//	@Produces(MediaType.APPLICATION_JSON)
-//	public Response getSpecies(@QueryParam("plantType") PlantType plantType, @QueryParam("name") String name) {
-//		List<SpeciesDto> species = speciesController.getFilteredSpecies(plantType, name);
-//
-//		if (speciesController.isErrorOccurred()) {
-//			return Response.status(Status.BAD_REQUEST).entity(speciesController.getErrorMessage()).build();
-//		}
-//
-//		return Response.ok().entity(species).build();
-//	}
+
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getSpecies(@QueryParam("plantType") PlantType plantType, @QueryParam("name") String name) {
+		List<SpeciesBaseInfoDto> species = speciesController.getFilteredSpecies(plantType, name);
+
+		if (speciesController.isErrorOccurred()) {
+			return Response.status(Status.BAD_REQUEST).entity(speciesController.getErrorMessage()).build();
+		}
+
+		return Response.ok().entity(species).build();
+	}
 
 	@GET
 	@Path("{id}")
@@ -78,18 +80,18 @@ public class SpeciesEndpoint {
 		return Response.ok().build();
 	}
 
-//	@PUT
-//	@Path("{id}")
-//	@Consumes(MediaType.APPLICATION_JSON)
-//	@Produces(MediaType.APPLICATION_JSON)
-//	public Response updateSpecies(@PathParam("id") Long idSpecies, Species species) {
-//		speciesController.updateSpecies(idSpecies, species);
-//
-//		if (speciesController.isErrorOccurred()) {
-//			return Response.status(Status.BAD_REQUEST).entity(speciesController.getErrorMessage()).build();
-//		}
-//
-//		return Response.ok().build();
-//	}
+	@PUT
+	@Path("{id}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response updateSpecies(@PathParam("id") UUID idSpecies, SpeciesDto species) {
+		speciesController.updateSpecies(idSpecies, species);
+
+		if (speciesController.isErrorOccurred()) {
+			return Response.status(Status.BAD_REQUEST).entity(speciesController.getErrorMessage()).build();
+		}
+
+		return Response.ok().build();
+	}
 
 }

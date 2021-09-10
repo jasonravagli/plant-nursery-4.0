@@ -2,23 +2,16 @@ CREATE KEYSPACE plant-nursery WITH replication = {'class': 'SimpleStrategy', 're
 
 
 ------------- SPECIES -------------
-CREATE TYPE life_parameter (
-    range_start float,
-    range_end float,
-    unit text,
-    type text
-);
 CREATE TABLE species_by_id (
-   id timeuuid PRIMARY KEY, uuid text,
+   id timeuuid PRIMARY KEY,
    name text,
    description text,
    type text,
    growth_place_types set<text>,
-   life_params set<frozen<life_parameter>>
+   life_params set<text>
 );
 CREATE TABLE species_by_filter(
    id timeuuid,
-   uuid text,
    name text,
    type text PRIMARY KEY
 );

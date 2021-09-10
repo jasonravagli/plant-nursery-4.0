@@ -1,34 +1,17 @@
 package it.unifi.dinfo.swam.plantnursery.nosql.model;
 
-import java.util.UUID;
-
 import jakarta.nosql.mapping.Column;
 import jakarta.nosql.mapping.Entity;
 import jakarta.nosql.mapping.Id;
 
 @Entity("species_by_filter")
-public class SpeciesByFilter {
-
-	@Id("Id")
-	private UUID id;
+public class SpeciesByFilter extends BaseEntity {
 
 	@Column("name")
 	private String name;
 
-	@Column("type")
+	@Id("type")
 	private String type;
-
-	public SpeciesByFilter() {
-		
-	}
-	
-	public SpeciesByFilter(UUID id) {
-		this.id = id;
-	}
-	
-	public UUID getId() {
-		return id;
-	}
 
 	public String getName() {
 		return name;
