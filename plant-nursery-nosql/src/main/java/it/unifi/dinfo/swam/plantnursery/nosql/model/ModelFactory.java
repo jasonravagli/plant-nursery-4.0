@@ -1,6 +1,6 @@
 package it.unifi.dinfo.swam.plantnursery.nosql.model;
 
-import java.util.UUID;
+import com.datastax.oss.driver.api.core.uuid.Uuids;
 
 public class ModelFactory {
 	
@@ -9,10 +9,10 @@ public class ModelFactory {
 	}
 	
 	public static SpeciesById speciesById() {
-		return new SpeciesById(UUID.randomUUID());
+		return new SpeciesById(Uuids.timeBased());
 	}
 	
 	public static SpeciesByFilter speciesByFilter() {
-		return new SpeciesByFilter(UUID.randomUUID());
+		return new SpeciesByFilter(Uuids.timeBased());
 	}
 }

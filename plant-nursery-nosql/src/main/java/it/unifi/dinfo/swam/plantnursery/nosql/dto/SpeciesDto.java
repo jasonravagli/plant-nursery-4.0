@@ -6,7 +6,6 @@ import java.util.UUID;
 public class SpeciesDto extends BaseDto {
 
 	private UUID id;
-	private UUID uuid;
 	private String name;
 	private String description;
 	private PlantType type;
@@ -19,14 +18,6 @@ public class SpeciesDto extends BaseDto {
 
 	public void setId(UUID id) {
 		this.id = id;
-	}
-
-	public UUID getUuid() {
-		return uuid;
-	}
-
-	public void setUuid(UUID uuid) {
-		this.uuid = uuid;
 	}
 
 	public String getName() {

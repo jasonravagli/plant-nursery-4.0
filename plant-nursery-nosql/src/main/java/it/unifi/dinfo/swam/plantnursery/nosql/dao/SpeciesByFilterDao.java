@@ -20,7 +20,7 @@ public class SpeciesByFilterDao {
 	}
 
 	public SpeciesByFilter getSpeciesByName(String name) {
-		ColumnQuery query = ColumnQuery.select().from("SpeciesByFilter").where("name").eq(name).build();
+		ColumnQuery query = ColumnQuery.select().from("species_by_filter").where("name").eq(name).build();
 		Optional<SpeciesByFilter> species = columnTemplate.singleResult(query);
 		
 		try {

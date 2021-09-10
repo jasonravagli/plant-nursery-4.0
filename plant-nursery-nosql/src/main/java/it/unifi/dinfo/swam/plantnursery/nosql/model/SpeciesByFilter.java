@@ -3,15 +3,14 @@ package it.unifi.dinfo.swam.plantnursery.nosql.model;
 import java.util.UUID;
 
 import jakarta.nosql.mapping.Column;
+import jakarta.nosql.mapping.Entity;
 import jakarta.nosql.mapping.Id;
 
+@Entity("species_by_filter")
 public class SpeciesByFilter {
 
 	@Id("Id")
 	private UUID id;
-
-	@Column("uuid")
-	private UUID uuid;
 
 	@Column("name")
 	private String name;
@@ -23,16 +22,12 @@ public class SpeciesByFilter {
 		
 	}
 	
-	public SpeciesByFilter(UUID uuid) {
-		this.uuid = uuid;
+	public SpeciesByFilter(UUID id) {
+		this.id = id;
 	}
 	
 	public UUID getId() {
 		return id;
-	}
-
-	public UUID getUuid() {
-		return uuid;
 	}
 
 	public String getName() {

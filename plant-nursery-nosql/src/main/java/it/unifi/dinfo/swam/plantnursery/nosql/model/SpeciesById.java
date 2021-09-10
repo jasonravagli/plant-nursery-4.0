@@ -13,9 +13,6 @@ public class SpeciesById {
 	@Id("id")
 	private UUID id;
 	
-	@Column("uuid")
-	private UUID uuid;
-	
 	@Column("name")
 	private String name;
 	
@@ -35,16 +32,12 @@ public class SpeciesById {
 		
 	}
 	
-	public SpeciesById(UUID uuid) {
-		this.uuid = uuid;
+	public SpeciesById(UUID id) {
+		this.id = id;
 	}
 
 	public UUID getId() {
 		return id;
-	}
-
-	public UUID getUuid() {
-		return uuid;
 	}
 
 	public String getName() {
