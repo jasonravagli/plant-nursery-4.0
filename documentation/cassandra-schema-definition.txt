@@ -21,7 +21,6 @@ CREATE CUSTOM INDEX sp_name_prefix ON species_by_filter(name) USING 'org.apache.
 ------------- PLANTS -------------
 CREATE TABLE plants_by_id(
    id timeuuid PRIMARY KEY,
-   uuid text,
    planting_date date,
    sold boolean,
    sale_date date,
@@ -31,7 +30,6 @@ CREATE TABLE plants_by_id(
 );
 CREATE TABLE plants_by_gp(
    id timeuuid PRIMARY KEY,
-   uuid text,
    planting_date date,
    sold boolean,
    sale_date date,
@@ -42,7 +40,6 @@ CREATE TABLE plants_by_gp(
 );
 CREATE TABLE plants_by_species(
    id timeuuid PRIMARY KEY,
-   uuid text,
    planting_date date,
    sold boolean,
    sale_date date,
@@ -53,7 +50,6 @@ CREATE TABLE plants_by_species(
 );
 CREATE TABLE plants_by_sold(
    id timeuuid PRIMARY KEY,
-   uuid text,
    planting_date date,
    sold boolean,
    sale_date date,
@@ -67,7 +63,6 @@ CREATE TABLE plants_by_sold(
 ------------- GROWTH PLACES -------------
 CREATE TABLE growth_places_by_id(
    id timeuuid PRIMARY KEY,
-   uuid text,
    name text,
    type text,
    latitude float,
@@ -85,7 +80,6 @@ CREATE TYPE fault_period (
 );
 CREATE TABLE sensors_by_id(
    id timeuuid PRIMARY KEY,
-   uuid text,
    mac_address text,
    company text,
    model text,
@@ -93,23 +87,10 @@ CREATE TABLE sensors_by_id(
    installation_date date,
    disposal_date date,
    measure_types set<text>,
-   fault_periods set<fault_perdiod>
+   fault_periods set<text>
 );
 CREATE TABLE sensors_by_mac_address(
    id timeuuid,
-   uuid text,
-   mac_address text PRIMARY KEY,
-   company text,
-   model text,
-   serial_number text,
-   installation_date date,
-   disposal_date date,
-   measure_types set<text>,
-   fault_periods set<fault_perdiod>
-);
-CREATE TABLE sensors_by_gp(
-   id timeuuid,
-   uuid text,
    mac_address text,
    company text,
    model text,
@@ -117,14 +98,25 @@ CREATE TABLE sensors_by_gp(
    installation_date date,
    disposal_date date,
    measure_types set<text>,
-   fault_periods set<fault_perdiod>,
+   fault_periods set<text>,
+   PRIMARY KEY(mac_address, id)
+);
+CREATE TABLE sensors_by_gp(
+   id timeuuid,
+   mac_address text,
+   company text,
+   model text,
+   serial_number text,
+   installation_date date,
+   disposal_date date,
+   measure_types set<text>,
+   fault_periods set<text>,
    id_growth_place timeuuid,
    active boolean,
    PRIMARY KEY(id_growth_place, id)
 );
 CREATE TABLE sensors_by_company(
    id timeuuid,
-   uuid text,
    mac_address text,
    company text,
    model text,
@@ -132,14 +124,13 @@ CREATE TABLE sensors_by_company(
    installation_date date,
    disposal_date date,
    measure_types set<text>,
-   fault_periods set<fault_perdiod>,
+   fault_periods set<text>,
    id_growth_place timeuuid,
    active boolean,
    PRIMARY KEY(company, id)
 );
 CREATE TABLE sensors_by_model(
    id timeuuid,
-   uuid text,
    mac_address text,
    company text,
    model text,
@@ -147,7 +138,7 @@ CREATE TABLE sensors_by_model(
    installation_date date,
    disposal_date date,
    measure_types set<text>,
-   fault_periods set<fault_perdiod>,
+   fault_periods set<text>,
    id_growth_place timeuuid,
    active boolean,
    PRIMARY KEY(model, id)
@@ -157,7 +148,6 @@ CREATE TABLE sensors_by_model(
 ------------- POSITIONS -------------
 CREATE TABLE positions_by_gp(
    id timeuuid,
-   uuid text,
    row_index int,
    col_index int,
    growth_place_id timeuuid,
@@ -172,7 +162,6 @@ CREATE TABLE positions_by_gp(
 ------------- MEASUREMENTS -------------
 CREATE TABLE measurements_by_gp(
    id timeuuid,
-   uuid text,
    meas_date date,
    value float,
    unit text,
@@ -185,7 +174,6 @@ CREATE TABLE measurements_by_gp(
 );
 CREATE TABLE measurements_by_plant(
    id timeuuid,
-   uuid text,
    meas_date date,
    value float,
    unit text,
@@ -198,7 +186,6 @@ CREATE TABLE measurements_by_plant(
 );
 CREATE TABLE measurements_by_sensor(
    id timeuuid,
-   uuid text,
    meas_date date,
    value float,
    unit text,
@@ -213,9 +200,8 @@ CREATE TABLE measurements_by_sensor(
 
 ------------- USERS -------------
 CREATE TABLE user_by_username (
-   id timeuuid PRIMARY KEY, 
-   uuid text, 
-   username text, 
+   id timeuuid PRIMARY KEY,
+   username text,
    password text,
    PRIMARY KEY(id, username)
 );
