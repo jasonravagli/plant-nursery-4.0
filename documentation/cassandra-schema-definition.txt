@@ -200,8 +200,11 @@ CREATE TABLE measurements_by_sensor(
 
 ------------- USERS -------------
 CREATE TABLE user_by_username (
-   id timeuuid PRIMARY KEY,
+   id timeuuid,
    username text,
    password text,
    PRIMARY KEY(id, username)
 );
+
+INSERT INTO user_by_username (id, username, password)
+VALUES (538314d4-130d-11ec-82a8-0242ac130003, 'iacopo', 'psw');
