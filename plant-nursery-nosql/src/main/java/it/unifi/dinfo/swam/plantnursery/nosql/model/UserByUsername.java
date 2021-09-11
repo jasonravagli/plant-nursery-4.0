@@ -1,8 +1,10 @@
 package it.unifi.dinfo.swam.plantnursery.nosql.model;
 
 import jakarta.nosql.mapping.Column;
+import jakarta.nosql.mapping.Entity;
 
-public class UsersByUsername extends BaseEntity{
+@Entity("user_by_username")
+public class UserByUsername extends BaseEntity{
 	
 	@Column("username")
 	private String username;

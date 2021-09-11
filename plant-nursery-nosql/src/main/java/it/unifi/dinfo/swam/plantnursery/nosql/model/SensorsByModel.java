@@ -5,8 +5,10 @@ import java.util.Set;
 import java.util.UUID;
 
 import jakarta.nosql.mapping.Column;
+import jakarta.nosql.mapping.Entity;
 import jakarta.nosql.mapping.Id;
 
+@Entity("sensors_by_model")
 public class SensorsByModel extends BaseEntity{
 	
 	@Column("mac_address")

@@ -4,8 +4,10 @@ import java.time.LocalDate;
 import java.util.Set;
 
 import jakarta.nosql.mapping.Column;
+import jakarta.nosql.mapping.Entity;
 import jakarta.nosql.mapping.Id;
 
+@Entity("sensors_by_mac_address")
 public class SensorsByMacAddress extends BaseEntity{
 	
 	@Id("mac_address")

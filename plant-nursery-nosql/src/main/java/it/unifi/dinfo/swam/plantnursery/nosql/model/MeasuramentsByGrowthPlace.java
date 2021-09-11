@@ -4,8 +4,10 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 import jakarta.nosql.mapping.Column;
+import jakarta.nosql.mapping.Entity;
 import jakarta.nosql.mapping.Id;
 
+@Entity("measuraments_by_gp")
 public class MeasuramentsByGrowthPlace extends BaseEntity {
 	
 	@Id("meas_date")

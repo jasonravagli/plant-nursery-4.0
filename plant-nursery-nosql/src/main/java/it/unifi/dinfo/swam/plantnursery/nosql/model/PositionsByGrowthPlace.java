@@ -4,8 +4,10 @@ import java.util.Set;
 import java.util.UUID;
 
 import jakarta.nosql.mapping.Column;
+import jakarta.nosql.mapping.Entity;
 import jakarta.nosql.mapping.Id;
 
+@Entity("positions_by_gp")
 public class PositionsByGrowthPlace extends BaseEntity{
 	
 	@Column("row_index")
