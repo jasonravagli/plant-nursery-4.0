@@ -6,22 +6,13 @@ import java.util.UUID;
 
 import it.unifi.dinfo.swam.plantnursery.nosql.model.SpeciesById;
 import jakarta.enterprise.context.Dependent;
-import jakarta.inject.Inject;
-import jakarta.nosql.mapping.column.ColumnTemplate;
 
 @Dependent
-public class SpeciesByIdDao {
+public class SpeciesByIdDao extends BaseDao<SpeciesById> {
 	
-	@Inject
-    private ColumnTemplate columnTemplate;
-
-    public void save(SpeciesById species) {
-        columnTemplate.insert(species);
-    }
-    
-    public void update(SpeciesById species) {
-        columnTemplate.update(species);
-    }
+	public void delete(UUID id) {
+		columnTemplate.delete(SpeciesById.class, id);
+	}
 	
 	public SpeciesById findById(UUID id) {
 		Optional<SpeciesById> species = columnTemplate.find(SpeciesById.class, id);
