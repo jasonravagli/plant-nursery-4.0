@@ -1,4 +1,4 @@
-package it.unifi.dinfo.swam.plantnursery.mapper;
+package it.unifi.dinfo.swam.plantnursery.nosql.mapper;
 
 import java.util.HashSet;
 import java.util.Set;

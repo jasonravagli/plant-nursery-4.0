@@ -20,7 +20,6 @@ import it.unifi.dinfo.swam.plantnursery.nosql.controller.SpeciesController;
 import it.unifi.dinfo.swam.plantnursery.nosql.dto.PlantType;
 import it.unifi.dinfo.swam.plantnursery.nosql.dto.SpeciesBaseInfoDto;
 import it.unifi.dinfo.swam.plantnursery.nosql.dto.SpeciesDto;
-import it.unifi.dinfo.swam.plantnursery.nosql.model.SpeciesById;
 
 @Path("species")
 public class SpeciesEndpoint {
@@ -28,19 +27,19 @@ public class SpeciesEndpoint {
 	@Inject
 	private SpeciesController speciesController;
 
-//	@DELETE
-//	@Path("{id}")
-//	@Produces(MediaType.APPLICATION_JSON)
-//	public Response deleteSpecies(@PathParam("id") Long id) {
-//		System.out.println("service delete: id " + id);
-//		speciesController.deleteSpecies(id);
-//		
-//		if (speciesController.isErrorOccurred()) {
-//			return Response.status(Status.BAD_REQUEST).entity(speciesController.getErrorMessage()).build();
-//		}
-//
-//		return Response.ok().build();
-//	}
+	@DELETE
+	@Path("{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response deleteSpecies(@PathParam("id") UUID id) {
+		System.out.println("service delete: id " + id);
+		speciesController.deleteSpecies(id);
+		
+		if (speciesController.isErrorOccurred()) {
+			return Response.status(Status.BAD_REQUEST).entity(speciesController.getErrorMessage()).build();
+		}
+
+		return Response.ok().build();
+	}
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)

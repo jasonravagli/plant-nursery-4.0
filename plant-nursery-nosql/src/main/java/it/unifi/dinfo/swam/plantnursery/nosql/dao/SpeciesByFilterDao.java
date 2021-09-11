@@ -8,26 +8,19 @@ import java.util.stream.Stream;
 
 import it.unifi.dinfo.swam.plantnursery.nosql.model.SpeciesByFilter;
 import jakarta.enterprise.context.Dependent;
-import jakarta.inject.Inject;
+import jakarta.nosql.column.ColumnDeleteQuery;
 import jakarta.nosql.column.ColumnQuery;
 import jakarta.nosql.column.ColumnQuery.ColumnFrom;
 import jakarta.nosql.column.ColumnQuery.ColumnWhere;
-import jakarta.nosql.mapping.column.ColumnTemplate;
 
 @Dependent
-public class SpeciesByFilterDao {
-
-	@Inject
-	private ColumnTemplate columnTemplate;
-
-	public void save(SpeciesByFilter species) {
-		columnTemplate.insert(species);
+public class SpeciesByFilterDao extends BaseDao<SpeciesByFilter> {
+	
+	public void delete(String type) {
+		ColumnDeleteQuery deleteQuery = ColumnDeleteQuery.delete().from("species_by_filter").where("type").eq(type).build();
+		columnTemplate.delete(deleteQuery);
 	}
 	
-	public void update(SpeciesByFilter species) {
-		columnTemplate.update(species);
-	}
-
 	public SpeciesByFilter getSpeciesByName(String name) {
 		ColumnQuery query = ColumnQuery.select().from("species_by_filter").where("name").eq(name).build();
 		Optional<SpeciesByFilter> species = columnTemplate.singleResult(query);
