@@ -5,14 +5,14 @@ import java.util.UUID;
 
 import jakarta.nosql.mapping.Column;
 import jakarta.nosql.mapping.Entity;
-import jakarta.nosql.mapping.Id;
 
-@Entity("plants_by_sold")
-public class PlantsBySold extends BaseEntity{
-	@Id("planting_date")
+@Entity("plants_by_id")
+public class PlantById extends BaseEntity {
+	
+	@Column("planting_date")
 	private LocalDate plantingDate;
 	
-	@Id("sold")
+	@Column("sold")
 	private boolean sold;
 	
 	@Column("sale_date")
@@ -26,7 +26,7 @@ public class PlantsBySold extends BaseEntity{
 					
 	@Column("id_growth_place")
 	private UUID IdGrowthPlace;
-
+	
 	public LocalDate getPlantingDate() {
 		return plantingDate;
 	}
@@ -74,6 +74,4 @@ public class PlantsBySold extends BaseEntity{
 	public void setIdGrowthPlace(UUID idGrowthPlace) {
 		IdGrowthPlace = idGrowthPlace;
 	}
-	
-	
 }

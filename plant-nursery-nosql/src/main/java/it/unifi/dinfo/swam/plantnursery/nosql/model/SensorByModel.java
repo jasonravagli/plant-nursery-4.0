@@ -8,8 +8,8 @@ import jakarta.nosql.mapping.Column;
 import jakarta.nosql.mapping.Entity;
 import jakarta.nosql.mapping.Id;
 
-@Entity("sensors_by_gp")
-public class SensorsByGrowthPlace extends BaseEntity{
+@Entity("sensors_by_model")
+public class SensorByModel extends BaseEntity{
 	
 	@Column("mac_address")
 	private String macAddress;
@@ -17,7 +17,7 @@ public class SensorsByGrowthPlace extends BaseEntity{
 	@Column("company")
 	private String company;
 	
-	@Column("model")
+	@Id("model")
 	private String model;
 	
 	@Column("serial_number")
@@ -35,7 +35,7 @@ public class SensorsByGrowthPlace extends BaseEntity{
 	@Column("fault_periods")
 	private Set<String> faultPeriods;
 	
-	@Id("id_growth_place")
+	@Column("id_growth_place")
 	private UUID idGrowthPlace;
 
 	@Column("active")
@@ -120,5 +120,6 @@ public class SensorsByGrowthPlace extends BaseEntity{
 	public void setActive(boolean active) {
 		this.active = active;
 	}
+
 
 }

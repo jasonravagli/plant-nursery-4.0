@@ -8,7 +8,7 @@ import jakarta.nosql.mapping.Entity;
 import jakarta.nosql.mapping.Id;
 
 @Entity("measuraments_by_plant")
-public class MeasuramentsByPlant  extends BaseEntity {
+public class MeasuramentByPlant  extends BaseEntity {
 	
 	@Id("meas_date")
 	private LocalDate measDate;

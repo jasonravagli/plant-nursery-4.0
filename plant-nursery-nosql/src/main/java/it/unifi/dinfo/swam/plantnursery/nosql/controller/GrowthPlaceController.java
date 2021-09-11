@@ -9,10 +9,10 @@ import it.unifi.dinfo.swam.plantnursery.nosql.dao.GrowthPlaceByIdDao;
 import it.unifi.dinfo.swam.plantnursery.nosql.dto.GrowthPlaceDto;
 import it.unifi.dinfo.swam.plantnursery.nosql.mapper.GrowthPlaceByIdMapper;
 import it.unifi.dinfo.swam.plantnursery.nosql.model.GrowthPlaceById;
-import jakarta.enterprise.context.Dependent;
+import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 
-@Dependent
+@RequestScoped
 public class GrowthPlaceController extends BaseController {
 	
 	@Inject
