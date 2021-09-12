@@ -2,7 +2,6 @@ package it.unifi.dinfo.swam.plantnursery.nosql.dao;
 
 import jakarta.enterprise.context.Dependent;
 import jakarta.nosql.column.ColumnQuery;
-
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -23,4 +22,15 @@ public class UserDao extends BaseDao<UserByUsername> {
 		}
 	}
 	
+	public UserByUsername getUserByCredentials(String username, String password) {
+		ColumnQuery query = ColumnQuery.select().from("user_by_username").where("username").eq(username).and("password").eq(password).build();
+		Optional<UserByUsername> user = columnTemplate.singleResult(query);
+		
+		try {
+			return user.get();
+		}
+		catch(NoSuchElementException e) {
+			return null;
+		}
+	}
 }

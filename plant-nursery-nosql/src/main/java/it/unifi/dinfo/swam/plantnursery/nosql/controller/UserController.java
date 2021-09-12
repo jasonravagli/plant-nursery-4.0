@@ -25,4 +25,18 @@ public class UserController extends BaseController {
 		
 		return true;
 	}
+	
+	public boolean login(String username, String password) {
+		this.cleanErrorFields();
+		
+		UserByUsername user = userDao.getUserByCredentials(username, password);
+		
+		if(user == null) {
+			this.setErrorOccurred(true);
+			this.setErrorMessage("Username or password not valid");
+			return false;
+		}
+		
+		return true;
+	}
 }

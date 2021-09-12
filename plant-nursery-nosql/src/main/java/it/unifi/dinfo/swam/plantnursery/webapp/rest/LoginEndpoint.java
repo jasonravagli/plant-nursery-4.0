@@ -29,4 +29,17 @@ public class LoginEndpoint {
 		
 		return Response.ok().build();
 	}
+	
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response login(UserByUsername user) {
+		userController.login(user.getUsername(), user.getPassword());
+		
+		if(userController.isErrorOccurred()) {
+			return Response.status(Status.UNAUTHORIZED).entity(userController.getErrorMessage()).build();
+		}
+		
+		return Response.ok().build();
+	}
 }
