@@ -7,8 +7,8 @@ import jakarta.nosql.mapping.Column;
 import jakarta.nosql.mapping.Entity;
 import jakarta.nosql.mapping.Id;
 
-@Entity("measuraments_by_gp")
-public class MeasuramentsByGrowthPlace extends BaseEntity {
+@Entity("measuraments_by_sensor")
+public class MeasuramentBySensor extends BaseEntity {
 	
 	@Id("meas_date")
 	private LocalDate measDate;
@@ -22,7 +22,7 @@ public class MeasuramentsByGrowthPlace extends BaseEntity {
 	@Column("type")
 	private String type;
 	
-	@Column("id_sensor")
+	@Id("id_sensor")
 	private UUID idSensor;
 	
 	@Column("id_plant")
@@ -31,7 +31,7 @@ public class MeasuramentsByGrowthPlace extends BaseEntity {
 	@Column("id_position")
 	private UUID idPosition;
 	
-	@Id("id_growth_place")
+	@Column("id_growth_place")
 	private UUID idGrowthPlace;
 
 	public LocalDate getMeasDate() {

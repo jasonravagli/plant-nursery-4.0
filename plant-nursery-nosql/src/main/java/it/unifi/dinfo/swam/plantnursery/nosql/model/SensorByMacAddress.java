@@ -5,11 +5,12 @@ import java.util.Set;
 
 import jakarta.nosql.mapping.Column;
 import jakarta.nosql.mapping.Entity;
+import jakarta.nosql.mapping.Id;
 
-@Entity("sensors_by_id")
-public class SensorsById extends BaseEntity{
+@Entity("sensors_by_mac_address")
+public class SensorByMacAddress extends BaseEntity{
 	
-	@Column("mac_address")
+	@Id("mac_address")
 	private String macAddress;
 	
 	@Column("company")

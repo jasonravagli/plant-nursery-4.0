@@ -9,7 +9,7 @@ import jakarta.nosql.mapping.Entity;
 import jakarta.nosql.mapping.Id;
 
 @Entity("sensors_by_company")
-public class SensorsByCompany extends BaseEntity{
+public class SensorByCompany extends BaseEntity{
 	
 	@Column("mac_address")
 	private String macAddress;

@@ -8,7 +8,7 @@ import jakarta.nosql.mapping.Entity;
 import jakarta.nosql.mapping.Id;
 
 @Entity("positions_by_gp")
-public class PositionsByGrowthPlace extends BaseEntity{
+public class PositionByGrowthPlace extends BaseEntity{
 	
 	@Column("row_index")
 	private int rowIndex;
