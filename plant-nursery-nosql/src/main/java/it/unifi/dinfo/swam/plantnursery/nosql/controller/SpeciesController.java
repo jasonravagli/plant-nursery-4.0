@@ -5,13 +5,13 @@ import java.util.UUID;
 
 import com.datastax.oss.driver.api.core.uuid.Uuids;
 
-import it.unifi.dinfo.swam.plantnursery.mapper.SpeciesByFilterMapper;
-import it.unifi.dinfo.swam.plantnursery.mapper.SpeciesByIdMapper;
 import it.unifi.dinfo.swam.plantnursery.nosql.dao.SpeciesByFilterDao;
 import it.unifi.dinfo.swam.plantnursery.nosql.dao.SpeciesByIdDao;
 import it.unifi.dinfo.swam.plantnursery.nosql.dto.PlantType;
 import it.unifi.dinfo.swam.plantnursery.nosql.dto.SpeciesBaseInfoDto;
 import it.unifi.dinfo.swam.plantnursery.nosql.dto.SpeciesDto;
+import it.unifi.dinfo.swam.plantnursery.nosql.mapper.SpeciesByFilterMapper;
+import it.unifi.dinfo.swam.plantnursery.nosql.mapper.SpeciesByIdMapper;
 import it.unifi.dinfo.swam.plantnursery.nosql.model.SpeciesByFilter;
 import it.unifi.dinfo.swam.plantnursery.nosql.model.SpeciesById;
 import jakarta.enterprise.context.RequestScoped;
@@ -50,8 +50,9 @@ public class SpeciesController extends BaseController {
 //			this.setErrorMessage("Cannot delete the species: there are plants belonging to it");
 //			return false;
 //		}
-//
-//		speciesDao.delete(species);
+
+		speciesByIdDao.delete(idSpecies);
+		speciesByFilterDao.delete(species.getType());
 		return true;
 	}
 
@@ -68,6 +69,10 @@ public class SpeciesController extends BaseController {
 		this.cleanErrorFields();
 
 		SpeciesById species = speciesByIdDao.findById(idSpecies);
+		
+		if(species == null)
+			return null;
+		
 		return speciesByIdMapper.toDto(species);
 	}
 

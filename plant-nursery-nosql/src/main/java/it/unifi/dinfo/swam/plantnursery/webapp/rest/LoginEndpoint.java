@@ -3,7 +3,9 @@ package it.unifi.dinfo.swam.plantnursery.webapp.rest;
 import it.unifi.dinfo.swam.plantnursery.nosql.controller.UserController;
 import it.unifi.dinfo.swam.plantnursery.nosql.model.UserByUsername;
 import jakarta.inject.Inject;
+import jakarta.websocket.server.PathParam;
 import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
@@ -17,11 +19,11 @@ public class LoginEndpoint {
 	@Inject
 	private UserController userController;
 	
-	@POST
-	@Consumes(MediaType.APPLICATION_JSON)
+	@GET
+	@Path("{user}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response findByUsername(UserByUsername user) {
-		userController.findByUsername(user.getUsername());
+	public Response findByUsername(@PathParam("user") String user) {
+		userController.findByUsername(user);
 		
 		if(userController.isErrorOccurred()) {
 			return Response.status(Status.UNAUTHORIZED).entity(userController.getErrorMessage()).build();
