@@ -1,5 +1,6 @@
 package it.unifi.dinfo.swam.plantnursery.nosql.dao;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -9,6 +10,7 @@ import java.util.stream.Stream;
 
 import it.unifi.dinfo.swam.plantnursery.nosql.model.PlantBySpecies;
 import jakarta.enterprise.context.Dependent;
+import jakarta.nosql.column.ColumnDeleteQuery;
 import jakarta.nosql.column.ColumnQuery;
 import jakarta.nosql.column.ColumnQuery.ColumnFrom;
 
@@ -31,17 +33,20 @@ public class PlantBySpeciesDao extends BaseDao<PlantBySpecies> {
 		return listPlants.collect(Collectors.toList());
 	}
 
-	public void delete(UUID idPlant) {
-			columnTemplate.delete(PlantBySpecies.class, idPlant);		
+	public void delete(UUID idSpecies, LocalDate plantingDate, UUID id) {
+		ColumnDeleteQuery deleteQuery = ColumnDeleteQuery.delete().from("plants_by_species").where("species_id")
+				.eq(idSpecies).and("planting_date").eq(plantingDate).and("id").eq(id).build();
+		columnTemplate.delete(deleteQuery);
 	}
 	
-	public PlantBySpecies findById(UUID id) {
-		Optional<PlantBySpecies> plants = columnTemplate.find(PlantBySpecies.class, id);
-		
+	public PlantBySpecies findById(UUID idSpecies, LocalDate plantingDate, UUID id) {
+		ColumnQuery query = ColumnQuery.select().from("plants_by_species").where("species_id")
+				.eq(idSpecies).and("planting_date").eq(plantingDate).and("id").eq(id).build();
+		Optional<PlantBySpecies> plants = columnTemplate.singleResult(query);
+
 		try {
 			return plants.get();
-		}
-		catch(NoSuchElementException e) {
+		} catch (NoSuchElementException e) {
 			return null;
 		}
 	}
