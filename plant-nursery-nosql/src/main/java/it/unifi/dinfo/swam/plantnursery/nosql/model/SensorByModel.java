@@ -1,6 +1,7 @@
 package it.unifi.dinfo.swam.plantnursery.nosql.model;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -9,7 +10,7 @@ import jakarta.nosql.mapping.Entity;
 import jakarta.nosql.mapping.Id;
 
 @Entity("sensors_by_model")
-public class SensorByModel extends BaseEntity{
+public class SensorByModel extends BaseEntity implements Sensor {
 	
 	@Column("mac_address")
 	private String macAddress;
@@ -37,9 +38,11 @@ public class SensorByModel extends BaseEntity{
 	
 	@Column("id_growth_place")
 	private UUID idGrowthPlace;
-
-	@Column("active")
-	private boolean active;
+	
+	public SensorByModel() {
+		measureTypes = new HashSet<String>();
+		faultPeriods = new HashSet<String>();
+	}
 
 	public String getMacAddress() {
 		return macAddress;
@@ -112,14 +115,4 @@ public class SensorByModel extends BaseEntity{
 	public void setIdGrowthPlace(UUID idGrowthPlace) {
 		this.idGrowthPlace = idGrowthPlace;
 	}
-	
-	public boolean isActive() {
-		return active;
-	}
-
-	public void setActive(boolean active) {
-		this.active = active;
-	}
-
-
 }

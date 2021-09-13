@@ -13,7 +13,8 @@ CREATE TABLE species_by_id (
 CREATE TABLE species_by_filter(
    id timeuuid,
    name text,
-   type text PRIMARY KEY
+   type text,
+   PRIMARY KEY(type, id)
 );
 CREATE CUSTOM INDEX sp_name_prefix ON species_by_filter(name) USING 'org.apache.cassandra.index.sasi.SASIIndex';
 
@@ -74,10 +75,6 @@ CREATE CUSTOM INDEX gp_name_prefix ON growth_places_by_id(name) USING 'org.apach
 
 
 ------------- SENSORS -------------
-CREATE TYPE fault_period (
-    start_date date,
-    end_date date
-);
 CREATE TABLE sensors_by_id(
    id timeuuid PRIMARY KEY,
    mac_address text,
@@ -112,8 +109,7 @@ CREATE TABLE sensors_by_gp(
    measure_types set<text>,
    fault_periods set<text>,
    id_growth_place timeuuid,
-   active boolean,
-   PRIMARY KEY(id_growth_place, id)
+   PRIMARY KEY(id_growth_place, company, model, id)
 );
 CREATE TABLE sensors_by_company(
    id timeuuid,
@@ -126,8 +122,7 @@ CREATE TABLE sensors_by_company(
    measure_types set<text>,
    fault_periods set<text>,
    id_growth_place timeuuid,
-   active boolean,
-   PRIMARY KEY(company, id)
+   PRIMARY KEY(company, model, id)
 );
 CREATE TABLE sensors_by_model(
    id timeuuid,
@@ -140,7 +135,6 @@ CREATE TABLE sensors_by_model(
    measure_types set<text>,
    fault_periods set<text>,
    id_growth_place timeuuid,
-   active boolean,
    PRIMARY KEY(model, id)
 );
 

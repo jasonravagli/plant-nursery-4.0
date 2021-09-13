@@ -18,6 +18,10 @@ public class GrowthPlaceByIdDao extends BaseDao<GrowthPlaceById> {
 		columnTemplate.delete(GrowthPlaceById.class, id);
 	}
 	
+	public void update(GrowthPlaceById sensor) {
+		columnTemplate.update(sensor);
+	}
+	
 	public GrowthPlaceById findById(UUID id) {
 		Optional<GrowthPlaceById> species = columnTemplate.find(GrowthPlaceById.class, id);
 

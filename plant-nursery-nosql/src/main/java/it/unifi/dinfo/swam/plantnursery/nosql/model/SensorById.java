@@ -1,13 +1,15 @@
 package it.unifi.dinfo.swam.plantnursery.nosql.model;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 import jakarta.nosql.mapping.Column;
 import jakarta.nosql.mapping.Entity;
 
 @Entity("sensors_by_id")
-public class SensorById extends BaseEntity{
+public class SensorById extends BaseEntity implements Sensor {
 	
 	@Column("mac_address")
 	private String macAddress;
@@ -32,6 +34,14 @@ public class SensorById extends BaseEntity{
 	
 	@Column("fault_periods")
 	private Set<String> faultPeriods;
+	
+	@Column("id_growth_place")
+	private UUID idGrowthPlace;
+	
+	public SensorById() {
+		measureTypes = new HashSet<String>();
+		faultPeriods = new HashSet<String>();
+	}
 
 	public String getMacAddress() {
 		return macAddress;
@@ -95,6 +105,14 @@ public class SensorById extends BaseEntity{
 
 	public void setFaultPeriods(Set<String> faultPeriods) {
 		this.faultPeriods = faultPeriods;
+	}
+
+	public UUID getIdGrowthPlace() {
+		return idGrowthPlace;
+	}
+
+	public void setIdGrowthPlace(UUID idGrowthPlace) {
+		this.idGrowthPlace = idGrowthPlace;
 	}
 	
 }
