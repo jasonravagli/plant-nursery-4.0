@@ -3,11 +3,11 @@ package it.unifi.dinfo.swam.plantnursery.nosql.mapper;
 import java.util.UUID;
 
 import it.unifi.dinfo.swam.plantnursery.nosql.dto.PlantDto;
-import it.unifi.dinfo.swam.plantnursery.nosql.model.PlantById;
+import it.unifi.dinfo.swam.plantnursery.nosql.model.Plant;
 
 public class PlantsMapper {
 	
-	public PlantDto toDto(PlantById entity) {
+	public PlantDto toDto(Plant entity) {
 		PlantDto dto = new PlantDto();
 		dto.setId(entity.getId());
 		dto.setGrowthPlaceId(entity.getIdGrowthPlace());
@@ -19,8 +19,8 @@ public class PlantsMapper {
 		return dto;
 	}
 
-	public <T extends PlantById> T toEntity(UUID id, PlantDto dto, Class<T> type) throws InstantiationException, IllegalAccessException {
-		PlantById entity = type.newInstance();
+	public <T extends Plant> T toEntity(UUID id, PlantDto dto, Class<T> type) throws InstantiationException, IllegalAccessException {
+		Plant entity = type.newInstance();
 		entity.setId(id);
 		entity.setIdGrowthPlace(dto.getGrowthPlaceId());
 		entity.setPlantingDate(dto.getPlantingDate());

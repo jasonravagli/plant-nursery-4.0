@@ -6,6 +6,8 @@ import java.util.UUID;
 
 import com.datastax.oss.driver.api.core.uuid.Uuids;
 
+import it.unifi.dinfo.swam.plantnursery.model.Measurement;
+import it.unifi.dinfo.swam.plantnursery.model.Position;
 import it.unifi.dinfo.swam.plantnursery.nosql.dao.PlantByGrowthPlaceDao;
 import it.unifi.dinfo.swam.plantnursery.nosql.dao.PlantByIdDao;
 import it.unifi.dinfo.swam.plantnursery.nosql.dao.PlantBySoldDao;
@@ -48,6 +50,16 @@ public class PlantsController extends BaseController {
 			this.setErrorMessage("The plant does not exists");
 			return false;
 		}
+		
+//		Position position = positionDao.getPositionByPlant(plant);
+//		if (position != null) {
+//			position.setPlant(null);
+//			positionDao.update(position);
+//		}
+//
+//		// Delete plant measures
+//		List<Measurement> plantMeasures = measurementDao.getFilteredMeasurements(plant, null, null, null, null);
+//		measurementDao.deleteAll(plantMeasures);
 
 		plantByIdDao.delete(plant.getId());
 		plantByGrowthPlaceDao.delete(plant.getIdGrowthPlace(), plant.getPlantingDate(), plant.getId());
@@ -124,11 +136,11 @@ public class PlantsController extends BaseController {
 		plantByIdDao.update(plantId);
 		
 		
-		PlantBySold plantSold = plantBySoldDao.findById(idPlant);
-		PlantBySpecies plantSpecies = plantBySpeciesDao.findById(idPlant);
-		PlantByGrowthPlace plantGP = plantByGrowthPlaceDao.findById(idPlant);
-		plantBySoldDao.update(plantSold);
-		plantBySpeciesDao.update(plantSpecies);
+//		PlantBySold plantSold = plantBySoldDao.findById(idPlant);
+//		PlantBySpecies plantSpecies = plantBySpeciesDao.findById(idPlant);
+//		PlantByGrowthPlace plantGP = plantByGrowthPlaceDao.findById(idPlant);
+//		plantBySoldDao.update(plantSold);
+//		plantBySpeciesDao.update(plantSpecies);
 		
 		return true;
 	}
