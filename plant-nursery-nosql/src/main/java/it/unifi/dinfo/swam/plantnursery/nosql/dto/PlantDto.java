@@ -3,7 +3,7 @@ package it.unifi.dinfo.swam.plantnursery.nosql.dto;
 import java.time.LocalDate;
 import java.util.UUID;
 
-public class PlantsDto extends BaseDto{
+public class PlantDto extends BaseDto{
 	
 	private UUID id;
 	private LocalDate plantingDate;

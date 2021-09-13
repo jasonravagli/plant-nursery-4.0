@@ -20,4 +20,8 @@ public class PlantByIdDao extends BaseDao<PlantById> {
 			return null;
 		}
 	}
+
+	public void delete(UUID id) {
+		columnTemplate.delete(PlantById.class, id);
+	}
 }
