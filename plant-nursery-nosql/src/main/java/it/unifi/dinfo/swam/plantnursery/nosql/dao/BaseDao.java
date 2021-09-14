@@ -12,8 +12,4 @@ public abstract class BaseDao<T extends BaseEntity> {
 	public void save(T species) {
         columnTemplate.insert(species);
     }
-    
-    public void update(T species) {
-        columnTemplate.update(species);
-    }
 }

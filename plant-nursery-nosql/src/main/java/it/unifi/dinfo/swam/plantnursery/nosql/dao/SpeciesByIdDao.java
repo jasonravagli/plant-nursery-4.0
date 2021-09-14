@@ -14,6 +14,10 @@ public class SpeciesByIdDao extends BaseDao<SpeciesById> {
 		columnTemplate.delete(SpeciesById.class, id);
 	}
 	
+	public void update(SpeciesById species) {
+		columnTemplate.update(species);
+	}
+	
 	public SpeciesById findById(UUID id) {
 		Optional<SpeciesById> species = columnTemplate.find(SpeciesById.class, id);
 		

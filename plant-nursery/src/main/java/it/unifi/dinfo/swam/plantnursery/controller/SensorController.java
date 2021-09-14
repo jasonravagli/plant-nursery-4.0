@@ -64,8 +64,7 @@ public class SensorController extends BaseController {
 		return sensorDao.findById(id);
 	}
 
-	public List<Sensor> getFilteredSensors(Long idGrowthPlace, String company, String model, String macAddress,
-			Boolean active) {
+	public List<Sensor> getFilteredSensors(Long idGrowthPlace, String company, String model, String macAddress) {
 		this.cleanErrorFields();
 
 		GrowthPlace growthPlace = null;
@@ -79,7 +78,7 @@ public class SensorController extends BaseController {
 			}
 		}
 
-		return sensorDao.getFilteredSensors(growthPlace, company, model, macAddress, active);
+		return sensorDao.getFilteredSensors(growthPlace, company, model, macAddress, null);
 	}
 
 	public boolean saveSensor(Sensor sensor) {
@@ -145,7 +144,7 @@ public class SensorController extends BaseController {
 
 		// Check if there is already another sensor with the same MAC address
 		Sensor sameAddressSensor = sensorDao.getSensorByMacAddress(sensor.getMacAddress());
-		if (sameAddressSensor != null) {
+		if (sameAddressSensor != null && !sensorToUpdate.equals(sameAddressSensor)) {
 			this.setErrorOccurred(true);
 			this.setErrorMessage("A sensor with the same MAC address already exists");
 			return false;

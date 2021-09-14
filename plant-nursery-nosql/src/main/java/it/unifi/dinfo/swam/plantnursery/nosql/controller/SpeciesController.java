@@ -52,7 +52,7 @@ public class SpeciesController extends BaseController {
 //		}
 
 		speciesByIdDao.delete(idSpecies);
-		speciesByFilterDao.delete(species.getType());
+		speciesByFilterDao.delete(species.getType(), species.getId());
 		return true;
 	}
 
@@ -130,8 +130,9 @@ public class SpeciesController extends BaseController {
 		SpeciesById updatedSpeciesById = speciesByIdMapper.toEntity(idSpecies, speciesDto);
 		speciesByIdDao.update(updatedSpeciesById);
 		
+		
 		SpeciesByFilter updatedSpeciesByFilter = speciesByFilterMapper.toEntity(idSpecies, speciesDto);
-		speciesByFilterDao.update(updatedSpeciesByFilter);
+		speciesByFilterDao.update(speciesToUpdate, updatedSpeciesByFilter);
 		
 		return true;
 	}

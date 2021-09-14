@@ -40,9 +40,8 @@ public class SensorEndpoint {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getSensors(@QueryParam("id-gp") Long idGrowthPlace, @QueryParam("company") String company,
-			@QueryParam("model") String model, @QueryParam("mac-address") String macAddress,
-			@QueryParam("active") Boolean active) {
-		List<Sensor> sensors = sensorController.getFilteredSensors(idGrowthPlace, company, model, macAddress, active);
+			@QueryParam("model") String model, @QueryParam("mac-address") String macAddress) {
+		List<Sensor> sensors = sensorController.getFilteredSensors(idGrowthPlace, company, model, macAddress);
 
 		if (sensorController.isErrorOccurred()) {
 			return Response.status(Status.BAD_REQUEST).entity(sensorController.getErrorMessage()).build();
