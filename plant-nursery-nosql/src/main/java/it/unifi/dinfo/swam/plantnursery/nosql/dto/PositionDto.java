@@ -13,6 +13,7 @@ public class PositionDto extends BaseDto{
 	private UUID idPlant;
 	private Set<UUID> idSensors;
 	private boolean free;
+	
 	public UUID getId() {
 		return id;
 	}
@@ -61,6 +62,5 @@ public class PositionDto extends BaseDto{
 	public void setFree(boolean free) {
 		this.free = free;
 	}
-
 	
 }
