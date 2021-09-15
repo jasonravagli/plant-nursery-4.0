@@ -1,4 +1,4 @@
-package it.unifi.dinfo.swam.plantnursery.nosql.dao;
+package it.unifi.dinfo.swam.plantnursery.nosql.dao.plant;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -6,8 +6,9 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import it.unifi.dinfo.swam.plantnursery.nosql.model.Plant;
-import it.unifi.dinfo.swam.plantnursery.nosql.model.PlantBySold;
+import it.unifi.dinfo.swam.plantnursery.nosql.dao.BaseDao;
+import it.unifi.dinfo.swam.plantnursery.nosql.model.plant.Plant;
+import it.unifi.dinfo.swam.plantnursery.nosql.model.plant.PlantBySold;
 import jakarta.enterprise.context.Dependent;
 import jakarta.nosql.column.ColumnDeleteQuery;
 import jakarta.nosql.column.ColumnQuery;

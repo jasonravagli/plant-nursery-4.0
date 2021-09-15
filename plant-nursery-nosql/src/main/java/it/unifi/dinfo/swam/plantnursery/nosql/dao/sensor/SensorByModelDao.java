@@ -1,12 +1,13 @@
-package it.unifi.dinfo.swam.plantnursery.nosql.dao;
+package it.unifi.dinfo.swam.plantnursery.nosql.dao.sensor;
 
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import it.unifi.dinfo.swam.plantnursery.nosql.model.Sensor;
-import it.unifi.dinfo.swam.plantnursery.nosql.model.SensorByModel;
+import it.unifi.dinfo.swam.plantnursery.nosql.dao.BaseDao;
+import it.unifi.dinfo.swam.plantnursery.nosql.model.sensor.Sensor;
+import it.unifi.dinfo.swam.plantnursery.nosql.model.sensor.SensorByModel;
 import jakarta.enterprise.context.Dependent;
 import jakarta.nosql.column.ColumnDeleteQuery;
 import jakarta.nosql.column.ColumnQuery;

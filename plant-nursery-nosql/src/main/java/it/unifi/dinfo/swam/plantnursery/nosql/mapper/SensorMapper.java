@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 import it.unifi.dinfo.swam.plantnursery.nosql.dto.FaultPeriodDto;
 import it.unifi.dinfo.swam.plantnursery.nosql.dto.MeasureType;
 import it.unifi.dinfo.swam.plantnursery.nosql.dto.SensorDto;
-import it.unifi.dinfo.swam.plantnursery.nosql.model.Sensor;
+import it.unifi.dinfo.swam.plantnursery.nosql.model.sensor.Sensor;
 import jakarta.enterprise.context.Dependent;
 import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;

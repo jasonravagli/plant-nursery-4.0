@@ -1,8 +1,9 @@
-package it.unifi.dinfo.swam.plantnursery.nosql.model;
+package it.unifi.dinfo.swam.plantnursery.nosql.model.plant;
 
 import java.time.LocalDate;
 import java.util.UUID;
 
+import it.unifi.dinfo.swam.plantnursery.nosql.model.BaseEntity;
 import jakarta.nosql.mapping.Column;
 import jakarta.nosql.mapping.Entity;
 import jakarta.nosql.mapping.Id;
@@ -13,13 +14,13 @@ public class PlantByGrowthPlace extends BaseEntity implements Plant {
 	@Id("planting_date")
 	private LocalDate plantingDate;
 	
-	@Id("sold")
+	@Column("sold")
 	private Boolean sold;
 	
 	@Column("sale_date")
 	private LocalDate saleDate;
 
-	@Id("species_id")
+	@Column("species_id")
 	private UUID SpeciesId;
 		
 	@Column("species_name")

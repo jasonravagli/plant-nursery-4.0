@@ -5,7 +5,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import it.unifi.dinfo.swam.plantnursery.nosql.dto.PlantDto;
-import it.unifi.dinfo.swam.plantnursery.nosql.model.Plant;
+import it.unifi.dinfo.swam.plantnursery.nosql.model.plant.Plant;
 import jakarta.enterprise.context.Dependent;
 
 @Dependent

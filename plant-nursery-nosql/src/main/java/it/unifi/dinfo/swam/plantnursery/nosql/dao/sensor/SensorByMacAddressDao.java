@@ -1,10 +1,11 @@
-package it.unifi.dinfo.swam.plantnursery.nosql.dao;
+package it.unifi.dinfo.swam.plantnursery.nosql.dao.sensor;
 
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-import it.unifi.dinfo.swam.plantnursery.nosql.model.Sensor;
-import it.unifi.dinfo.swam.plantnursery.nosql.model.SensorByMacAddress;
+import it.unifi.dinfo.swam.plantnursery.nosql.dao.BaseDao;
+import it.unifi.dinfo.swam.plantnursery.nosql.model.sensor.Sensor;
+import it.unifi.dinfo.swam.plantnursery.nosql.model.sensor.SensorByMacAddress;
 import jakarta.enterprise.context.Dependent;
 import jakarta.nosql.column.ColumnDeleteQuery;
 import jakarta.nosql.column.ColumnQuery;

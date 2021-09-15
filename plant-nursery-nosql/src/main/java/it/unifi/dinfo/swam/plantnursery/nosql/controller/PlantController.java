@@ -7,19 +7,21 @@ import java.util.UUID;
 import com.datastax.oss.driver.api.core.uuid.Uuids;
 
 import it.unifi.dinfo.swam.plantnursery.nosql.dao.GrowthPlaceByIdDao;
-import it.unifi.dinfo.swam.plantnursery.nosql.dao.PlantByGrowthPlaceDao;
-import it.unifi.dinfo.swam.plantnursery.nosql.dao.PlantByIdDao;
-import it.unifi.dinfo.swam.plantnursery.nosql.dao.PlantBySoldDao;
-import it.unifi.dinfo.swam.plantnursery.nosql.dao.PlantBySpeciesDao;
 import it.unifi.dinfo.swam.plantnursery.nosql.dao.SpeciesByIdDao;
+import it.unifi.dinfo.swam.plantnursery.nosql.dao.plant.PlantByFilterDao;
+import it.unifi.dinfo.swam.plantnursery.nosql.dao.plant.PlantByGrowthPlaceDao;
+import it.unifi.dinfo.swam.plantnursery.nosql.dao.plant.PlantByIdDao;
+import it.unifi.dinfo.swam.plantnursery.nosql.dao.plant.PlantBySoldDao;
+import it.unifi.dinfo.swam.plantnursery.nosql.dao.plant.PlantBySpeciesDao;
 import it.unifi.dinfo.swam.plantnursery.nosql.dto.PlantDto;
 import it.unifi.dinfo.swam.plantnursery.nosql.mapper.PlantMapper;
 import it.unifi.dinfo.swam.plantnursery.nosql.model.GrowthPlaceById;
-import it.unifi.dinfo.swam.plantnursery.nosql.model.PlantByGrowthPlace;
-import it.unifi.dinfo.swam.plantnursery.nosql.model.PlantById;
-import it.unifi.dinfo.swam.plantnursery.nosql.model.PlantBySold;
-import it.unifi.dinfo.swam.plantnursery.nosql.model.PlantBySpecies;
 import it.unifi.dinfo.swam.plantnursery.nosql.model.SpeciesById;
+import it.unifi.dinfo.swam.plantnursery.nosql.model.plant.PlantByFilter;
+import it.unifi.dinfo.swam.plantnursery.nosql.model.plant.PlantByGrowthPlace;
+import it.unifi.dinfo.swam.plantnursery.nosql.model.plant.PlantById;
+import it.unifi.dinfo.swam.plantnursery.nosql.model.plant.PlantBySold;
+import it.unifi.dinfo.swam.plantnursery.nosql.model.plant.PlantBySpecies;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 
@@ -37,6 +39,9 @@ public class PlantController extends BaseController {
 
 	@Inject
 	private PlantBySpeciesDao plantBySpeciesDao;
+
+	@Inject
+	private PlantByFilterDao plantByFilterDao;
 
 	@Inject
 	private GrowthPlaceByIdDao growthPlaceByIdDao;
@@ -70,10 +75,11 @@ public class PlantController extends BaseController {
 
 		plantByIdDao.delete(plant.getId());
 		plantBySoldDao.delete(plant.isSold(), plant.getPlantingDate(), plant.getId());
-		plantBySpeciesDao.delete(plant.getSpeciesId(), plant.getPlantingDate(), plant.isSold(), plant.getId());
+		plantBySpeciesDao.delete(plant.getSpeciesId(), plant.getPlantingDate(), plant.getId());
 
 		if (plant.getIdGrowthPlace() != null) {
 			plantByGrowthPlaceDao.delete(plant.getIdGrowthPlace(), plant.getPlantingDate(), plant.getId());
+			plantByFilterDao.delete(plant.getIdGrowthPlace(), plant.getSpeciesId(), plant.isSold(), plant.getPlantingDate(), plant.getId());
 		}
 		return true;
 	}
@@ -183,7 +189,11 @@ public class PlantController extends BaseController {
 			if (plantToUpdate.getIdGrowthPlace() != null) {
 				PlantByGrowthPlace plantByGrowthPlace = plantMapper.toEntity(idPlant, plantDto,
 						PlantByGrowthPlace.class);
+				PlantByFilter plantByFilter = plantMapper.toEntity(idPlant, plantDto,
+						PlantByFilter.class);
+				
 				plantByGrowthPlaceDao.update(plantToUpdate, plantByGrowthPlace);
+				plantByFilterDao.update(plantToUpdate, plantByFilter);
 			}
 		} catch (InstantiationException | IllegalAccessException e) {
 			e.printStackTrace();
@@ -222,8 +232,8 @@ public class PlantController extends BaseController {
 		if (idGrowthPlace != null) {
 			if (idSpecies != null) {
 				if (sold != null) {
-					List<PlantByGrowthPlace> plants = plantByGrowthPlaceDao
-							.getPlantsByGpAndSpeciesAndSold(idGrowthPlace, idSpecies, sold, dateStart, dateEnd);
+					List<PlantByFilter> plants = plantByFilterDao.getPlants(idGrowthPlace, idSpecies, sold,
+							dateStart, dateEnd);
 					return plantMapper.toDto(plants);
 				}
 

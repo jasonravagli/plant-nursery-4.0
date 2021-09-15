@@ -1,23 +1,25 @@
-package it.unifi.dinfo.swam.plantnursery.nosql.model;
+package it.unifi.dinfo.swam.plantnursery.nosql.model.sensor;
 
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
+import it.unifi.dinfo.swam.plantnursery.nosql.model.BaseEntity;
 import jakarta.nosql.mapping.Column;
 import jakarta.nosql.mapping.Entity;
+import jakarta.nosql.mapping.Id;
 
-@Entity("sensors_by_id")
-public class SensorById extends BaseEntity implements Sensor {
+@Entity("sensors_by_gp")
+public class SensorByGrowthPlace extends BaseEntity implements Sensor {
 	
 	@Column("mac_address")
 	private String macAddress;
 	
-	@Column("company")
+	@Id("company")
 	private String company;
 	
-	@Column("model")
+	@Id("model")
 	private String model;
 	
 	@Column("serial_number")
@@ -35,10 +37,10 @@ public class SensorById extends BaseEntity implements Sensor {
 	@Column("fault_periods")
 	private Set<String> faultPeriods;
 	
-	@Column("id_growth_place")
+	@Id("id_growth_place")
 	private UUID idGrowthPlace;
 	
-	public SensorById() {
+	public SensorByGrowthPlace() {
 		measureTypes = new HashSet<String>();
 		faultPeriods = new HashSet<String>();
 	}
@@ -106,7 +108,7 @@ public class SensorById extends BaseEntity implements Sensor {
 	public void setFaultPeriods(Set<String> faultPeriods) {
 		this.faultPeriods = faultPeriods;
 	}
-
+	
 	public UUID getIdGrowthPlace() {
 		return idGrowthPlace;
 	}
@@ -114,5 +116,4 @@ public class SensorById extends BaseEntity implements Sensor {
 	public void setIdGrowthPlace(UUID idGrowthPlace) {
 		this.idGrowthPlace = idGrowthPlace;
 	}
-	
 }

@@ -3,7 +3,6 @@ package it.unifi.dinfo.swam.plantnursery.webapp.rest;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
-
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import jakarta.inject.Inject;

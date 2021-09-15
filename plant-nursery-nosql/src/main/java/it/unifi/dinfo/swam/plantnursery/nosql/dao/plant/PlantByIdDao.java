@@ -1,4 +1,4 @@
-package it.unifi.dinfo.swam.plantnursery.nosql.dao;
+package it.unifi.dinfo.swam.plantnursery.nosql.dao.plant;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -7,7 +7,8 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import it.unifi.dinfo.swam.plantnursery.nosql.model.PlantById;
+import it.unifi.dinfo.swam.plantnursery.nosql.dao.BaseDao;
+import it.unifi.dinfo.swam.plantnursery.nosql.model.plant.PlantById;
 import jakarta.enterprise.context.Dependent;
 import jakarta.nosql.column.ColumnQuery;
 
