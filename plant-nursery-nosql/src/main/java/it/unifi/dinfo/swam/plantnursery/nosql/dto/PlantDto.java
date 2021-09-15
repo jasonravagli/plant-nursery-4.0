@@ -3,15 +3,27 @@ package it.unifi.dinfo.swam.plantnursery.nosql.dto;
 import java.time.LocalDate;
 import java.util.UUID;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+import it.unifi.dinfo.swam.plantnursery.utils.LocalDateJacksonDeserializer;
+import it.unifi.dinfo.swam.plantnursery.utils.LocalDateJacksonSerializer;
+
 public class PlantDto extends BaseDto{
 	
 	private UUID id;
-	private LocalDate plantingDate;
 	private boolean sold;
-	private LocalDate saleDate;
 	private UUID speciesId;
 	private String speciesName;
 	private UUID growthPlaceId;
+	
+	@JsonSerialize(using = LocalDateJacksonSerializer.class)
+	@JsonDeserialize(using = LocalDateJacksonDeserializer.class)
+	private LocalDate plantingDate;
+	
+	@JsonSerialize(using = LocalDateJacksonSerializer.class)
+	@JsonDeserialize(using = LocalDateJacksonDeserializer.class)
+	private LocalDate saleDate;
 	
 	public UUID getId() {
 		return id;

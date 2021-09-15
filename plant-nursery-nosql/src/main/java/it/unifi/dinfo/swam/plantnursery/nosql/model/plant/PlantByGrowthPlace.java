@@ -1,20 +1,21 @@
-package it.unifi.dinfo.swam.plantnursery.nosql.model;
+package it.unifi.dinfo.swam.plantnursery.nosql.model.plant;
 
 import java.time.LocalDate;
 import java.util.UUID;
 
+import it.unifi.dinfo.swam.plantnursery.nosql.model.BaseEntity;
 import jakarta.nosql.mapping.Column;
 import jakarta.nosql.mapping.Entity;
 import jakarta.nosql.mapping.Id;
 
 @Entity("plants_by_gp")
-public class PlantByGrowthPlace extends BaseEntity{
+public class PlantByGrowthPlace extends BaseEntity implements Plant {
 	
 	@Id("planting_date")
 	private LocalDate plantingDate;
 	
 	@Column("sold")
-	private boolean sold;
+	private Boolean sold;
 	
 	@Column("sale_date")
 	private LocalDate saleDate;
@@ -36,11 +37,11 @@ public class PlantByGrowthPlace extends BaseEntity{
 		this.plantingDate = plantingDate;
 	}
 
-	public boolean isSold() {
+	public Boolean isSold() {
 		return sold;
 	}
 
-	public void setSold(boolean sold) {
+	public void setSold(Boolean sold) {
 		this.sold = sold;
 	}
 

@@ -30,27 +30,27 @@ CREATE TABLE plants_by_id(
    id_growth_place timeuuid
 );
 CREATE TABLE plants_by_gp(
-   id timeuuid PRIMARY KEY,
+   id timeuuid,
    planting_date date,
    sold boolean,
    sale_date date,
    species_id timeuuid,
    species_name text,
    id_growth_place timeuuid,
-   PRIMARY KEY(id_growth_place, planting_date, id)
+   PRIMARY KEY(id_growth_place, species_id, sold, planting_date, id)
 );
 CREATE TABLE plants_by_species(
-   id timeuuid PRIMARY KEY,
+   id timeuuid,
    planting_date date,
    sold boolean,
    sale_date date,
    species_id timeuuid,
    species_name text,
    id_growth_place timeuuid,
-   PRIMARY KEY(species_id, planting_date, id)
+   PRIMARY KEY(species_id, sold, planting_date, id)
 );
 CREATE TABLE plants_by_sold(
-   id timeuuid PRIMARY KEY,
+   id timeuuid,
    planting_date date,
    sold boolean,
    sale_date date,

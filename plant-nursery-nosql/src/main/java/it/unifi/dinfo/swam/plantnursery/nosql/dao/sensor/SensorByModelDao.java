@@ -1,14 +1,13 @@
-package it.unifi.dinfo.swam.plantnursery.nosql.dao;
+package it.unifi.dinfo.swam.plantnursery.nosql.dao.sensor;
 
 import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import it.unifi.dinfo.swam.plantnursery.nosql.model.Sensor;
-import it.unifi.dinfo.swam.plantnursery.nosql.model.SensorByModel;
+import it.unifi.dinfo.swam.plantnursery.nosql.dao.BaseDao;
+import it.unifi.dinfo.swam.plantnursery.nosql.model.sensor.Sensor;
+import it.unifi.dinfo.swam.plantnursery.nosql.model.sensor.SensorByModel;
 import jakarta.enterprise.context.Dependent;
 import jakarta.nosql.column.ColumnDeleteQuery;
 import jakarta.nosql.column.ColumnQuery;
@@ -35,17 +34,5 @@ public class SensorByModelDao extends BaseDao<SensorByModel> {
 		Stream<SensorByModel> sensors = columnTemplate.select(query);
 
 		return sensors.collect(Collectors.toList());
-	}
-	
-	public SensorByModel getSensor(String model, UUID id) {
-		ColumnQuery query = ColumnQuery.select().from(TABLE_NAME).where("model").eq(model)
-				.and("id").eq(id).build();
-		Optional<SensorByModel> sensor = columnTemplate.singleResult(query);
-
-		try {
-			return sensor.get();
-		} catch (NoSuchElementException e) {
-			return null;
-		}
 	}
 }

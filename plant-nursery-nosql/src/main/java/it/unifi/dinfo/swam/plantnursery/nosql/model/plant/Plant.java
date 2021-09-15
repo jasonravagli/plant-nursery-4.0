@@ -1,4 +1,4 @@
-package it.unifi.dinfo.swam.plantnursery.nosql.model;
+package it.unifi.dinfo.swam.plantnursery.nosql.model.plant;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -13,9 +13,9 @@ public interface Plant {
 
 	public void setPlantingDate(LocalDate plantingDate);
 
-	public boolean isSold();
+	public Boolean isSold();
 
-	public void setSold(boolean sold);
+	public void setSold(Boolean sold);
 
 	public LocalDate getSaleDate();
 

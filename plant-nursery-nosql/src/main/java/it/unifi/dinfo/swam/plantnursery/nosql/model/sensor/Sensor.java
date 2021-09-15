@@ -1,4 +1,4 @@
-package it.unifi.dinfo.swam.plantnursery.nosql.model;
+package it.unifi.dinfo.swam.plantnursery.nosql.model.sensor;
 
 import java.time.LocalDate;
 import java.util.Set;

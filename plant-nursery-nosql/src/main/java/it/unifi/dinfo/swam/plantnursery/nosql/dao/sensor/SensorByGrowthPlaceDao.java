@@ -1,14 +1,13 @@
-package it.unifi.dinfo.swam.plantnursery.nosql.dao;
+package it.unifi.dinfo.swam.plantnursery.nosql.dao.sensor;
 
 import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import it.unifi.dinfo.swam.plantnursery.nosql.model.Sensor;
-import it.unifi.dinfo.swam.plantnursery.nosql.model.SensorByGrowthPlace;
+import it.unifi.dinfo.swam.plantnursery.nosql.dao.BaseDao;
+import it.unifi.dinfo.swam.plantnursery.nosql.model.sensor.Sensor;
+import it.unifi.dinfo.swam.plantnursery.nosql.model.sensor.SensorByGrowthPlace;
 import jakarta.enterprise.context.Dependent;
 import jakarta.nosql.column.ColumnDeleteQuery;
 import jakarta.nosql.column.ColumnQuery;
@@ -63,17 +62,5 @@ public class SensorByGrowthPlaceDao extends BaseDao<SensorByGrowthPlace> {
 		Stream<SensorByGrowthPlace> sensors = stat.getResult();
 
 		return sensors.collect(Collectors.toList());
-	}
-	
-	public SensorByGrowthPlace getSensor(UUID idGrowthPlace, String company, String model, UUID idSensor) {
-		ColumnQuery query = ColumnQuery.select().from(TABLE_NAME).where("growth_place")
-				.eq(idGrowthPlace).and("id").eq(idSensor).and("company").eq(company).and("model").eq(model).build();
-		Optional<SensorByGrowthPlace> species = columnTemplate.singleResult(query);
-
-		try {
-			return species.get();
-		} catch (NoSuchElementException e) {
-			return null;
-		}
 	}
 }
