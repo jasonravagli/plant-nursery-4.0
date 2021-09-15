@@ -152,6 +152,35 @@ CREATE TABLE positions_by_gp(
    PRIMARY KEY(growth_place_id, id)
 );
 
+CREATE INDEX free
+   ON positions_by_gp (free);
+
+CREATE TABLE positions_by_plant(
+   id timeuuid,
+   row_index int,
+   col_index int,
+   growth_place_id timeuuid,
+   growth_place_name text,
+   id_plant timeuuid,
+   id_sensor set<timeuuid>,
+   free boolean,
+   PRIMARY KEY(id_plant, id)
+);
+
+
+CREATE TABLE positions_by_sensor(
+   id timeuuid,
+   row_index int,
+   col_index int,
+   growth_place_id timeuuid,
+   growth_place_name text,
+   id_plant timeuuid,
+   id_sensor frozen<set<timeuuid>>,
+   free boolean,
+   PRIMARY KEY(id_sensor, id)
+);
+
+
 
 ------------- MEASUREMENTS -------------
 CREATE TABLE measurements_by_gp(
