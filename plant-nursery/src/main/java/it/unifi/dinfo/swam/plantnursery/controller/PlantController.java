@@ -80,7 +80,7 @@ public class PlantController extends BaseController {
 		}
 
 		Species species = null;
-		if (idGrowthPlace != null) {
+		if (idSpecies != null) {
 			species = speciesDao.findById(idSpecies);
 
 			if (species == null) {

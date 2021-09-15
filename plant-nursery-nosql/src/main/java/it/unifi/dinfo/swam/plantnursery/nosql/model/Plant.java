@@ -13,9 +13,9 @@ public interface Plant {
 
 	public void setPlantingDate(LocalDate plantingDate);
 
-	public boolean isSold();
+	public Boolean isSold();
 
-	public void setSold(boolean sold);
+	public void setSold(Boolean sold);
 
 	public LocalDate getSaleDate();
 

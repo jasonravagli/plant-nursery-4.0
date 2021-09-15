@@ -1,8 +1,6 @@
 package it.unifi.dinfo.swam.plantnursery.nosql.dao;
 
 import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -35,17 +33,5 @@ public class SensorByModelDao extends BaseDao<SensorByModel> {
 		Stream<SensorByModel> sensors = columnTemplate.select(query);
 
 		return sensors.collect(Collectors.toList());
-	}
-	
-	public SensorByModel getSensor(String model, UUID id) {
-		ColumnQuery query = ColumnQuery.select().from(TABLE_NAME).where("model").eq(model)
-				.and("id").eq(id).build();
-		Optional<SensorByModel> sensor = columnTemplate.singleResult(query);
-
-		try {
-			return sensor.get();
-		} catch (NoSuchElementException e) {
-			return null;
-		}
 	}
 }

@@ -1,11 +1,15 @@
 package it.unifi.dinfo.swam.plantnursery.nosql.mapper;
 
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import it.unifi.dinfo.swam.plantnursery.nosql.dto.PlantDto;
 import it.unifi.dinfo.swam.plantnursery.nosql.model.Plant;
+import jakarta.enterprise.context.Dependent;
 
-public class PlantsMapper {
+@Dependent
+public class PlantMapper {
 	
 	public PlantDto toDto(Plant entity) {
 		PlantDto dto = new PlantDto();
@@ -17,6 +21,10 @@ public class PlantsMapper {
 		dto.setSpeciesId(entity.getSpeciesId());
 		dto.setSpeciesName(entity.getSpeciesName());
 		return dto;
+	}
+	
+	public <T extends Plant> List<PlantDto> toDto(List<T> entities){
+		return entities.stream().map(this::toDto).collect(Collectors.toList());
 	}
 
 	public <T extends Plant> T toEntity(UUID id, PlantDto dto, Class<T> type) throws InstantiationException, IllegalAccessException {

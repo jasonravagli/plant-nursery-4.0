@@ -9,7 +9,7 @@ public abstract class BaseDao<T extends BaseEntity> {
 	@Inject
     protected ColumnTemplate columnTemplate;
 	
-	public void save(T species) {
-        columnTemplate.insert(species);
+	public void save(T entity) {
+        columnTemplate.insert(entity);
     }
 }

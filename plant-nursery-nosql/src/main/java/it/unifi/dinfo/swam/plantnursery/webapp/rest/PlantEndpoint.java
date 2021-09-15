@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
@@ -17,14 +19,15 @@ import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
-import it.unifi.dinfo.swam.plantnursery.nosql.controller.PlantsController;
+import it.unifi.dinfo.swam.plantnursery.nosql.controller.PlantController;
 import it.unifi.dinfo.swam.plantnursery.nosql.dto.PlantDto;
+import it.unifi.dinfo.swam.plantnursery.utils.LocalDateJacksonDeserializer;
 
 @Path("plants")
 public class PlantEndpoint {
 
 	@Inject
-	private PlantsController plantController;
+	private PlantController plantController;
 
 	@DELETE
 	@Path("{id}")
@@ -42,8 +45,9 @@ public class PlantEndpoint {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getPlants(@QueryParam("id-gp") UUID idGrowthPlace, @QueryParam("id-species") UUID idSpecies,
-			@QueryParam("sold") Boolean sold, @QueryParam("date-start") LocalDate dateStart,
-			@QueryParam("date-end") LocalDate dateEnd) {
+			@QueryParam("sold") Boolean sold,
+			@QueryParam("date-start") @JsonDeserialize(using = LocalDateJacksonDeserializer.class) LocalDate dateStart,
+			@QueryParam("date-end") @JsonDeserialize(using = LocalDateJacksonDeserializer.class) LocalDate dateEnd) {
 		List<PlantDto> plants = plantController.getFilteredPlants(idGrowthPlace, idSpecies, sold, dateStart, dateEnd);
 
 		if (plantController.isErrorOccurred()) {

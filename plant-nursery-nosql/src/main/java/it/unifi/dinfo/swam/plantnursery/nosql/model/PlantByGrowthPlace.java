@@ -8,18 +8,18 @@ import jakarta.nosql.mapping.Entity;
 import jakarta.nosql.mapping.Id;
 
 @Entity("plants_by_gp")
-public class PlantByGrowthPlace extends BaseEntity{
+public class PlantByGrowthPlace extends BaseEntity implements Plant {
 	
 	@Id("planting_date")
 	private LocalDate plantingDate;
 	
-	@Column("sold")
-	private boolean sold;
+	@Id("sold")
+	private Boolean sold;
 	
 	@Column("sale_date")
 	private LocalDate saleDate;
 
-	@Column("species_id")
+	@Id("species_id")
 	private UUID SpeciesId;
 		
 	@Column("species_name")
@@ -36,11 +36,11 @@ public class PlantByGrowthPlace extends BaseEntity{
 		this.plantingDate = plantingDate;
 	}
 
-	public boolean isSold() {
+	public Boolean isSold() {
 		return sold;
 	}
 
-	public void setSold(boolean sold) {
+	public void setSold(Boolean sold) {
 		this.sold = sold;
 	}
 
