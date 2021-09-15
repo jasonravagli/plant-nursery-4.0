@@ -37,7 +37,7 @@ CREATE TABLE plants_by_gp(
    species_id timeuuid,
    species_name text,
    id_growth_place timeuuid,
-   PRIMARY KEY(id_growth_place, species_id, sold, planting_date, id)
+   PRIMARY KEY(id_growth_place, planting_date, id)
 );
 CREATE TABLE plants_by_species(
    id timeuuid,
@@ -47,7 +47,7 @@ CREATE TABLE plants_by_species(
    species_id timeuuid,
    species_name text,
    id_growth_place timeuuid,
-   PRIMARY KEY(species_id, sold, planting_date, id)
+   PRIMARY KEY(species_id, planting_date, id)
 );
 CREATE TABLE plants_by_sold(
    id timeuuid,
@@ -59,6 +59,21 @@ CREATE TABLE plants_by_sold(
    id_growth_place timeuuid,
    PRIMARY KEY(sold, planting_date, id)
 );
+
+CREATE TABLE plants_by_filter(
+   id timeuuid,
+   planting_date date,
+   sold boolean,
+   sale_date date,
+   species_id timeuuid,
+   species_name text,
+   id_growth_place timeuuid,
+   PRIMARY KEY(id_growth_place, species_id, sold, planting_date, id)
+);
+
+CREATE INDEX ON plants_by_gp(sold);
+CREATE INDEX ON plants_by_gp(species_id);
+CREATE INDEX ON plants_by_species(sold);
 
 
 ------------- GROWTH PLACES -------------
@@ -151,35 +166,6 @@ CREATE TABLE positions_by_gp(
    free boolean,
    PRIMARY KEY(growth_place_id, id)
 );
-
-CREATE INDEX free
-   ON positions_by_gp (free);
-
-CREATE TABLE positions_by_plant(
-   id timeuuid,
-   row_index int,
-   col_index int,
-   growth_place_id timeuuid,
-   growth_place_name text,
-   id_plant timeuuid,
-   id_sensor set<timeuuid>,
-   free boolean,
-   PRIMARY KEY(id_plant, id)
-);
-
-
-CREATE TABLE positions_by_sensor(
-   id timeuuid,
-   row_index int,
-   col_index int,
-   growth_place_id timeuuid,
-   growth_place_name text,
-   id_plant timeuuid,
-   id_sensor frozen<set<timeuuid>>,
-   free boolean,
-   PRIMARY KEY(id_sensor, id)
-);
-
 
 
 ------------- MEASUREMENTS -------------
