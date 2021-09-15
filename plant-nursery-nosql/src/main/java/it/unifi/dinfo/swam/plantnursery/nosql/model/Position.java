@@ -36,5 +36,4 @@ public interface Position {
 	public boolean isFree();
 
 	public void setFree(boolean free);
-	
 }
