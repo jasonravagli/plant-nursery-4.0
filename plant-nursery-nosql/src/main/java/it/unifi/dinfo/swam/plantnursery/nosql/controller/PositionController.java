@@ -169,13 +169,20 @@ public class PositionController extends BaseController {
 			PositionByGrowthPlace positionByGrowthPlace = positionMapper.toEntity(idPosition, positionDto,
 					PositionByGrowthPlace.class);
 			PositionByPlant positionByPlant = positionMapper.toEntity(idPosition, positionDto, PositionByPlant.class);
-			PositionBySensor positionBySensor = positionMapper.toEntity(idPosition, positionDto,
-					PositionBySensor.class);
 
 			positionByIdDao.update(positionById);
 			positionByGrowthPlaceDao.update(positionToUpdate, positionByGrowthPlace);
 			positionByPlantDao.update(positionToUpdate, positionByPlant);
-			positionBySensorDao.update(positionToUpdate, positionBySensor);
+			
+			for(UUID oldIdSensor : positionToUpdate.getListSensors()) {
+				positionBySensorDao.delete(oldIdSensor, positionToUpdate.getId());
+			}
+			for(UUID newIdSensor : positionDto.getListSensors()) {
+				PositionBySensor positionBySensor = positionMapper.toEntity(positionToUpdate.getId(), positionDto,
+						PositionBySensor.class);
+				positionBySensor.setIdSensor(newIdSensor);
+				positionBySensorDao.save(positionBySensor);
+			}
 		} catch (InstantiationException | IllegalAccessException e) {
 			e.printStackTrace();
 			this.setErrorOccurred(true);

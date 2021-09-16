@@ -87,8 +87,8 @@ public class MeasuramentController extends BaseController {
 			return null;
 		}
 
-		List<MeasurementByGrowthPlace> listMeas = measurementByGrowthPlaceDao.getMeasurementsByGrowthPlace(growthPlace,
-				startDateTime, endDateTime);
+		List<MeasurementByGrowthPlace> listMeas = measurementByGrowthPlaceDao
+				.getMeasurementsByGrowthPlace(growthPlace.getId(), startDateTime, endDateTime);
 
 		double[] colValues = new double[listMeas.size()];
 		LocalDateTime[] colDate = new LocalDateTime[listMeas.size()];
@@ -134,7 +134,7 @@ public class MeasuramentController extends BaseController {
 			return null;
 		}
 
-		List<MeasurementByPlant> listMeas = measurementByPlantDao.getMeasurementsByPlant(plant, startDateTime,
+		List<MeasurementByPlant> listMeas = measurementByPlantDao.getMeasurementsByPlant(plant.getId(), startDateTime,
 				endDateTime);
 
 		double[] colValues = new double[listMeas.size()];

@@ -25,12 +25,23 @@ public class MeasurementBySensorDao extends BaseDao<MeasurementBySensor> {
 
 	public List<MeasurementBySensor> getMeasurementsBySensor(UUID idSensor, LocalDateTime startDateTime,
 			LocalDateTime endDateTime) {
+		
+		ColumnQuery query = null;
 
-		if (endDateTime.isBefore(startDateTime))
-			throw new IllegalArgumentException("endDateTime must be after startDateTime");
+		if (startDateTime != null || endDateTime != null) {
+			if (startDateTime == null)
+				startDateTime = LocalDateTime.of(1970, 1, 1, 0, 0);
+			if (endDateTime == null)
+				endDateTime = LocalDateTime.now().plusYears(10);
 
-		ColumnQuery query = ColumnQuery.select().from(TABLE_NAME).where("id_sensor").eq(idSensor).and("meas_date")
-				.gt(startDateTime).and("meas_date").lt(endDateTime).build();
+			if (endDateTime.isBefore(startDateTime))
+				throw new IllegalArgumentException("endDateTime must be after startDateTime");
+
+			query = ColumnQuery.select().from(TABLE_NAME).where("id_sensor").eq(idSensor).and("meas_date")
+					.gt(startDateTime).and("meas_date").lt(endDateTime).build();
+		}else {
+			query = ColumnQuery.select().from(TABLE_NAME).where("id_sensor").eq(idSensor).build();
+		}
 
 		Stream<MeasurementBySensor> measList = columnTemplate.select(query);
 

@@ -4,6 +4,8 @@ import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
@@ -17,6 +19,7 @@ import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
 import it.unifi.dinfo.swam.plantnursery.nosql.controller.MeasuramentController;
 import it.unifi.dinfo.swam.plantnursery.nosql.dto.MeasuramentDto;
+import it.unifi.dinfo.swam.plantnursery.utils.LocalDateTimeJacksonDeserializer;
 import it.unifi.dinfo.swam.plantnursery.utils.Utilities;
 import tech.tablesaw.api.Table;
 
@@ -30,14 +33,15 @@ public class MeasurementEndpoint {
 	@Path("growth-place/{id}")
 	@Produces(MediaType.TEXT_PLAIN)
 	public Response getMeasurementsByGrowthPlace(@PathParam("id") UUID idGrowthPlace,
-			@QueryParam("start-date") LocalDateTime startDateTime, @QueryParam("end-date") LocalDateTime endDateTime) {
+			@QueryParam("start-date") @JsonDeserialize(using = LocalDateTimeJacksonDeserializer.class) LocalDateTime startDateTime,
+			@QueryParam("end-date") @JsonDeserialize(using = LocalDateTimeJacksonDeserializer.class) LocalDateTime endDateTime) {
 		Table tableMeasures = measurementController.getMeasurementsByGrowthPlace(idGrowthPlace, startDateTime,
 				endDateTime);
 
 		if (measurementController.isErrorOccurred()) {
 			return Response.status(Status.BAD_REQUEST).entity(measurementController.getErrorMessage()).build();
 		}
-		
+
 		String outputString = null;
 		try {
 			outputString = Utilities.convertTableToCsvString(tableMeasures);
@@ -45,7 +49,7 @@ public class MeasurementEndpoint {
 			e.printStackTrace();
 			return Response.status(Status.INTERNAL_SERVER_ERROR).entity("Error writing csv result").build();
 		}
-		
+
 		return Response.ok().entity(outputString).build();
 	}
 
@@ -53,13 +57,14 @@ public class MeasurementEndpoint {
 	@Path("plant/{id}")
 	@Produces(MediaType.TEXT_PLAIN)
 	public Response getMeasurementsByPlant(@PathParam("id") UUID idPlant,
-			@QueryParam("start-date") LocalDateTime startDateTime, @QueryParam("end-date") LocalDateTime endDateTime) {
+			@QueryParam("start-date") @JsonDeserialize(using = LocalDateTimeJacksonDeserializer.class) LocalDateTime startDateTime,
+			@QueryParam("end-date") @JsonDeserialize(using = LocalDateTimeJacksonDeserializer.class) LocalDateTime endDateTime) {
 		Table tableMeasures = measurementController.getMeasurementsByPlant(idPlant, startDateTime, endDateTime);
 
 		if (measurementController.isErrorOccurred()) {
 			return Response.status(Status.BAD_REQUEST).entity(measurementController.getErrorMessage()).build();
 		}
-		
+
 		String outputString = null;
 		try {
 			outputString = Utilities.convertTableToCsvString(tableMeasures);
@@ -70,18 +75,19 @@ public class MeasurementEndpoint {
 
 		return Response.ok().entity(outputString).build();
 	}
-	
+
 	@GET
 	@Path("sensor/{id}")
 	@Produces(MediaType.TEXT_PLAIN)
 	public Response getMeasurementsBySensor(@PathParam("id") UUID idSensor,
-			@QueryParam("start-date") LocalDateTime startDateTime, @QueryParam("end-date") LocalDateTime endDateTime) {
+			@QueryParam("start-date") @JsonDeserialize(using = LocalDateTimeJacksonDeserializer.class) LocalDateTime startDateTime,
+			@QueryParam("end-date") @JsonDeserialize(using = LocalDateTimeJacksonDeserializer.class) LocalDateTime endDateTime) {
 		Table tableMeasures = measurementController.getMeasurementsBySensor(idSensor, startDateTime, endDateTime);
 
 		if (measurementController.isErrorOccurred()) {
 			return Response.status(Status.BAD_REQUEST).entity(measurementController.getErrorMessage()).build();
 		}
-		
+
 		String outputString = null;
 		try {
 			outputString = Utilities.convertTableToCsvString(tableMeasures);
@@ -92,7 +98,7 @@ public class MeasurementEndpoint {
 
 		return Response.ok().entity(outputString).build();
 	}
-	
+
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)

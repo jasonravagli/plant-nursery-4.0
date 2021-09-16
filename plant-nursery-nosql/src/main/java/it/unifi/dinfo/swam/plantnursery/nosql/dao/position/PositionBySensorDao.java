@@ -6,7 +6,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import it.unifi.dinfo.swam.plantnursery.nosql.dao.BaseDao;
-import it.unifi.dinfo.swam.plantnursery.nosql.model.position.Position;
 import it.unifi.dinfo.swam.plantnursery.nosql.model.position.PositionBySensor;
 import jakarta.nosql.column.ColumnDeleteQuery;
 import jakarta.nosql.column.ColumnQuery;
@@ -19,11 +18,6 @@ public class PositionBySensorDao extends BaseDao<PositionBySensor> {
 		ColumnDeleteQuery deleteQuery = ColumnDeleteQuery.delete().from(TABLE_NAME).where("id_sensor").eq(idSensor)
 				.and("id").eq(idPosition).build();
 		columnTemplate.delete(deleteQuery);
-	}
-
-	public void update(Position oldPosition, PositionBySensor updatedPosition) {
-		delete(oldPosition.getIdPlant(), oldPosition.getId());
-		save(updatedPosition);
 	}
 
 	public List<PositionBySensor> getPositionsBySensor(UUID idSensor) {

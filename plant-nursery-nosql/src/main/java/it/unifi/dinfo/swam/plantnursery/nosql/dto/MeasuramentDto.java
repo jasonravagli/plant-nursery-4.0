@@ -3,10 +3,20 @@ package it.unifi.dinfo.swam.plantnursery.nosql.dto;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+import it.unifi.dinfo.swam.plantnursery.utils.LocalDateTimeJacksonDeserializer;
+import it.unifi.dinfo.swam.plantnursery.utils.LocalDateTimeJacksonSerializer;
+
 public class MeasuramentDto extends BaseDto{
 
 	private UUID id;
+	
+	@JsonSerialize(using = LocalDateTimeJacksonSerializer.class)
+	@JsonDeserialize(using = LocalDateTimeJacksonDeserializer.class)
 	private LocalDateTime measuramentDate;
+	
 	private float value;
 	private String unit;
 	private String type;

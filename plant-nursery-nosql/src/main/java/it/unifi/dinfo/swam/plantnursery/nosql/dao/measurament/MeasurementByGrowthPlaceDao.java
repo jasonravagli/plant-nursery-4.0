@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import it.unifi.dinfo.swam.plantnursery.nosql.dao.BaseDao;
-import it.unifi.dinfo.swam.plantnursery.nosql.model.GrowthPlaceById;
 import it.unifi.dinfo.swam.plantnursery.nosql.model.measurament.MeasurementByGrowthPlace;
 import jakarta.enterprise.context.Dependent;
 import jakarta.nosql.column.ColumnDeleteQuery;
@@ -24,14 +23,22 @@ public class MeasurementByGrowthPlaceDao extends BaseDao<MeasurementByGrowthPlac
 		columnTemplate.delete(deleteQuery);
 	}
 
-	public List<MeasurementByGrowthPlace> getMeasurementsByGrowthPlace(GrowthPlaceById growthPlace,
-			LocalDateTime startDateTime, LocalDateTime endDateTime) {
+	public List<MeasurementByGrowthPlace> getMeasurementsByGrowthPlace(UUID idGrowthPlace, LocalDateTime startDateTime,
+			LocalDateTime endDateTime) {
 
-		if (endDateTime.isBefore(startDateTime))
-			throw new IllegalArgumentException("endDateTime must be after startDateTime");
+		ColumnQuery query = null;
 
-		ColumnQuery query = ColumnQuery.select().from(TABLE_NAME).where("id_growth_place").eq(growthPlace)
-				.and("meas_date").gt(startDateTime).and("meas_date").lt(endDateTime).build();
+		if (startDateTime != null || endDateTime != null) {
+			if (startDateTime == null)
+				startDateTime = LocalDateTime.of(1970, 1, 1, 0, 0);
+			if (endDateTime == null)
+				endDateTime = LocalDateTime.now().plusYears(10);
+
+			query = ColumnQuery.select().from(TABLE_NAME).where("id_growth_place").eq(idGrowthPlace).and("meas_date")
+					.gt(startDateTime).and("meas_date").lt(endDateTime).build();
+		} else {
+			query = ColumnQuery.select().from(TABLE_NAME).where("id_growth_place").eq(idGrowthPlace).build();
+		}
 
 		Stream<MeasurementByGrowthPlace> measList = columnTemplate.select(query);
 

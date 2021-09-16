@@ -10,30 +10,38 @@ import jakarta.nosql.mapping.Id;
 
 @Entity("positions_by_sensor")
 public class PositionBySensor extends BaseEntity implements Position {
-	
+
 	@Id("id_sensor")
 	private UUID idSensor;
-	
+
 	@Column("row_index")
 	private int rowIndex;
-	
+
 	@Column("col_index")
 	private int columnIndex;
-	
+
 	@Column("growth_place_id")
 	private UUID growthPlaceId;
-	
+
 	@Column("growth_place_name")
 	private String growthPlaceName;
-	
+
 	@Column("id_plant")
 	private UUID idPlant;
-	
+
 	@Column("list_sensors")
 	private Set<UUID> listSensors;
-	
+
 	@Column("free")
 	private boolean free;
+
+	public UUID getIdSensor() {
+		return idSensor;
+	}
+
+	public void setIdSensor(UUID idSensor) {
+		this.idSensor = idSensor;
+	}
 
 	public int getRowIndex() {
 		return rowIndex;
