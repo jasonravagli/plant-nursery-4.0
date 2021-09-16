@@ -1,12 +1,12 @@
 package it.unifi.dinfo.swam.plantnursery.nosql.dto;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class MeasuramentDto extends BaseDto{
 
 	private UUID id;
-	private LocalDate measuramentDate;
+	private LocalDateTime measuramentDate;
 	private float value;
 	private String unit;
 	private String type;
@@ -21,10 +21,10 @@ public class MeasuramentDto extends BaseDto{
 	public void setId(UUID id) {
 		this.id = id;
 	}
-	public LocalDate getMeasuramentDate() {
+	public LocalDateTime getMeasuramentDate() {
 		return measuramentDate;
 	}
-	public void setMeasuramentDate(LocalDate measuramentDate) {
+	public void setMeasuramentDate(LocalDateTime measuramentDate) {
 		this.measuramentDate = measuramentDate;
 	}
 	public float getValue() {

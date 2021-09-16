@@ -1,6 +1,6 @@
-package it.unifi.dinfo.swam.plantnursery.nosql.model;
+package it.unifi.dinfo.swam.plantnursery.nosql.model.measurament;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public interface Measurament {
@@ -9,9 +9,9 @@ public interface Measurament {
 	
 	public void setId(UUID id);
 	
-	public LocalDate getMeasDate();
+	public LocalDateTime getMeasDate();
 
-	public void setMeasDate(LocalDate measDate);
+	public void setMeasDate(LocalDateTime measDate);
 	
 	public float getValue();
 

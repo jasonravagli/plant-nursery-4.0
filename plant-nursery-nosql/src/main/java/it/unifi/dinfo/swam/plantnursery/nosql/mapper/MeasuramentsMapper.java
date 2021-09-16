@@ -3,7 +3,7 @@ package it.unifi.dinfo.swam.plantnursery.nosql.mapper;
 import java.util.UUID;
 
 import it.unifi.dinfo.swam.plantnursery.nosql.dto.MeasuramentDto;
-import it.unifi.dinfo.swam.plantnursery.nosql.model.Measurament;
+import it.unifi.dinfo.swam.plantnursery.nosql.model.measurament.Measurament;
 
 public class MeasuramentsMapper {
 	

@@ -1,17 +1,18 @@
-package it.unifi.dinfo.swam.plantnursery.nosql.model;
+package it.unifi.dinfo.swam.plantnursery.nosql.model.measurament;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
+import it.unifi.dinfo.swam.plantnursery.nosql.model.BaseEntity;
 import jakarta.nosql.mapping.Column;
 import jakarta.nosql.mapping.Entity;
 import jakarta.nosql.mapping.Id;
 
-@Entity("measuraments_by_gp")
-public class MeasuramentByGrowthPlace extends BaseEntity {
+@Entity("measuraments_by_plant")
+public class MeasuramentByPlant  extends BaseEntity {
 	
 	@Id("meas_date")
-	private LocalDate measDate;
+	private LocalDateTime measDate;
 	
 	@Column("value")
 	private	float value;
@@ -25,20 +26,20 @@ public class MeasuramentByGrowthPlace extends BaseEntity {
 	@Column("id_sensor")
 	private UUID idSensor;
 	
-	@Column("id_plant")
+	@Id("id_plant")
 	private UUID idPlant;
 	
 	@Column("id_position")
 	private UUID idPosition;
 	
-	@Id("id_growth_place")
+	@Column("id_growth_place")
 	private UUID idGrowthPlace;
 
-	public LocalDate getMeasDate() {
+	public LocalDateTime getMeasDate() {
 		return measDate;
 	}
 
-	public void setMeasDate(LocalDate measDate) {
+	public void setMeasDate(LocalDateTime measDate) {
 		this.measDate = measDate;
 	}
 
