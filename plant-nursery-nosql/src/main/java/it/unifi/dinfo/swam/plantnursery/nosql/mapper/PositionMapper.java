@@ -9,7 +9,7 @@ import it.unifi.dinfo.swam.plantnursery.nosql.model.position.Position;
 import jakarta.enterprise.context.Dependent;
 
 @Dependent
-public class PositionsMapper {
+public class PositionMapper {
 	
 	public PositionDto toDto(Position entity) {
 		PositionDto dto = new PositionDto();
@@ -20,7 +20,7 @@ public class PositionsMapper {
 		dto.setGrowthPlaceName(entity.getGrowthPlaceName());
 		dto.setIdGrowthPlace(entity.getGrowthPlaceId());
 		dto.setIdPlant(entity.getIdPlant());
-		dto.setIdSensors(entity.getIdSensors());
+		dto.setListSensors(entity.getListSensors());
 		
 		return dto;
 	}
@@ -38,7 +38,7 @@ public class PositionsMapper {
 		entity.setGrowthPlaceId(dto.getIdGrowthPlace());
 		entity.setGrowthPlaceName(dto.getGrowthPlaceName());
 		entity.setIdPlant(dto.getIdPlant());
-		entity.setIdSensors(dto.getIdSensors());
+		entity.setListSensors(dto.getListSensors());
 		
 		return type.cast(entity);
 	}

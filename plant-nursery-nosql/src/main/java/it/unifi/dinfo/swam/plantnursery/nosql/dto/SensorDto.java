@@ -30,6 +30,8 @@ public class SensorDto {
 	private Set<MeasureType> measureTypes;
 	private Set<FaultPeriodDto> faultPeriods;
 	
+	private UUID idGrowthPlace;
+	
 	public SensorDto() {
 		measureTypes = new HashSet<MeasureType>();
 		faultPeriods = new HashSet<FaultPeriodDto>();
@@ -105,5 +107,13 @@ public class SensorDto {
 
 	public void setFaultPeriods(Set<FaultPeriodDto> faultPeriods) {
 		this.faultPeriods = faultPeriods;
+	}
+
+	public UUID getIdGrowthPlace() {
+		return idGrowthPlace;
+	}
+
+	public void setIdGrowthPlace(UUID idGrowthPlace) {
+		this.idGrowthPlace = idGrowthPlace;
 	}
 }

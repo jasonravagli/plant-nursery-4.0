@@ -99,7 +99,8 @@ CREATE TABLE sensors_by_id(
    installation_date date,
    disposal_date date,
    measure_types set<text>,
-   fault_periods set<text>
+   fault_periods set<text>,
+   id_growth_place timeuuid
 );
 CREATE TABLE sensors_by_mac_address(
    id timeuuid,
@@ -111,6 +112,7 @@ CREATE TABLE sensors_by_mac_address(
    disposal_date date,
    measure_types set<text>,
    fault_periods set<text>,
+   id_growth_place timeuuid,
    PRIMARY KEY(mac_address, id)
 );
 CREATE TABLE sensors_by_gp(
@@ -162,7 +164,7 @@ CREATE TABLE positions_by_id(
    growth_place_id timeuuid,
    growth_place_name text,
    id_plant timeuuid,
-   id_sensor set<timeuuid>,
+   list_sensors set<timeuuid>,
    free boolean
 );
 
@@ -173,19 +175,20 @@ CREATE TABLE positions_by_gp(
    growth_place_id timeuuid,
    growth_place_name text,
    id_plant timeuuid,
-   id_sensor set<timeuuid>,
+   list_sensors set<timeuuid>,
    free boolean,
    PRIMARY KEY((growth_place_id, free), id)
 );
 
 CREATE TABLE positions_by_sensor(
    id timeuuid,
+   id_sensor timeuuid,
    row_index int,
    col_index int,
    growth_place_id timeuuid,
    growth_place_name text,
    id_plant timeuuid,
-   id_sensor set<timeuuid>,
+   list_sensors set<timeuuid>,
    free boolean,
    PRIMARY KEY(id_sensor, id)
 );
@@ -197,7 +200,7 @@ CREATE TABLE positions_by_plant(
    growth_place_id timeuuid,
    growth_place_name text,
    id_plant timeuuid,
-   id_sensor set<timeuuid>,
+   list_sensors set<timeuuid>,
    free boolean,
    PRIMARY KEY(id_plant, id)
 );

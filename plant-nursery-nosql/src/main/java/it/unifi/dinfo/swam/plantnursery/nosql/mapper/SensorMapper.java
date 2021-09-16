@@ -25,6 +25,7 @@ public class SensorMapper {
 		dto.setMacAddress(entity.getMacAddress());
 		dto.setDisposalDate(entity.getDisposalDate());
 		dto.setInstallationDate(entity.getInstallationDate());
+		dto.setIdGrowthPlace(entity.getIdGrowthPlace());
 
 		Set<MeasureType> measureTypes = entity.getMeasureTypes().stream().map(t -> MeasureType.valueOf(t))
 				.collect(Collectors.toSet());
@@ -51,6 +52,7 @@ public class SensorMapper {
 		entity.setMacAddress(dto.getMacAddress());
 		entity.setInstallationDate(dto.getInstallationDate());
 		entity.setDisposalDate(dto.getDisposalDate());
+		entity.setIdGrowthPlace(dto.getIdGrowthPlace());
 
 		Set<String> measureTypes = dto.getMeasureTypes().stream().map(t -> t.toString()).collect(Collectors.toSet());
 		entity.setMeasureTypes(measureTypes);
