@@ -8,20 +8,20 @@ import java.util.UUID;
 import com.datastax.oss.driver.api.core.uuid.Uuids;
 
 import it.unifi.dinfo.swam.plantnursery.nosql.dao.GrowthPlaceByIdDao;
-import it.unifi.dinfo.swam.plantnursery.nosql.dao.measurament.MeasuramentByGrowthPlaceDao;
-import it.unifi.dinfo.swam.plantnursery.nosql.dao.measurament.MeasuramentByPlantDao;
-import it.unifi.dinfo.swam.plantnursery.nosql.dao.measurament.MeasuramentBySensorDao;
+import it.unifi.dinfo.swam.plantnursery.nosql.dao.measurament.MeasurementByGrowthPlaceDao;
+import it.unifi.dinfo.swam.plantnursery.nosql.dao.measurament.MeasurementByPlantDao;
+import it.unifi.dinfo.swam.plantnursery.nosql.dao.measurament.MeasurementBySensorDao;
 import it.unifi.dinfo.swam.plantnursery.nosql.dao.plant.PlantByIdDao;
 import it.unifi.dinfo.swam.plantnursery.nosql.dao.position.PositionByIdDao;
 import it.unifi.dinfo.swam.plantnursery.nosql.dao.position.PositionBySensorDao;
 import it.unifi.dinfo.swam.plantnursery.nosql.dao.sensor.SensorByIdDao;
 import it.unifi.dinfo.swam.plantnursery.nosql.dto.MeasuramentDto;
 import it.unifi.dinfo.swam.plantnursery.nosql.dto.MeasureType;
-import it.unifi.dinfo.swam.plantnursery.nosql.mapper.MeasuramentsMapper;
+import it.unifi.dinfo.swam.plantnursery.nosql.mapper.MeasuramentMapper;
 import it.unifi.dinfo.swam.plantnursery.nosql.model.GrowthPlaceById;
-import it.unifi.dinfo.swam.plantnursery.nosql.model.measurament.MeasuramentByGrowthPlace;
-import it.unifi.dinfo.swam.plantnursery.nosql.model.measurament.MeasuramentByPlant;
-import it.unifi.dinfo.swam.plantnursery.nosql.model.measurament.MeasuramentBySensor;
+import it.unifi.dinfo.swam.plantnursery.nosql.model.measurament.MeasurementByGrowthPlace;
+import it.unifi.dinfo.swam.plantnursery.nosql.model.measurament.MeasurementByPlant;
+import it.unifi.dinfo.swam.plantnursery.nosql.model.measurament.MeasurementBySensor;
 import it.unifi.dinfo.swam.plantnursery.nosql.model.plant.PlantById;
 import it.unifi.dinfo.swam.plantnursery.nosql.model.position.PositionBySensor;
 import it.unifi.dinfo.swam.plantnursery.nosql.model.sensor.SensorById;
@@ -40,13 +40,13 @@ public class MeasuramentController extends BaseController {
 	private GrowthPlaceByIdDao growthPlaceByIdDao;
 
 	@Inject
-	private MeasuramentByGrowthPlaceDao measurementByGrowthPlaceDao;
+	private MeasurementByGrowthPlaceDao measurementByGrowthPlaceDao;
 
 	@Inject
-	private MeasuramentByPlantDao measurementByPlantDao;
+	private MeasurementByPlantDao measurementByPlantDao;
 
 	@Inject
-	private MeasuramentBySensorDao measurementBySensorDao;
+	private MeasurementBySensorDao measurementBySensorDao;
 
 	@Inject
 	private PlantByIdDao plantByIdDao;
@@ -61,7 +61,7 @@ public class MeasuramentController extends BaseController {
 	private SensorByIdDao sensorByIdDao;
 
 	@Inject
-	private MeasuramentsMapper measurementsMapper;
+	private MeasuramentMapper measurementsMapper;
 
 	public Table getMeasurementsByGrowthPlace(UUID idGrowthPlace, LocalDateTime startDateTime,
 			LocalDateTime endDateTime) {
@@ -87,7 +87,7 @@ public class MeasuramentController extends BaseController {
 			return null;
 		}
 
-		List<MeasuramentByGrowthPlace> listMeas = measurementByGrowthPlaceDao.getMeasurementsByGrowthPlace(growthPlace,
+		List<MeasurementByGrowthPlace> listMeas = measurementByGrowthPlaceDao.getMeasurementsByGrowthPlace(growthPlace,
 				startDateTime, endDateTime);
 
 		double[] colValues = new double[listMeas.size()];
@@ -134,7 +134,7 @@ public class MeasuramentController extends BaseController {
 			return null;
 		}
 
-		List<MeasuramentByPlant> listMeas = measurementByPlantDao.getMeasurementsByPlant(plant, startDateTime,
+		List<MeasurementByPlant> listMeas = measurementByPlantDao.getMeasurementsByPlant(plant, startDateTime,
 				endDateTime);
 
 		double[] colValues = new double[listMeas.size()];
@@ -176,8 +176,8 @@ public class MeasuramentController extends BaseController {
 			return null;
 		}
 
-		List<MeasuramentBySensor> listMeas = measurementBySensorDao.getMeasurementsBySensor(sensor, startDateTime,
-				endDateTime);
+		List<MeasurementBySensor> listMeas = measurementBySensorDao.getMeasurementsBySensor(sensor.getId(),
+				startDateTime, endDateTime);
 
 		double[] colValues = new double[listMeas.size()];
 		LocalDateTime[] colDate = new LocalDateTime[listMeas.size()];
@@ -228,12 +228,12 @@ public class MeasuramentController extends BaseController {
 			for (PositionBySensor pos : listPositions) {
 				UUID id = Uuids.timeBased();
 
-				MeasuramentByGrowthPlace measGP = measurementsMapper.toEntity(id, measDto, pos.getGrowthPlaceId(),
-						pos.getId(), pos.getIdPlant(), sensor.getId(), MeasuramentByGrowthPlace.class);
-				MeasuramentByPlant measPlant = measurementsMapper.toEntity(id, measDto, pos.getGrowthPlaceId(),
-						pos.getId(), pos.getIdPlant(), sensor.getId(), MeasuramentByPlant.class);
-				MeasuramentBySensor measSensor = measurementsMapper.toEntity(id, measDto, pos.getGrowthPlaceId(),
-						pos.getId(), pos.getIdPlant(), sensor.getId(), MeasuramentBySensor.class);
+				MeasurementByGrowthPlace measGP = measurementsMapper.toEntity(id, measDto, pos.getGrowthPlaceId(),
+						pos.getId(), pos.getIdPlant(), sensor.getId(), MeasurementByGrowthPlace.class);
+				MeasurementByPlant measPlant = measurementsMapper.toEntity(id, measDto, pos.getGrowthPlaceId(),
+						pos.getId(), pos.getIdPlant(), sensor.getId(), MeasurementByPlant.class);
+				MeasurementBySensor measSensor = measurementsMapper.toEntity(id, measDto, pos.getGrowthPlaceId(),
+						pos.getId(), pos.getIdPlant(), sensor.getId(), MeasurementBySensor.class);
 
 				measurementByGrowthPlaceDao.save(measGP);
 				measurementByPlantDao.save(measPlant);
