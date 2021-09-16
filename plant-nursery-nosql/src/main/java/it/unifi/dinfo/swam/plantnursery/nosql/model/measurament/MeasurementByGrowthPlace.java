@@ -8,8 +8,8 @@ import jakarta.nosql.mapping.Column;
 import jakarta.nosql.mapping.Entity;
 import jakarta.nosql.mapping.Id;
 
-@Entity("measuraments_by_gp")
-public class MeasuramentByGrowthPlace extends BaseEntity implements Measurament {
+@Entity("measurements_by_gp")
+public class MeasurementByGrowthPlace extends BaseEntity implements Measurement {
 	
 	@Id("meas_date")
 	private LocalDateTime measDate;

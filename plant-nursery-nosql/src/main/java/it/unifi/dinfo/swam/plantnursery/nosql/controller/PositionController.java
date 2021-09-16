@@ -163,6 +163,8 @@ public class PositionController extends BaseController {
 		}
 
 		try {
+			positionDto.setFree(positionDto.getIdPlant() != null);
+			
 			PositionById positionById = positionMapper.toEntity(idPosition, positionDto, PositionById.class);
 			PositionByGrowthPlace positionByGrowthPlace = positionMapper.toEntity(idPosition, positionDto,
 					PositionByGrowthPlace.class);

@@ -3,7 +3,7 @@ package it.unifi.dinfo.swam.plantnursery.nosql.model.measurament;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-public interface Measurament {
+public interface Measurement {
 
 	public UUID getId();
 	
