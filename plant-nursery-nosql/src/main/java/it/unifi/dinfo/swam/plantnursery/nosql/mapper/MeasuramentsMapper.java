@@ -4,6 +4,8 @@ import java.util.UUID;
 
 import it.unifi.dinfo.swam.plantnursery.nosql.dto.MeasuramentDto;
 import it.unifi.dinfo.swam.plantnursery.nosql.model.measurament.Measurament;
+import it.unifi.dinfo.swam.plantnursery.nosql.model.position.PositionBySensor;
+import it.unifi.dinfo.swam.plantnursery.nosql.model.sensor.SensorById;
 
 public class MeasuramentsMapper {
 	
@@ -22,13 +24,14 @@ public class MeasuramentsMapper {
 		return dto;
 	}
 
-	public <T extends Measurament> T toEntity(UUID id, MeasuramentDto dto, Class<T> type) throws InstantiationException, IllegalAccessException {
+	public <T extends Measurament> T toEntity(UUID id, MeasuramentDto dto, Class<T> type,
+			PositionBySensor pos, SensorById sen) throws InstantiationException, IllegalAccessException {
 		Measurament entity = type.newInstance();
 		entity.setId(id);
 		entity.setIdGrowthPlace(dto.getIdGrowthPlace());
 		entity.setIdPlant(dto.getIdPlant());
-		entity.setIdPosition(dto.getIdPosition());
-		entity.setIdSensor(dto.getIdSensor());
+		entity.setIdPosition(pos.getId());
+		entity.setIdSensor(sen.getId());
 		entity.setMeasDate(dto.getMeasuramentDate());
 		entity.setType(dto.getType());
 		entity.setUnit(dto.getUnit());
@@ -36,4 +39,6 @@ public class MeasuramentsMapper {
 		
 		return type.cast(entity);
 	}
+
+	
 }

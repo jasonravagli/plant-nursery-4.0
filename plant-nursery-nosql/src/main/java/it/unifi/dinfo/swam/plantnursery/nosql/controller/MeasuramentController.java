@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import com.datastax.oss.driver.api.core.uuid.Uuids;
+
 import it.unifi.dinfo.swam.plantnursery.nosql.dao.GrowthPlaceByIdDao;
 import it.unifi.dinfo.swam.plantnursery.nosql.dao.measurament.MeasuramentByGrowthPlaceDao;
 import it.unifi.dinfo.swam.plantnursery.nosql.dao.measurament.MeasuramentByPlantDao;
@@ -228,11 +230,14 @@ public class MeasuramentController extends BaseController {
 		List<MeasuramentBySensor> listMeasSensor = new ArrayList<>();
 
 		for (PositionBySensor pos : listPositions) {
-			//TODOs
-			//CREARE LISTA UUID UNIVOCI
-			MeasuramentByGrowthPlace measGP = measurementsMapper.toEntity(measDto, pos, sensor); //FIXME!!!!!
-			MeasuramentByPlant measPlant = measurementsMapper.toEntity(measDto, pos, sensor); //FIXME!!!!!
-			MeasuramentBySensor measSensor = measurementsMapper.toEntity(measDto, pos, sensor); //FIXME!!!!!
+			UUID id = Uuids.timeBased();
+			
+			MeasuramentByGrowthPlace measGP = measurementsMapper.toEntity(id, measDto,
+					MeasuramentByGrowthPlace.class, pos, sensor);
+			MeasuramentByPlant measPlant = measurementsMapper.toEntity(id, measDto,
+					MeasuramentByPlant.class, pos, sensor); 
+			MeasuramentBySensor measSensor = measurementsMapper.toEntity(id, measDto,
+					MeasuramentBySensor.class, pos, sensor);
 
 			listMeasGP.add(measGP);
 			listMeasPlant.add(measPlant);
