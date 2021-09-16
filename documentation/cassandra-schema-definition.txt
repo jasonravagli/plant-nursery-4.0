@@ -206,7 +206,7 @@ CREATE TABLE positions_by_plant(
 ------------- MEASUREMENTS -------------
 CREATE TABLE measurements_by_gp(
    id timeuuid,
-   meas_date date,
+   meas_date timestamp,
    value float,
    unit text,
    type text,
@@ -218,7 +218,7 @@ CREATE TABLE measurements_by_gp(
 );
 CREATE TABLE measurements_by_plant(
    id timeuuid,
-   meas_date date,
+   meas_date timestamp,
    value float,
    unit text,
    type text,
@@ -230,7 +230,7 @@ CREATE TABLE measurements_by_plant(
 );
 CREATE TABLE measurements_by_sensor(
    id timeuuid,
-   meas_date date,
+   meas_date timestamp,
    value float,
    unit text,
    type text,
