@@ -25,8 +25,8 @@ public class PositionById extends BaseEntity implements Position {
 	@Column("id_plant")
 	private UUID idPlant;
 	
-	@Column("id_sensor")
-	private Set<UUID> idSensors;
+	@Column("list_sensors")
+	private Set<UUID> listSensors;
 	
 	@Column("free")
 	private boolean free;
@@ -71,12 +71,12 @@ public class PositionById extends BaseEntity implements Position {
 		this.idPlant = idPlant;
 	}
 
-	public Set<UUID> getIdSensors() {
-		return idSensors;
+	public Set<UUID> getListSensors() {
+		return listSensors;
 	}
 
-	public void setIdSensors(Set<UUID> idSensors) {
-		this.idSensors = idSensors;
+	public void setListSensors(Set<UUID> listSensors) {
+		this.listSensors = listSensors;
 	}
 
 	public boolean isFree() {

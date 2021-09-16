@@ -11,7 +11,7 @@ public class PositionDto extends BaseDto {
 	private UUID idGrowthPlace;
 	private String growthPlaceName;
 	private UUID idPlant;
-	private Set<UUID> idSensors;
+	private Set<UUID> listSensors;
 	private boolean free;
 
 	public UUID getId() {
@@ -62,12 +62,12 @@ public class PositionDto extends BaseDto {
 		this.idPlant = idPlant;
 	}
 
-	public Set<UUID> getIdSensors() {
-		return idSensors;
+	public Set<UUID> getListSensors() {
+		return listSensors;
 	}
 
-	public void setIdSensors(Set<UUID> idSensors) {
-		this.idSensors = idSensors;
+	public void setListSensors(Set<UUID> listSensors) {
+		this.listSensors = listSensors;
 	}
 
 	public boolean isFree() {

@@ -29,9 +29,9 @@ public interface Position {
 
 	public void setIdPlant(UUID idPlant);
 
-	public Set<UUID> getIdSensors();
+	public Set<UUID> getListSensors();
 
-	public void setIdSensors(Set<UUID> idSensors);
+	public void setListSensors(Set<UUID> idSensors);
 
 	public boolean isFree();
 
