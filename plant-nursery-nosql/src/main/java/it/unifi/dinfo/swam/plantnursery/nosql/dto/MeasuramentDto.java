@@ -11,9 +11,6 @@ public class MeasuramentDto extends BaseDto{
 	private String unit;
 	private String type;
 	private UUID idSensor;
-	private UUID idPlant;
-	private UUID idPosition;
-	private UUID idGrowthPlace;
 	
 	public UUID getId() {
 		return id;
@@ -51,24 +48,4 @@ public class MeasuramentDto extends BaseDto{
 	public void setIdSensor(UUID idSensor) {
 		this.idSensor = idSensor;
 	}
-	public UUID getIdPlant() {
-		return idPlant;
-	}
-	public void setIdPlant(UUID idPlant) {
-		this.idPlant = idPlant;
-	}
-	public UUID getIdPosition() {
-		return idPosition;
-	}
-	public void setIdPosition(UUID idPosition) {
-		this.idPosition = idPosition;
-	}
-	public UUID getIdGrowthPlace() {
-		return idGrowthPlace;
-	}
-	public void setIdGrowthPlace(UUID idGrowthPlace) {
-		this.idGrowthPlace = idGrowthPlace;
-	}
-	
-	
 }

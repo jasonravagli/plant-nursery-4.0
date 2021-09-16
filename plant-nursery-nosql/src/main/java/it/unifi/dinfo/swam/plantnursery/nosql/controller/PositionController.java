@@ -46,13 +46,13 @@ import jakarta.inject.Inject;
 
 @RequestScoped
 public class PositionController extends BaseController {
-	
+
 	@Inject
 	private GrowthPlaceByIdDao growthPlaceByIdDao;
 
 	@Inject
 	private PositionByIdDao positionByIdDao;
-	
+
 	@Inject
 	private PositionByPlantDao positionByPlantDao;
 
@@ -61,43 +61,43 @@ public class PositionController extends BaseController {
 
 	@Inject
 	private PositionBySensorDao positionBySensorDao;
-	
+
 	@Inject
 	private PlantByIdDao plantByIdDao;
-	
+
 	@Inject
 	private PlantByGrowthPlaceDao plantByGrowthPlaceDao;
-	
+
 	@Inject
 	private PlantByFilterDao plantByFilterDao;
-	
+
 	@Inject
 	private PlantBySoldDao plantBySoldDao;
-	
+
 	@Inject
 	private PlantBySpeciesDao plantBySpeciesDao;
-	
+
 	@Inject
 	private SensorByIdDao sensorByIdDao;
-	
+
 	@Inject
 	private SensorByCompanyDao sensorByCompanyDao;
-	
+
 	@Inject
 	private SensorByGrowthPlaceDao sensorByGrowthPlaceDao;
-	
+
 	@Inject
 	private SensorByMacAddressDao sensorByMacAddressDao;
-	
+
 	@Inject
 	private SensorByModelDao sensorByModelDao;
 
 	@Inject
 	private PlantMapper plantMapper;
-	
+
 	@Inject
 	private PositionMapper positionMapper;
-	
+
 	@Inject
 	private SensorMapper sensorMapper;
 
@@ -164,10 +164,12 @@ public class PositionController extends BaseController {
 
 		try {
 			PositionById positionById = positionMapper.toEntity(idPosition, positionDto, PositionById.class);
-			PositionByGrowthPlace positionByGrowthPlace = positionMapper.toEntity(idPosition, positionDto, PositionByGrowthPlace.class);
+			PositionByGrowthPlace positionByGrowthPlace = positionMapper.toEntity(idPosition, positionDto,
+					PositionByGrowthPlace.class);
 			PositionByPlant positionByPlant = positionMapper.toEntity(idPosition, positionDto, PositionByPlant.class);
-			PositionBySensor positionBySensor = positionMapper.toEntity(idPosition, positionDto, PositionBySensor.class);
-			
+			PositionBySensor positionBySensor = positionMapper.toEntity(idPosition, positionDto,
+					PositionBySensor.class);
+
 			positionByIdDao.update(positionById);
 			positionByGrowthPlaceDao.update(positionToUpdate, positionByGrowthPlace);
 			positionByPlantDao.update(positionToUpdate, positionByPlant);
@@ -178,15 +180,16 @@ public class PositionController extends BaseController {
 			this.setErrorMessage("An error occured during the conversion from entities to dtos");
 			return false;
 		}
-		
+
 		// Update sensors and plants records (add them to the growth place)
-		if(!positionToUpdate.getIdPlant().equals(positionDto.getIdPlant())) {
-			// If the old position contained a plant than the plant must be removed from the growth place
-			if(positionToUpdate.getIdPlant() != null) {
+		if (!positionToUpdate.getIdPlant().equals(positionDto.getIdPlant())) {
+			// If the old position contained a plant than the plant must be removed from the
+			// growth place
+			if (positionToUpdate.getIdPlant() != null) {
 				PlantById oldPlant = plantByIdDao.findById(positionToUpdate.getIdPlant());
 				PlantDto plantDto = plantMapper.toDto(oldPlant);
 				plantDto.setGrowthPlaceId(null);
-			
+
 				try {
 					updatePlantPosition(oldPlant, plantDto);
 				} catch (InstantiationException | IllegalAccessException e) {
@@ -196,13 +199,14 @@ public class PositionController extends BaseController {
 					return false;
 				}
 			}
-			
-			// If the new position contains a plant then the plant must be added to the growth place
-			if(positionDto.getIdPlant() != null) {
+
+			// If the new position contains a plant then the plant must be added to the
+			// growth place
+			if (positionDto.getIdPlant() != null) {
 				PlantById oldPlant = plantByIdDao.findById(positionDto.getIdPlant());
 				PlantDto plantDto = plantMapper.toDto(oldPlant);
 				plantDto.setGrowthPlaceId(positionDto.getIdGrowthPlace());
-			
+
 				try {
 					updatePlantPosition(oldPlant, plantDto);
 				} catch (InstantiationException | IllegalAccessException e) {
@@ -213,15 +217,16 @@ public class PositionController extends BaseController {
 				}
 			}
 		}
-		
-		if(!positionToUpdate.getListSensors().equals(positionDto.getIdPlant())) {
-			// If the old position contained some sensors than the sensors must be removed from the growth place
-			if(positionToUpdate.getListSensors().size() > 0) {
-				for(UUID idSensor : positionToUpdate.getListSensors()) {
+
+		if (!positionToUpdate.getListSensors().equals(positionDto.getIdPlant())) {
+			// If the old position contained some sensors than the sensors must be removed
+			// from the growth place
+			if (positionToUpdate.getListSensors().size() > 0) {
+				for (UUID idSensor : positionToUpdate.getListSensors()) {
 					SensorById oldSensor = sensorByIdDao.findById(idSensor);
 					SensorDto sensorDto = sensorMapper.toDto(oldSensor);
 					sensorDto.setIdGrowthPlace(null);
-				
+
 					try {
 						updateSensorPosition(oldSensor, sensorDto);
 					} catch (InstantiationException | IllegalAccessException e) {
@@ -232,37 +237,38 @@ public class PositionController extends BaseController {
 					}
 				}
 			}
-			
-			// If the new position contains some sensors then the sensors must be added to the growth place
-			if(positionDto.getListSensors().size() > 0) {
-				for(UUID idSensor : positionDto.getListSensors()) {
+
+			// If the new position contains some sensors then the sensors must be added to
+			// the growth place
+			if (positionDto.getListSensors().size() > 0) {
+				for (UUID idSensor : positionDto.getListSensors()) {
 					SensorById oldSensor = sensorByIdDao.findById(idSensor);
 					SensorDto sensorDto = sensorMapper.toDto(oldSensor);
 					sensorDto.setIdGrowthPlace(positionDto.getIdGrowthPlace());
-			
-				try {
-					updateSensorPosition(oldSensor, sensorDto);
-				} catch (InstantiationException | IllegalAccessException e) {
-					e.printStackTrace();
-					this.setErrorOccurred(true);
-					this.setErrorMessage("An error occured during the conversion from entities to dtos");
-					return false;
-				}
+
+					try {
+						updateSensorPosition(oldSensor, sensorDto);
+					} catch (InstantiationException | IllegalAccessException e) {
+						e.printStackTrace();
+						this.setErrorOccurred(true);
+						this.setErrorMessage("An error occured during the conversion from entities to dtos");
+						return false;
+					}
 				}
 			}
 		}
 
 		return true;
 	}
-	
-	private void updatePlantPosition(Plant oldPlant, PlantDto newPlantDto) throws InstantiationException, IllegalAccessException {
+
+	private void updatePlantPosition(Plant oldPlant, PlantDto newPlantDto)
+			throws InstantiationException, IllegalAccessException {
 		PlantById plantById = plantMapper.toEntity(oldPlant.getId(), newPlantDto, PlantById.class);
 		PlantBySpecies plantBySpecies = plantMapper.toEntity(oldPlant.getId(), newPlantDto, PlantBySpecies.class);
 		PlantBySold plantBySold = plantMapper.toEntity(oldPlant.getId(), newPlantDto, PlantBySold.class);
 		PlantByGrowthPlace plantByGrowthPlace = plantMapper.toEntity(oldPlant.getId(), newPlantDto,
 				PlantByGrowthPlace.class);
-		PlantByFilter plantByFilter = plantMapper.toEntity(oldPlant.getId(), newPlantDto,
-				PlantByFilter.class);
+		PlantByFilter plantByFilter = plantMapper.toEntity(oldPlant.getId(), newPlantDto, PlantByFilter.class);
 
 		plantByIdDao.update(plantById);
 		plantBySpeciesDao.update(oldPlant, plantBySpecies);
@@ -270,12 +276,15 @@ public class PositionController extends BaseController {
 		plantByGrowthPlaceDao.update(oldPlant, plantByGrowthPlace);
 		plantByFilterDao.update(oldPlant, plantByFilter);
 	}
-	
-	private void updateSensorPosition(Sensor oldSensor, SensorDto newSensorDto) throws InstantiationException, IllegalAccessException {
+
+	private void updateSensorPosition(Sensor oldSensor, SensorDto newSensorDto)
+			throws InstantiationException, IllegalAccessException {
 		SensorById sensorById = sensorMapper.toEntity(oldSensor.getId(), newSensorDto, SensorById.class);
 		SensorByCompany sensorByCompany = sensorMapper.toEntity(oldSensor.getId(), newSensorDto, SensorByCompany.class);
-		SensorByGrowthPlace sensorByGrowthPlace = sensorMapper.toEntity(oldSensor.getId(), newSensorDto, SensorByGrowthPlace.class);
-		SensorByMacAddress sensorByMacAddress = sensorMapper.toEntity(oldSensor.getId(), newSensorDto, SensorByMacAddress.class);
+		SensorByGrowthPlace sensorByGrowthPlace = sensorMapper.toEntity(oldSensor.getId(), newSensorDto,
+				SensorByGrowthPlace.class);
+		SensorByMacAddress sensorByMacAddress = sensorMapper.toEntity(oldSensor.getId(), newSensorDto,
+				SensorByMacAddress.class);
 		SensorByModel sensorByModel = sensorMapper.toEntity(oldSensor.getId(), newSensorDto, SensorByModel.class);
 
 		sensorByIdDao.update(sensorById);

@@ -9,7 +9,7 @@ import jakarta.nosql.mapping.Entity;
 import jakarta.nosql.mapping.Id;
 
 @Entity("measuraments_by_sensor")
-public class MeasuramentBySensor extends BaseEntity {
+public class MeasuramentBySensor extends BaseEntity implements Measurament {
 	
 	@Id("meas_date")
 	private LocalDateTime measDate;
