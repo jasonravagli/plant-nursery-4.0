@@ -155,6 +155,17 @@ CREATE TABLE sensors_by_model(
 
 
 ------------- POSITIONS -------------
+CREATE TABLE positions_by_id(
+   id timeuuid PRIMARY KEY,
+   row_index int,
+   col_index int,
+   growth_place_id timeuuid,
+   growth_place_name text,
+   id_plant timeuuid,
+   id_sensor set<timeuuid>,
+   free boolean
+);
+
 CREATE TABLE positions_by_gp(
    id timeuuid,
    row_index int,
@@ -164,10 +175,8 @@ CREATE TABLE positions_by_gp(
    id_plant timeuuid,
    id_sensor set<timeuuid>,
    free boolean,
-   PRIMARY KEY(growth_place_id, id)
+   PRIMARY KEY((growth_place_id, free), id)
 );
-
-CREATE INDEX ON positions_by_gp(free);
 
 CREATE TABLE positions_by_sensor(
    id timeuuid,

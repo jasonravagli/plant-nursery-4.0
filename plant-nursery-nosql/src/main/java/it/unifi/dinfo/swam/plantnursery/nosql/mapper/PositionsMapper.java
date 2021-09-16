@@ -5,7 +5,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import it.unifi.dinfo.swam.plantnursery.nosql.dto.PositionDto;
-import it.unifi.dinfo.swam.plantnursery.nosql.model.Position;
+import it.unifi.dinfo.swam.plantnursery.nosql.model.position.Position;
 import jakarta.enterprise.context.Dependent;
 
 @Dependent

@@ -1,4 +1,4 @@
-package it.unifi.dinfo.swam.plantnursery.nosql.model;
+package it.unifi.dinfo.swam.plantnursery.nosql.model.position;
 
 import java.util.Set;
 import java.util.UUID;

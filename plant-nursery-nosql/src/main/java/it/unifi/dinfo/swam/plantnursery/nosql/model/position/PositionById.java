@@ -1,26 +1,35 @@
-package it.unifi.dinfo.swam.plantnursery.nosql.dto;
+package it.unifi.dinfo.swam.plantnursery.nosql.model.position;
 
 import java.util.Set;
 import java.util.UUID;
 
-public class PositionDto extends BaseDto {
+import it.unifi.dinfo.swam.plantnursery.nosql.model.BaseEntity;
+import jakarta.nosql.mapping.Column;
+import jakarta.nosql.mapping.Entity;
 
-	private UUID id;
+@Entity("positions_by_id")
+public class PositionById extends BaseEntity implements Position {
+	
+	@Column("row_index")
 	private int rowIndex;
-	private int colIndex;
-	private UUID idGrowthPlace;
+	
+	@Column("col_index")
+	private int columnIndex;
+	
+	@Column("growth_place_id")
+	private UUID growthPlaceId;
+	
+	@Column("growth_place_name")
 	private String growthPlaceName;
+	
+	@Column("id_plant")
 	private UUID idPlant;
+	
+	@Column("id_sensor")
 	private Set<UUID> idSensors;
+	
+	@Column("free")
 	private boolean free;
-
-	public UUID getId() {
-		return id;
-	}
-
-	public void setId(UUID id) {
-		this.id = id;
-	}
 
 	public int getRowIndex() {
 		return rowIndex;
@@ -30,20 +39,20 @@ public class PositionDto extends BaseDto {
 		this.rowIndex = rowIndex;
 	}
 
-	public int getColIndex() {
-		return colIndex;
+	public int getColumnIndex() {
+		return columnIndex;
 	}
 
-	public void setColIndex(int colIndex) {
-		this.colIndex = colIndex;
+	public void setColumnIndex(int columnIndex) {
+		this.columnIndex = columnIndex;
 	}
 
-	public UUID getIdGrowthPlace() {
-		return idGrowthPlace;
+	public UUID getGrowthPlaceId() {
+		return growthPlaceId;
 	}
 
-	public void setIdGrowthPlace(UUID idGrowthPlace) {
-		this.idGrowthPlace = idGrowthPlace;
+	public void setGrowthPlaceId(UUID growthPlaceId) {
+		this.growthPlaceId = growthPlaceId;
 	}
 
 	public String getGrowthPlaceName() {

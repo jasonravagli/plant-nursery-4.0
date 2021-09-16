@@ -1,14 +1,15 @@
-package it.unifi.dinfo.swam.plantnursery.nosql.model;
+package it.unifi.dinfo.swam.plantnursery.nosql.model.position;
 
 import java.util.Set;
 import java.util.UUID;
 
+import it.unifi.dinfo.swam.plantnursery.nosql.model.BaseEntity;
 import jakarta.nosql.mapping.Column;
 import jakarta.nosql.mapping.Entity;
 import jakarta.nosql.mapping.Id;
 
-@Entity("positions_by_sensor")
-public class PositionBySensor extends BaseEntity{
+@Entity("positions_by_plant")
+public class PositionByPlant extends BaseEntity implements Position {
 	
 	@Column("row_index")
 	private int rowIndex;
@@ -22,10 +23,10 @@ public class PositionBySensor extends BaseEntity{
 	@Column("growth_place_name")
 	private String growthPlaceName;
 	
-	@Column("id_plant")
+	@Id("id_plant")
 	private UUID idPlant;
 	
-	@Id("id_sensor")
+	@Column("id_sensor")
 	private Set<UUID> idSensors;
 	
 	@Column("free")
