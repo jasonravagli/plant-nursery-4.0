@@ -6,6 +6,7 @@ import it.unifi.dinfo.swam.plantnursery.nosql.dao.BaseDao;
 import it.unifi.dinfo.swam.plantnursery.nosql.model.position.Position;
 import it.unifi.dinfo.swam.plantnursery.nosql.model.position.PositionByPlant;
 import jakarta.nosql.column.ColumnDeleteQuery;
+import jakarta.nosql.column.ColumnQuery;
 
 public class PositionByPlantDao extends BaseDao<PositionByPlant> {
 	
@@ -20,6 +21,14 @@ public class PositionByPlantDao extends BaseDao<PositionByPlant> {
 	public void update(Position oldPosition, PositionByPlant updatedPosition) {
 		delete(oldPosition.getIdPlant(), oldPosition.getId());
 		save(updatedPosition);
+	}
+
+	public PositionByPlant getPositionByPlant(UUID idPlant) {
+		ColumnQuery query = ColumnQuery.select().from(TABLE_NAME).where("id_plant")
+				.eq(idPlant).build();
+		PositionByPlant position = (PositionByPlant) columnTemplate.select(query);
+
+		return position;
 	}
 	
 }

@@ -8,13 +8,22 @@ import com.datastax.oss.driver.api.core.uuid.Uuids;
 
 import it.unifi.dinfo.swam.plantnursery.nosql.dao.GrowthPlaceByIdDao;
 import it.unifi.dinfo.swam.plantnursery.nosql.dao.SpeciesByIdDao;
+import it.unifi.dinfo.swam.plantnursery.nosql.dao.measurament.MeasuramentByGrowthPlaceDao;
+import it.unifi.dinfo.swam.plantnursery.nosql.dao.measurament.MeasuramentByPlantDao;
+import it.unifi.dinfo.swam.plantnursery.nosql.dao.measurament.MeasuramentBySensorDao;
 import it.unifi.dinfo.swam.plantnursery.nosql.dao.plant.PlantByFilterDao;
 import it.unifi.dinfo.swam.plantnursery.nosql.dao.plant.PlantByGrowthPlaceDao;
 import it.unifi.dinfo.swam.plantnursery.nosql.dao.plant.PlantByIdDao;
 import it.unifi.dinfo.swam.plantnursery.nosql.dao.plant.PlantBySoldDao;
 import it.unifi.dinfo.swam.plantnursery.nosql.dao.plant.PlantBySpeciesDao;
+import it.unifi.dinfo.swam.plantnursery.nosql.dao.position.PositionByGrowthPlaceDao;
+import it.unifi.dinfo.swam.plantnursery.nosql.dao.position.PositionByIdDao;
+import it.unifi.dinfo.swam.plantnursery.nosql.dao.position.PositionByPlantDao;
+import it.unifi.dinfo.swam.plantnursery.nosql.dao.position.PositionBySensorDao;
 import it.unifi.dinfo.swam.plantnursery.nosql.dto.PlantDto;
+import it.unifi.dinfo.swam.plantnursery.nosql.dto.PositionDto;
 import it.unifi.dinfo.swam.plantnursery.nosql.mapper.PlantMapper;
+import it.unifi.dinfo.swam.plantnursery.nosql.mapper.PositionMapper;
 import it.unifi.dinfo.swam.plantnursery.nosql.model.GrowthPlaceById;
 import it.unifi.dinfo.swam.plantnursery.nosql.model.SpeciesById;
 import it.unifi.dinfo.swam.plantnursery.nosql.model.plant.PlantByFilter;
@@ -22,6 +31,10 @@ import it.unifi.dinfo.swam.plantnursery.nosql.model.plant.PlantByGrowthPlace;
 import it.unifi.dinfo.swam.plantnursery.nosql.model.plant.PlantById;
 import it.unifi.dinfo.swam.plantnursery.nosql.model.plant.PlantBySold;
 import it.unifi.dinfo.swam.plantnursery.nosql.model.plant.PlantBySpecies;
+import it.unifi.dinfo.swam.plantnursery.nosql.model.position.PositionByGrowthPlace;
+import it.unifi.dinfo.swam.plantnursery.nosql.model.position.PositionById;
+import it.unifi.dinfo.swam.plantnursery.nosql.model.position.PositionByPlant;
+import it.unifi.dinfo.swam.plantnursery.nosql.model.position.PositionBySensor;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 
@@ -48,9 +61,33 @@ public class PlantController extends BaseController {
 
 	@Inject
 	private SpeciesByIdDao speciesByIdDao;
+	
+	@Inject
+	private PositionByPlantDao positionByPlantDao;
+	
+	@Inject
+	private PositionByGrowthPlaceDao positionByGrowthPlaceDao;
+	
+	@Inject
+	private PositionByIdDao positionByIdDao;
+	
+	@Inject
+	private PositionBySensorDao positionBySensorDao;
+	
+	@Inject
+	private MeasuramentByGrowthPlaceDao measuramentByGrowthPlaceDao;
+	
+	@Inject
+	private MeasuramentByPlantDao measuramentByPlantDao;
+	
+	@Inject
+	private MeasuramentBySensorDao measuramentBySensorDao;
 
 	@Inject
 	private PlantMapper plantMapper;
+	
+	@Inject
+	private PositionMapper positionMapper;
 
 	public boolean deletePlant(UUID idPlant) {
 		this.cleanErrorFields();
@@ -63,16 +100,22 @@ public class PlantController extends BaseController {
 			return false;
 		}
 
-//		Position position = positionDao.getPositionByPlant(plant);
-//		if (position != null) {
-//			position.setPlant(null);
-//			positionDao.update(position);
-//		}
-//
-//		// Delete plant measures
-//		List<Measurement> plantMeasures = measurementDao.getFilteredMeasurements(plant, null, null, null, null);
-//		measurementDao.deleteAll(plantMeasures);
+		//- START -//
+		PositionByPlant position = positionByPlantDao.getPositionByPlant(plant.getId());
+		PositionDto positionDto = positionMapper.toDto(position);
+		 
+		if (position != null) {		
+			positionByIdDao.update(positionMapper.toEntity(null, positionDto, PositionById.class));
+			positionByGrowthPlaceDao.update(positionMapper.toEntity(null, positionDto, PositionByGrowthPlace.class));
+			positionByPlantDao.update(positionMapper.toEntity(null, positionDto, PositionByPlant.class));
+			positionBySensorDao.update(positionMapper.toEntity(null, positionDto, PositionBySensor.class));
+		}
 
+		// Delete plant measures
+		List<MeasuramentByPlantDao> plantMeasures = measuramentByPlantDao.getFilteredMeasurements(plant, null, null, null, null);
+		measuramentByPlantDao.deleteAll(plantMeasures);
+		//- END -//
+		
 		plantByIdDao.delete(plant.getId());
 		plantBySoldDao.delete(plant.isSold(), plant.getPlantingDate(), plant.getId());
 		plantBySpeciesDao.delete(plant.getSpeciesId(), plant.getPlantingDate(), plant.getId());
