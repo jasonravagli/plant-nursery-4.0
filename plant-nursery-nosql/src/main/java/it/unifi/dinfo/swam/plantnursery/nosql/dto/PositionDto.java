@@ -8,10 +8,10 @@ public class PositionDto extends BaseDto {
 	private UUID id;
 	private int rowIndex;
 	private int colIndex;
-	private UUID idGrowthPlace;
+	private UUID growthPlaceId;
 	private String growthPlaceName;
-	private UUID idPlant;
-	private Set<UUID> listSensors;
+	private UUID plantId;
+	private Set<UUID> listSensorsId;
 	private boolean free;
 
 	public UUID getId() {
@@ -38,12 +38,12 @@ public class PositionDto extends BaseDto {
 		this.colIndex = colIndex;
 	}
 
-	public UUID getIdGrowthPlace() {
-		return idGrowthPlace;
+	public UUID getGrowthPlaceId() {
+		return growthPlaceId;
 	}
 
-	public void setIdGrowthPlace(UUID idGrowthPlace) {
-		this.idGrowthPlace = idGrowthPlace;
+	public void setGrowthPlaceId(UUID growthPlaceId) {
+		this.growthPlaceId = growthPlaceId;
 	}
 
 	public String getGrowthPlaceName() {
@@ -54,20 +54,20 @@ public class PositionDto extends BaseDto {
 		this.growthPlaceName = growthPlaceName;
 	}
 
-	public UUID getIdPlant() {
-		return idPlant;
+	public UUID getPlantId() {
+		return plantId;
 	}
 
-	public void setIdPlant(UUID idPlant) {
-		this.idPlant = idPlant;
+	public void setPlantId(UUID idPlant) {
+		this.plantId = idPlant;
 	}
 
-	public Set<UUID> getListSensors() {
-		return listSensors;
+	public Set<UUID> getListSensorsId() {
+		return listSensorsId;
 	}
 
-	public void setListSensors(Set<UUID> listSensors) {
-		this.listSensors = listSensors;
+	public void setListSensorsId(Set<UUID> listSensors) {
+		this.listSensorsId = listSensors;
 	}
 
 	public boolean isFree() {

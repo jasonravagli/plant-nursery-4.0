@@ -9,13 +9,13 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import it.unifi.dinfo.swam.plantnursery.utils.LocalDateTimeJacksonDeserializer;
 import it.unifi.dinfo.swam.plantnursery.utils.LocalDateTimeJacksonSerializer;
 
-public class MeasuramentDto extends BaseDto{
+public class MeasurementDto extends BaseDto{
 
 	private UUID id;
 	
 	@JsonSerialize(using = LocalDateTimeJacksonSerializer.class)
 	@JsonDeserialize(using = LocalDateTimeJacksonDeserializer.class)
-	private LocalDateTime measuramentDate;
+	private LocalDateTime date;
 	
 	private float value;
 	private String unit;
@@ -28,11 +28,11 @@ public class MeasuramentDto extends BaseDto{
 	public void setId(UUID id) {
 		this.id = id;
 	}
-	public LocalDateTime getMeasuramentDate() {
-		return measuramentDate;
+	public LocalDateTime getDate() {
+		return date;
 	}
-	public void setMeasuramentDate(LocalDateTime measuramentDate) {
-		this.measuramentDate = measuramentDate;
+	public void setDate(LocalDateTime date) {
+		this.date = date;
 	}
 	public float getValue() {
 		return value;

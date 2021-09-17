@@ -19,7 +19,7 @@ public class SensorByGrowthPlaceDao extends BaseDao<SensorByGrowthPlace> {
 	private static String TABLE_NAME = "sensors_by_gp";
 
 	public void delete(UUID idGrowthPlace, String company, String model, UUID idSensor) {
-		ColumnDeleteQuery deleteQuery = ColumnDeleteQuery.delete().from(TABLE_NAME).where("growth_place")
+		ColumnDeleteQuery deleteQuery = ColumnDeleteQuery.delete().from(TABLE_NAME).where("id_growth_place")
 				.eq(idGrowthPlace).and("id").eq(idSensor).and("company").eq(company).and("model").eq(model).build();
 		columnTemplate.delete(deleteQuery);
 	}

@@ -17,8 +17,8 @@ import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
-import it.unifi.dinfo.swam.plantnursery.nosql.controller.MeasuramentController;
-import it.unifi.dinfo.swam.plantnursery.nosql.dto.MeasuramentDto;
+import it.unifi.dinfo.swam.plantnursery.nosql.controller.MeasurementController;
+import it.unifi.dinfo.swam.plantnursery.nosql.dto.MeasurementDto;
 import it.unifi.dinfo.swam.plantnursery.utils.LocalDateTimeJacksonDeserializer;
 import it.unifi.dinfo.swam.plantnursery.utils.Utilities;
 import tech.tablesaw.api.Table;
@@ -27,7 +27,7 @@ import tech.tablesaw.api.Table;
 public class MeasurementEndpoint {
 
 	@Inject
-	private MeasuramentController measurementController;
+	private MeasurementController measurementController;
 
 	@GET
 	@Path("growth-place/{id}")
@@ -102,7 +102,7 @@ public class MeasurementEndpoint {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response saveMeasurement(MeasuramentDto measurementDto) {
+	public Response saveMeasurement(MeasurementDto measurementDto) {
 		measurementController.saveMeasurement(measurementDto);
 
 		if (measurementController.isErrorOccurred()) {

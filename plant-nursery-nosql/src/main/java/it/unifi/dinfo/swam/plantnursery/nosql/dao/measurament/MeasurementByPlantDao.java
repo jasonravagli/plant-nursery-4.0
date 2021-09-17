@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import it.unifi.dinfo.swam.plantnursery.nosql.dao.BaseDao;
-import it.unifi.dinfo.swam.plantnursery.nosql.model.measurament.MeasurementByPlant;
+import it.unifi.dinfo.swam.plantnursery.nosql.model.measurement.MeasurementByPlant;
 import jakarta.enterprise.context.Dependent;
 import jakarta.nosql.column.ColumnDeleteQuery;
 import jakarta.nosql.column.ColumnQuery;

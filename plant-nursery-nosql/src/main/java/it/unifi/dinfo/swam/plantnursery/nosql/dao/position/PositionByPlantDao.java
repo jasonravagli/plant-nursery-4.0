@@ -1,5 +1,7 @@
 package it.unifi.dinfo.swam.plantnursery.nosql.dao.position;
 
+import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.UUID;
 
 import it.unifi.dinfo.swam.plantnursery.nosql.dao.BaseDao;
@@ -28,9 +30,13 @@ public class PositionByPlantDao extends BaseDao<PositionByPlant> {
 	public PositionByPlant getPositionByPlant(UUID idPlant) {
 		ColumnQuery query = ColumnQuery.select().from(TABLE_NAME).where("id_plant")
 				.eq(idPlant).build();
-		PositionByPlant position = (PositionByPlant) columnTemplate.select(query);
-
-		return position;
+		Optional<PositionByPlant> plants = columnTemplate.singleResult(query);
+		
+		try {
+			return plants.get();
+		} catch (NoSuchElementException e) {
+			return null;
+		}
 	}
 	
 }

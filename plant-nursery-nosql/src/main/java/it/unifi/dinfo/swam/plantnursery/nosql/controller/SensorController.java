@@ -26,7 +26,7 @@ import it.unifi.dinfo.swam.plantnursery.nosql.dto.SensorDto;
 import it.unifi.dinfo.swam.plantnursery.nosql.mapper.PositionMapper;
 import it.unifi.dinfo.swam.plantnursery.nosql.mapper.SensorMapper;
 import it.unifi.dinfo.swam.plantnursery.nosql.model.GrowthPlaceById;
-import it.unifi.dinfo.swam.plantnursery.nosql.model.measurament.MeasurementBySensor;
+import it.unifi.dinfo.swam.plantnursery.nosql.model.measurement.MeasurementBySensor;
 import it.unifi.dinfo.swam.plantnursery.nosql.model.position.PositionByGrowthPlace;
 import it.unifi.dinfo.swam.plantnursery.nosql.model.position.PositionById;
 import it.unifi.dinfo.swam.plantnursery.nosql.model.position.PositionByPlant;
@@ -104,9 +104,9 @@ public class SensorController extends BaseController {
 			if (positions.size() > 0) {
 				for (PositionBySensor oldPosition : positions) {
 					PositionDto positionDto = positionMapper.toDto(oldPosition);
-					Set<UUID> listSensors = positionDto.getListSensors();
+					Set<UUID> listSensors = positionDto.getListSensorsId();
 					listSensors.remove(sensor.getId());
-					positionDto.setListSensors(listSensors);
+					positionDto.setListSensorsId(listSensors);
 
 					PositionById positionById = positionMapper.toEntity(oldPosition.getId(), positionDto,
 							PositionById.class);
@@ -117,8 +117,11 @@ public class SensorController extends BaseController {
 
 					positionByIdDao.update(positionById);
 					positionByGrowthPlaceDao.update(oldPosition, positionByGrowthPlace);
-					positionByPlantDao.update(oldPosition, positionByPlant);
 					positionBySensorDao.delete(sensor.getId(), oldPosition.getId());
+					
+					if(oldPosition.getIdPlant() != null) {						
+						positionByPlantDao.update(oldPosition, positionByPlant);
+					}
 				}
 			}
 		} catch (InstantiationException | IllegalAccessException e) {

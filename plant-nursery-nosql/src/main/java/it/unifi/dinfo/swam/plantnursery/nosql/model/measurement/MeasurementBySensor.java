@@ -1,4 +1,4 @@
-package it.unifi.dinfo.swam.plantnursery.nosql.model.measurament;
+package it.unifi.dinfo.swam.plantnursery.nosql.model.measurement;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

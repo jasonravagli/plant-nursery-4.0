@@ -2,14 +2,14 @@ package it.unifi.dinfo.swam.plantnursery.nosql.mapper;
 
 import java.util.UUID;
 
-import it.unifi.dinfo.swam.plantnursery.nosql.dto.MeasuramentDto;
-import it.unifi.dinfo.swam.plantnursery.nosql.model.measurament.Measurement;
+import it.unifi.dinfo.swam.plantnursery.nosql.dto.MeasurementDto;
+import it.unifi.dinfo.swam.plantnursery.nosql.model.measurement.Measurement;
 import jakarta.enterprise.context.Dependent;
 
 @Dependent
-public class MeasuramentMapper {
+public class MeasurementMapper {
 
-	public <T extends Measurement> T toEntity(UUID id, MeasuramentDto dto, UUID idGrowthPlace,
+	public <T extends Measurement> T toEntity(UUID id, MeasurementDto dto, UUID idGrowthPlace,
 			UUID idPos, UUID idPlant, UUID idSensor, Class<T> type) throws InstantiationException, IllegalAccessException {
 		Measurement entity = type.newInstance();
 		entity.setId(id);
@@ -17,7 +17,7 @@ public class MeasuramentMapper {
 		entity.setIdPlant(idPlant);
 		entity.setIdPosition(idPos);
 		entity.setIdSensor(idSensor);
-		entity.setMeasDate(dto.getMeasuramentDate());
+		entity.setMeasDate(dto.getDate());
 		entity.setType(dto.getType());
 		entity.setUnit(dto.getUnit());
 		entity.setValue(dto.getValue());

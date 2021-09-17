@@ -26,7 +26,7 @@ import it.unifi.dinfo.swam.plantnursery.nosql.mapper.PlantMapper;
 import it.unifi.dinfo.swam.plantnursery.nosql.mapper.PositionMapper;
 import it.unifi.dinfo.swam.plantnursery.nosql.model.GrowthPlaceById;
 import it.unifi.dinfo.swam.plantnursery.nosql.model.SpeciesById;
-import it.unifi.dinfo.swam.plantnursery.nosql.model.measurament.MeasurementByPlant;
+import it.unifi.dinfo.swam.plantnursery.nosql.model.measurement.MeasurementByPlant;
 import it.unifi.dinfo.swam.plantnursery.nosql.model.plant.PlantByFilter;
 import it.unifi.dinfo.swam.plantnursery.nosql.model.plant.PlantByGrowthPlace;
 import it.unifi.dinfo.swam.plantnursery.nosql.model.plant.PlantById;
@@ -102,34 +102,42 @@ public class PlantController extends BaseController {
 		}
 
 		PositionByPlant oldPosition = positionByPlantDao.getPositionByPlant(plant.getId());
-		PositionDto positionDto = positionMapper.toDto(oldPosition);
-		positionDto.setFree(true);
-		positionDto.setIdPlant(null);
-		try {
-			PositionById positionById = positionMapper.toEntity(oldPosition.getId(), positionDto, PositionById.class);
-			PositionByGrowthPlace positionByGrowthPlace = positionMapper.toEntity(oldPosition.getId(), positionDto,
-					PositionByGrowthPlace.class);
-			PositionByPlant positionByPlant = positionMapper.toEntity(oldPosition.getId(), positionDto,
-					PositionByPlant.class);
+		if (oldPosition != null) {
+			PositionDto positionDto = positionMapper.toDto(oldPosition);
+			positionDto.setFree(true);
+			positionDto.setPlantId(null);
+			try {
+				PositionById positionById = positionMapper.toEntity(oldPosition.getId(), positionDto,
+						PositionById.class);
+				PositionByGrowthPlace positionByGrowthPlace = positionMapper.toEntity(oldPosition.getId(), positionDto,
+						PositionByGrowthPlace.class);
 
-			positionByIdDao.update(positionById);
-			positionByGrowthPlaceDao.update(oldPosition, positionByGrowthPlace);
-			positionByPlantDao.update(oldPosition, positionByPlant);
+				positionByIdDao.update(positionById);
+				positionByGrowthPlaceDao.update(oldPosition, positionByGrowthPlace);
+				
+				if(oldPosition.getIdPlant() != null) {
+					positionByPlantDao.delete(oldPosition.getIdPlant(), oldPosition.getId());
+				}
+				if(positionDto.getPlantId() != null) {
+					PositionByPlant positionByPlant = positionMapper.toEntity(oldPosition.getId(), positionDto, PositionByPlant.class);
+					positionByPlantDao.save(positionByPlant);
+				}
 
-			for (UUID oldIdSensor : oldPosition.getListSensors()) {
-				positionBySensorDao.delete(oldIdSensor, oldPosition.getId());
+				for (UUID oldIdSensor : oldPosition.getListSensors()) {
+					positionBySensorDao.delete(oldIdSensor, oldPosition.getId());
+				}
+				for (UUID newIdSensor : positionDto.getListSensorsId()) {
+					PositionBySensor positionBySensor = positionMapper.toEntity(oldPosition.getId(), positionDto,
+							PositionBySensor.class);
+					positionBySensor.setIdSensor(newIdSensor);
+					positionBySensorDao.save(positionBySensor);
+				}
+			} catch (InstantiationException | IllegalAccessException e) {
+				e.printStackTrace();
+				this.setErrorOccurred(true);
+				this.setErrorMessage("An error occured during the conversion from entities to dtos");
+				return false;
 			}
-			for (UUID newIdSensor : positionDto.getListSensors()) {
-				PositionBySensor positionBySensor = positionMapper.toEntity(oldPosition.getId(), positionDto,
-						PositionBySensor.class);
-				positionBySensor.setIdSensor(newIdSensor);
-				positionBySensorDao.save(positionBySensor);
-			}
-		} catch (InstantiationException | IllegalAccessException e) {
-			e.printStackTrace();
-			this.setErrorOccurred(true);
-			this.setErrorMessage("An error occured during the conversion from entities to dtos");
-			return false;
 		}
 
 		// Delete plant measures

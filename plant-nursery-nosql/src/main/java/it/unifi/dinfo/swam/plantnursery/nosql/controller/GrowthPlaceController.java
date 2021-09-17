@@ -86,11 +86,6 @@ public class GrowthPlaceController extends BaseController {
 		for (PositionByGrowthPlace position : positions) {
 			positionByIdDao.delete(position.getId());
 			positionByGrowthPlaceDao.delete(position.getGrowthPlaceId(), position.isFree(), position.getId());
-			positionByPlantDao.delete(position.getIdPlant(), position.getId());
-
-			for (UUID idSensor : position.getListSensors()) {
-				positionBySensorDao.delete(idSensor, position.getId());
-			}
 		}
 
 		growthPlaceByIdDao.delete(idGrowthPlace);
@@ -157,7 +152,7 @@ public class GrowthPlaceController extends BaseController {
 						positionDto.setRowIndex(r);
 						positionDto.setColIndex(c);
 						positionDto.setFree(true);
-						positionDto.setIdGrowthPlace(growthPlace.getId());
+						positionDto.setGrowthPlaceId(growthPlace.getId());
 						positionDto.setGrowthPlaceName(growthPlace.getName());
 
 						PositionById positionById = positionMapper.toEntity(idPosition, positionDto,
@@ -227,10 +222,6 @@ public class GrowthPlaceController extends BaseController {
 			for(PositionByGrowthPlace pos : listPositionByGrowthPlace) {
 				positionByIdDao.delete(pos.getId());
 				positionByGrowthPlaceDao.delete(pos.getGrowthPlaceId(), pos.isFree(), pos.getId());
-				positionByPlantDao.delete(pos.getIdPlant(), pos.getId());
-				for(UUID idSensor : pos.getListSensors()) {
-					positionBySensorDao.delete(idSensor, pos.getId());
-				}
 			}
 
 			// Create new positions
@@ -244,7 +235,7 @@ public class GrowthPlaceController extends BaseController {
 							positionDto.setRowIndex(r);
 							positionDto.setColIndex(c);
 							positionDto.setFree(true);
-							positionDto.setIdGrowthPlace(growthPlace.getId());
+							positionDto.setGrowthPlaceId(growthPlace.getId());
 							positionDto.setGrowthPlaceName(growthPlace.getName());
 
 							PositionById positionById = positionMapper.toEntity(idPosition, positionDto,

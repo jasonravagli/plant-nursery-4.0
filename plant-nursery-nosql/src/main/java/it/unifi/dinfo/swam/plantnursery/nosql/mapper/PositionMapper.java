@@ -18,9 +18,9 @@ public class PositionMapper {
 		dto.setRowIndex(entity.getRowIndex());
 		dto.setFree(entity.isFree());
 		dto.setGrowthPlaceName(entity.getGrowthPlaceName());
-		dto.setIdGrowthPlace(entity.getGrowthPlaceId());
-		dto.setIdPlant(entity.getIdPlant());
-		dto.setListSensors(entity.getListSensors());
+		dto.setGrowthPlaceId(entity.getGrowthPlaceId());
+		dto.setPlantId(entity.getIdPlant());
+		dto.setListSensorsId(entity.getListSensors());
 		
 		return dto;
 	}
@@ -35,10 +35,10 @@ public class PositionMapper {
 		entity.setColumnIndex(dto.getColIndex());
 		entity.setRowIndex(dto.getRowIndex());	
 		entity.setFree(dto.isFree());
-		entity.setGrowthPlaceId(dto.getIdGrowthPlace());
+		entity.setGrowthPlaceId(dto.getGrowthPlaceId());
 		entity.setGrowthPlaceName(dto.getGrowthPlaceName());
-		entity.setIdPlant(dto.getIdPlant());
-		entity.setListSensors(dto.getListSensors());
+		entity.setIdPlant(dto.getPlantId());
+		entity.setListSensors(dto.getListSensorsId());
 		
 		return type.cast(entity);
 	}

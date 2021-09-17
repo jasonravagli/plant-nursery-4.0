@@ -149,7 +149,7 @@ public class PositionController extends BaseController {
 		}
 
 		if ((!positionToUpdate.getGrowthPlaceId().equals(idGrowthPlace))
-				|| !positionDto.getIdGrowthPlace().equals(idGrowthPlace)) {
+				|| !positionDto.getGrowthPlaceId().equals(idGrowthPlace)) {
 			this.setErrorOccurred(true);
 			this.setErrorMessage("Cannot move positions between growth places");
 			return false;
@@ -163,21 +163,28 @@ public class PositionController extends BaseController {
 		}
 
 		try {
-			positionDto.setFree(positionDto.getIdPlant() != null);
-			
+			positionDto.setFree(positionDto.getPlantId() == null);
+
 			PositionById positionById = positionMapper.toEntity(idPosition, positionDto, PositionById.class);
 			PositionByGrowthPlace positionByGrowthPlace = positionMapper.toEntity(idPosition, positionDto,
 					PositionByGrowthPlace.class);
-			PositionByPlant positionByPlant = positionMapper.toEntity(idPosition, positionDto, PositionByPlant.class);
 
 			positionByIdDao.update(positionById);
 			positionByGrowthPlaceDao.update(positionToUpdate, positionByGrowthPlace);
-			positionByPlantDao.update(positionToUpdate, positionByPlant);
-			
-			for(UUID oldIdSensor : positionToUpdate.getListSensors()) {
+
+			if (positionToUpdate.getIdPlant() != null) {
+				positionByPlantDao.delete(positionToUpdate.getIdPlant(), positionToUpdate.getId());
+			}
+			if (positionDto.getPlantId() != null) {
+				PositionByPlant positionByPlant = positionMapper.toEntity(idPosition, positionDto,
+						PositionByPlant.class);
+				positionByPlantDao.save(positionByPlant);
+			}
+
+			for (UUID oldIdSensor : positionToUpdate.getListSensors()) {
 				positionBySensorDao.delete(oldIdSensor, positionToUpdate.getId());
 			}
-			for(UUID newIdSensor : positionDto.getListSensors()) {
+			for (UUID newIdSensor : positionDto.getListSensorsId()) {
 				PositionBySensor positionBySensor = positionMapper.toEntity(positionToUpdate.getId(), positionDto,
 						PositionBySensor.class);
 				positionBySensor.setIdSensor(newIdSensor);
@@ -191,7 +198,10 @@ public class PositionController extends BaseController {
 		}
 
 		// Update sensors and plants records (add them to the growth place)
-		if (!positionToUpdate.getIdPlant().equals(positionDto.getIdPlant())) {
+		if ((positionToUpdate.getIdPlant() != null && positionDto.getPlantId() == null)
+				|| (positionToUpdate.getIdPlant() == null && positionDto.getPlantId() != null)
+				|| (positionToUpdate.getIdPlant() != null && positionDto.getPlantId() != null
+						&& !positionToUpdate.getIdPlant().equals(positionDto.getPlantId()))) {
 			// If the old position contained a plant than the plant must be removed from the
 			// growth place
 			if (positionToUpdate.getIdPlant() != null) {
@@ -211,10 +221,10 @@ public class PositionController extends BaseController {
 
 			// If the new position contains a plant then the plant must be added to the
 			// growth place
-			if (positionDto.getIdPlant() != null) {
-				PlantById oldPlant = plantByIdDao.findById(positionDto.getIdPlant());
+			if (positionDto.getPlantId() != null) {
+				PlantById oldPlant = plantByIdDao.findById(positionDto.getPlantId());
 				PlantDto plantDto = plantMapper.toDto(oldPlant);
-				plantDto.setGrowthPlaceId(positionDto.getIdGrowthPlace());
+				plantDto.setGrowthPlaceId(positionDto.getGrowthPlaceId());
 
 				try {
 					updatePlantPosition(oldPlant, plantDto);
@@ -227,7 +237,7 @@ public class PositionController extends BaseController {
 			}
 		}
 
-		if (!positionToUpdate.getListSensors().equals(positionDto.getIdPlant())) {
+		if (!positionToUpdate.getListSensors().equals(positionDto.getPlantId())) {
 			// If the old position contained some sensors than the sensors must be removed
 			// from the growth place
 			if (positionToUpdate.getListSensors().size() > 0) {
@@ -249,11 +259,11 @@ public class PositionController extends BaseController {
 
 			// If the new position contains some sensors then the sensors must be added to
 			// the growth place
-			if (positionDto.getListSensors().size() > 0) {
-				for (UUID idSensor : positionDto.getListSensors()) {
+			if (positionDto.getListSensorsId().size() > 0) {
+				for (UUID idSensor : positionDto.getListSensorsId()) {
 					SensorById oldSensor = sensorByIdDao.findById(idSensor);
 					SensorDto sensorDto = sensorMapper.toDto(oldSensor);
-					sensorDto.setIdGrowthPlace(positionDto.getIdGrowthPlace());
+					sensorDto.setIdGrowthPlace(positionDto.getGrowthPlaceId());
 
 					try {
 						updateSensorPosition(oldSensor, sensorDto);
@@ -275,31 +285,48 @@ public class PositionController extends BaseController {
 		PlantById plantById = plantMapper.toEntity(oldPlant.getId(), newPlantDto, PlantById.class);
 		PlantBySpecies plantBySpecies = plantMapper.toEntity(oldPlant.getId(), newPlantDto, PlantBySpecies.class);
 		PlantBySold plantBySold = plantMapper.toEntity(oldPlant.getId(), newPlantDto, PlantBySold.class);
-		PlantByGrowthPlace plantByGrowthPlace = plantMapper.toEntity(oldPlant.getId(), newPlantDto,
-				PlantByGrowthPlace.class);
-		PlantByFilter plantByFilter = plantMapper.toEntity(oldPlant.getId(), newPlantDto, PlantByFilter.class);
 
 		plantByIdDao.update(plantById);
 		plantBySpeciesDao.update(oldPlant, plantBySpecies);
 		plantBySoldDao.update(oldPlant, plantBySold);
-		plantByGrowthPlaceDao.update(oldPlant, plantByGrowthPlace);
-		plantByFilterDao.update(oldPlant, plantByFilter);
+
+		if (oldPlant.getIdGrowthPlace() != null) {
+			plantByGrowthPlaceDao.delete(oldPlant.getIdGrowthPlace(), oldPlant.getPlantingDate(), oldPlant.getId());
+			plantByFilterDao.delete(oldPlant.getIdGrowthPlace(), oldPlant.getSpeciesId(), oldPlant.isSold(),
+					oldPlant.getPlantingDate(), oldPlant.getId());
+		}
+
+		if (newPlantDto.getGrowthPlaceId() != null) {
+			PlantByGrowthPlace plantByGrowthPlace = plantMapper.toEntity(oldPlant.getId(), newPlantDto,
+					PlantByGrowthPlace.class);
+			PlantByFilter plantByFilter = plantMapper.toEntity(oldPlant.getId(), newPlantDto, PlantByFilter.class);
+			plantByGrowthPlaceDao.save(plantByGrowthPlace);
+			plantByFilterDao.save(plantByFilter);
+		}
 	}
 
 	private void updateSensorPosition(Sensor oldSensor, SensorDto newSensorDto)
 			throws InstantiationException, IllegalAccessException {
 		SensorById sensorById = sensorMapper.toEntity(oldSensor.getId(), newSensorDto, SensorById.class);
 		SensorByCompany sensorByCompany = sensorMapper.toEntity(oldSensor.getId(), newSensorDto, SensorByCompany.class);
-		SensorByGrowthPlace sensorByGrowthPlace = sensorMapper.toEntity(oldSensor.getId(), newSensorDto,
-				SensorByGrowthPlace.class);
 		SensorByMacAddress sensorByMacAddress = sensorMapper.toEntity(oldSensor.getId(), newSensorDto,
 				SensorByMacAddress.class);
 		SensorByModel sensorByModel = sensorMapper.toEntity(oldSensor.getId(), newSensorDto, SensorByModel.class);
 
 		sensorByIdDao.update(sensorById);
 		sensorByCompanyDao.update(oldSensor, sensorByCompany);
-		sensorByGrowthPlaceDao.update(oldSensor, sensorByGrowthPlace);
 		sensorByMacAddressDao.update(oldSensor, sensorByMacAddress);
 		sensorByModelDao.update(oldSensor, sensorByModel);
+
+		if (oldSensor.getIdGrowthPlace() != null) {
+			sensorByGrowthPlaceDao.delete(oldSensor.getIdGrowthPlace(), oldSensor.getCompany(), oldSensor.getModel(),
+					oldSensor.getId());
+		}
+
+		if (newSensorDto.getIdGrowthPlace() != null) {
+			SensorByGrowthPlace sensorByGrowthPlace = sensorMapper.toEntity(oldSensor.getId(), newSensorDto,
+					SensorByGrowthPlace.class);
+			sensorByGrowthPlaceDao.save(sensorByGrowthPlace);
+		}
 	}
 }
