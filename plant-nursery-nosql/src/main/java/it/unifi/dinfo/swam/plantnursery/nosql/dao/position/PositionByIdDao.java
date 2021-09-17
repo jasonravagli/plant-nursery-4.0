@@ -6,7 +6,9 @@ import java.util.UUID;
 
 import it.unifi.dinfo.swam.plantnursery.nosql.dao.BaseDao;
 import it.unifi.dinfo.swam.plantnursery.nosql.model.position.PositionById;
+import jakarta.enterprise.context.Dependent;
 
+@Dependent
 public class PositionByIdDao extends BaseDao<PositionById>{
 
 	public void delete(UUID id) {

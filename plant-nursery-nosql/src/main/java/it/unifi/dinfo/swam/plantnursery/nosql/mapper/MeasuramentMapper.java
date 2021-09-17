@@ -4,7 +4,9 @@ import java.util.UUID;
 
 import it.unifi.dinfo.swam.plantnursery.nosql.dto.MeasuramentDto;
 import it.unifi.dinfo.swam.plantnursery.nosql.model.measurament.Measurement;
+import jakarta.enterprise.context.Dependent;
 
+@Dependent
 public class MeasuramentMapper {
 
 	public <T extends Measurement> T toEntity(UUID id, MeasuramentDto dto, UUID idGrowthPlace,

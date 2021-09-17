@@ -7,9 +7,11 @@ import java.util.stream.Stream;
 
 import it.unifi.dinfo.swam.plantnursery.nosql.dao.BaseDao;
 import it.unifi.dinfo.swam.plantnursery.nosql.model.position.PositionBySensor;
+import jakarta.enterprise.context.Dependent;
 import jakarta.nosql.column.ColumnDeleteQuery;
 import jakarta.nosql.column.ColumnQuery;
 
+@Dependent
 public class PositionBySensorDao extends BaseDao<PositionBySensor> {
 
 	private static final String TABLE_NAME = "positions_by_sensor";

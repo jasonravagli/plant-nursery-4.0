@@ -8,9 +8,11 @@ import java.util.stream.Stream;
 import it.unifi.dinfo.swam.plantnursery.nosql.dao.BaseDao;
 import it.unifi.dinfo.swam.plantnursery.nosql.model.position.Position;
 import it.unifi.dinfo.swam.plantnursery.nosql.model.position.PositionByGrowthPlace;
+import jakarta.enterprise.context.Dependent;
 import jakarta.nosql.column.ColumnDeleteQuery;
 import jakarta.nosql.column.ColumnQuery;
 
+@Dependent
 public class PositionByGrowthPlaceDao extends BaseDao<PositionByGrowthPlace> {
 
 	private static final String TABLE_NAME = "positions_by_gp";
