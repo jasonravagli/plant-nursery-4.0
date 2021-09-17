@@ -95,7 +95,7 @@ public class MeasurementController extends BaseController {
 		String[] colType = new String[listMeas.size()];
 		for (int i = 0; i < listMeas.size(); i++) {
 			colValues[i] = listMeas.get(i).getValue();
-			colDate[i] = listMeas.get(i).getMeasDate();
+			colDate[i] = listMeas.get(i).getMeasDate().toLocalDateTime();
 			colType[i] = listMeas.get(i).getType().toString();
 		}
 
@@ -142,7 +142,7 @@ public class MeasurementController extends BaseController {
 		String[] colType = new String[listMeas.size()];
 		for (int i = 0; i < listMeas.size(); i++) {
 			colValues[i] = listMeas.get(i).getValue();
-			colDate[i] = listMeas.get(i).getMeasDate();
+			colDate[i] = listMeas.get(i).getMeasDate().toLocalDateTime();
 			colType[i] = listMeas.get(i).getType().toString();
 		}
 
@@ -184,7 +184,7 @@ public class MeasurementController extends BaseController {
 		String[] colType = new String[listMeas.size()];
 		for (int i = 0; i < listMeas.size(); i++) {
 			colValues[i] = listMeas.get(i).getValue();
-			colDate[i] = listMeas.get(i).getMeasDate();
+			colDate[i] = listMeas.get(i).getMeasDate().toLocalDateTime();
 			colType[i] = listMeas.get(i).getType().toString();
 		}
 

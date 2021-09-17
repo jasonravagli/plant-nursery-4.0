@@ -1,6 +1,6 @@
 package it.unifi.dinfo.swam.plantnursery.nosql.model.measurement;
 
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.UUID;
 
 import it.unifi.dinfo.swam.plantnursery.nosql.model.BaseEntity;
@@ -12,7 +12,7 @@ import jakarta.nosql.mapping.Id;
 public class MeasurementByGrowthPlace extends BaseEntity implements Measurement {
 	
 	@Id("meas_date")
-	private LocalDateTime measDate;
+	private ZonedDateTime measDate;
 	
 	@Column("value")
 	private	float value;
@@ -35,11 +35,11 @@ public class MeasurementByGrowthPlace extends BaseEntity implements Measurement 
 	@Id("id_growth_place")
 	private UUID idGrowthPlace;
 
-	public LocalDateTime getMeasDate() {
+	public ZonedDateTime getMeasDate() {
 		return measDate;
 	}
 
-	public void setMeasDate(LocalDateTime measDate) {
+	public void setMeasDate(ZonedDateTime measDate) {
 		this.measDate = measDate;
 	}
 

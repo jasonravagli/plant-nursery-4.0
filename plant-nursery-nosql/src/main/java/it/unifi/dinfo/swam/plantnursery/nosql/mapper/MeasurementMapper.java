@@ -1,5 +1,7 @@
 package it.unifi.dinfo.swam.plantnursery.nosql.mapper;
 
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.UUID;
 
 import it.unifi.dinfo.swam.plantnursery.nosql.dto.MeasurementDto;
@@ -17,7 +19,7 @@ public class MeasurementMapper {
 		entity.setIdPlant(idPlant);
 		entity.setIdPosition(idPos);
 		entity.setIdSensor(idSensor);
-		entity.setMeasDate(dto.getDate());
+		entity.setMeasDate(ZonedDateTime.of(dto.getDate(), ZoneId.of("Z")));
 		entity.setType(dto.getType());
 		entity.setUnit(dto.getUnit());
 		entity.setValue(dto.getValue());

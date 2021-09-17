@@ -1,6 +1,7 @@
 package it.unifi.dinfo.swam.plantnursery.nosql.dao.measurament;
 
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -17,7 +18,7 @@ public class MeasurementBySensorDao extends BaseDao<MeasurementBySensor> {
 
 	private static final String TABLE_NAME = "measurements_by_sensor";
 
-	public void delete(UUID idSensor, LocalDateTime dateTime, UUID idMeas) {
+	public void delete(UUID idSensor, ZonedDateTime dateTime, UUID idMeas) {
 		ColumnDeleteQuery deleteQuery = ColumnDeleteQuery.delete().from(TABLE_NAME).where("id_sensor").eq(idSensor)
 				.and("meas_date").eq(dateTime).and("id").eq(idMeas).build();
 		columnTemplate.delete(deleteQuery);
