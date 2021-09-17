@@ -21627,19 +21627,6 @@
 							}
 						},
 						{
-							"_type": "UMLNoteView",
-							"_id": "AAAAAAF7UBW2vvNHdNI=",
-							"_parent": {
-								"$ref": "AAAAAAF7JSFUcEd+Bns="
-							},
-							"font": "Arial;13;0",
-							"left": 1056,
-							"top": 656,
-							"width": 321,
-							"height": 64,
-							"text": "LE FRECCE SON TUTTE SBAGLIATE!!!! Se c'è <<extend>> ad esempio significa che durante l'esecuzione di uno use case viene chiamato il secondo sotto certe condizioni (O FORSE NO?)"
-						},
-						{
 							"_type": "UMLExtendView",
 							"_id": "AAAAAAF7UBfApAMUM3o=",
 							"_parent": {
@@ -23369,6 +23356,7 @@
 									"model": {
 										"$ref": "AAAAAAF7Xxx3v4oqs34="
 									},
+									"visible": false,
 									"font": "Arial;13;0",
 									"left": 127,
 									"top": 984,
@@ -24365,7 +24353,6 @@
 							"_parent": {
 								"$ref": "AAAAAAF7JduPlBs7SQg="
 							},
-							"name": "REmove?",
 							"source": {
 								"$ref": "AAAAAAF7JduPlBs7SQg="
 							},

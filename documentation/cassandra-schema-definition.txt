@@ -177,7 +177,7 @@ CREATE TABLE positions_by_gp(
    id_plant timeuuid,
    list_sensors set<timeuuid>,
    free boolean,
-   PRIMARY KEY((growth_place_id, free), id)
+   PRIMARY KEY(growth_place_id, free, id)
 );
 
 CREATE TABLE positions_by_sensor(
