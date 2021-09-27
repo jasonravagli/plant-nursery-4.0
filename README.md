@@ -16,8 +16,21 @@ The final goal is to provide two back end application that compare the SQL and N
 
 ## Usage
 
-### Compile
-dire come compilare caso sql e cassandra ?
+### Docker Container MySql
+To create a docker container for the SQL database we used MySql by running the following commands:
++ `docker volume create mysql-volumeName`
++ `docker run --name=mysql -p3306:3306 -v mysql-volume:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=password -d mysql/mysql-server:8.0`
+So we need to start the container and create a user for MySql database:
++ `docker start mysql`
++ `docker exec -it mysql bash`
+Now we are in the mysql bash program and we run the following commands:
++ `mysql -u root -p`
++ `update mysql.user set host = '%' where user='root';`
+
+### Docker Container Cassanra
+For the Cassandra container we have a dockerfile into the folder docker so we need to go in the directory and run the following commands:
++ `docker build . -t cassandra-plant-nursery`
++ `docker run --name cassandra -p9042:9042 -d cassandra-plant-nursery`
 
 ### Run
 #### with docker
