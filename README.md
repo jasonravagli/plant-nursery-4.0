@@ -33,9 +33,7 @@ For the Cassandra container we have a dockerfile into the folder docker so we ne
 + `docker run --name cassandra -p9042:9042 -d cassandra-plant-nursery`
 
 ### Run
-#### with docker
-`docker-compose up`
-dire come creare i due container cassandra e my sql
+???
 
 ### Endpoints
 The base url is: `{server-url}/plant-nursery/rest`  
