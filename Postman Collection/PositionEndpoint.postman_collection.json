@@ -1,0 +1,89 @@
+{
+	"info": {
+		"_postman_id": "37997a08-b234-4c4b-ac15-c772d5b004fa",
+		"name": "PositionEndpoint",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "getPositionByGrowthPlace",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/plant-nursery/rest/growth-places/0dcc8bd0-17d3-11ec-9293-df1053cfa81b/positions",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"plant-nursery",
+						"rest",
+						"growth-places",
+						"0dcc8bd0-17d3-11ec-9293-df1053cfa81b",
+						"positions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updatePosition",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": \"29149f20-17cb-11ec-bc2e-53d864df5f45\",\n    \"growthPlaceId\": \"0dcc8bd0-17d3-11ec-9293-df1053cfa81b\",\n    \"colIndex\": 0,\n    \"growthPlaceName\": \"greenhouse-2\",\n    \"rowIndex\": 0,\n    \"plantId\": \"43a0ad10-17d1-11ec-9293-df1053cfa81b\",\n    \"listSensorsId\": [\"329c23a0-17d1-11ec-9293-df1053cfa81b\"]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/plant-nursery/rest/growth-places/0dcc8bd0-17d3-11ec-9293-df1053cfa81b/positions/0dd9f950-17d3-11ec-9293-df1053cfa81b",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"plant-nursery",
+						"rest",
+						"growth-places",
+						"0dcc8bd0-17d3-11ec-9293-df1053cfa81b",
+						"positions",
+						"0dd9f950-17d3-11ec-9293-df1053cfa81b"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getPlantFreePositionsByGrowthPlace",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/plant-nursery/rest/growth-places/28ebba60-17cb-11ec-bc2e-53d864df5f45/positions/free",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"plant-nursery",
+						"rest",
+						"growth-places",
+						"28ebba60-17cb-11ec-bc2e-53d864df5f45",
+						"positions",
+						"free"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
