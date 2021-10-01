@@ -46,6 +46,10 @@ There are seven different endpoints that are the same for the SQL and NoSQL vers
 + SensorEndpoint:
 + SpeciesEndpoint:
 
+### Endpoint Tests
+All the endpoint are tested with the Postman App on Windows 10 OS and (Mac Os???).
+In Postman Collection folder are saved JSON file in format Collection v2.1 of Postman App (learn more at https://blog.postman.com/travelogue-of-postman-collection-format-v2/).
+Is possible to import this file on Postman App to replicate our experiments using different parameters.
 
 ## Domain Model SQL version
 <img src="https://github.com/jasonravagli/plant-nursery-4.0/blob/main/DomainModel.png" height="836" width="1180">
