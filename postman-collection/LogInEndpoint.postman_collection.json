@@ -1,0 +1,61 @@
+{
+	"info": {
+		"_postman_id": "3e6f9a5e-9cf5-489e-affa-a49df1e07cf3",
+		"name": "LogInEndpoint",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "loginUser",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\" : \"iacopo\",\r\n    \"password\" : \"psw\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/plant-nursery/rest/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"plant-nursery",
+						"rest",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "findByUsername",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/plant-nursery/rest/login/iacopo",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"plant-nursery",
+						"rest",
+						"login",
+						"iacopo"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
