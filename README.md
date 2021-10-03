@@ -4,7 +4,7 @@ A plant nursery is a place where plants are cared for and grown with two main pu
 ## This project
 The project takes its name from the selected case of study:Plant Nursery 4.0, namely the computerization of a plant nursery industry through theapplication of the Internet of Things (IoT) principles and technologies.
 
-[Documentation.pdf](https://github.com/jasonravagli/plant-nursery-4.0/blob/main/documentation/Documentation.pdf) explain all the project in details.
+[report.pdf](https://github.com/jasonravagli/plant-nursery-4.0/blob/main/documentation/report.pdf) explain all the project in details.
 
 ## Goal
 Since Jakarta EE has been widely studied during the course of Software Architectures and Methodologies while Jakarta NoSQL is still in a prototypal stage, the goal of this project will focus on the features offered by Jakarta NoSQL and their comparison with JPA, assuming Jakarta EE is known.
