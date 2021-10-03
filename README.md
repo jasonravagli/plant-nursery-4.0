@@ -53,11 +53,14 @@ All the endpoint are tested with the Postman App on Windows OS and Mac Os.
 In Postman Collection folder are saved JSON file in format Collection v2.1 of Postman App (learn more at https://blog.postman.com/travelogue-of-postman-collection-format-v2/).
 Is possible to import this file on Postman App to replicate our experiments using different parameters.
 
-## Domain Model SQL version
 
 ## Our Vision
 
 ### Deployment Diagram
 <img src="https://github.com/jasonravagli/plant-nursery-4.0/blob/main/img/deployment-diagram.png">
 
+### Use Cases
+<img src="https://github.com/jasonravagli/plant-nursery-4.0/blob/main/img/use-cases-diagram.png">
 
+### Domain Model SQL
+<img src="https://github.com/jasonravagli/plant-nursery-4.0/blob/main/img/domain-model.png">
