@@ -47,9 +47,9 @@ For this version was used the [tutorial](https://github.com/jasonravagli/plant-n
 In this case the Maven integration of Eclipse don't build correctly the project.
 So there are two simple step to run the code:
 + Build the project as a maven build in Eclipse:
-+ + Select `Run` -> `Run Configurations`
-+ + Insert into parameter Goals:`clean package`
-+ + The build is `{project directory}\target\{project name}.war`
+    + Select `Run` -> `Run Configurations`
+    + Insert into parameter Goals:`clean package`
+    + The build is `{project directory}\target\{project name}.war`
 
 + Copy the war file into the application server in the directory: `{WildFly directory}\standalone\deployments`
 + Run the application server into Eclipse
