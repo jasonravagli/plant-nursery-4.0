@@ -37,18 +37,33 @@ For the Cassandra container we have a dockerfile into the folder docker so we ne
 + `docker run --name cassandra -p9042:9042 -d cassandra-plant-nursery`
 
 ### Run
-???
+The fisrt step for all the two project is to create a docker container with commands shown before.
+
+This guide is for Eclipse IDE using WildFly as application server.
+#### SQL Version
+For this version was used the [tutorial](https://github.com/jasonravagli/plant-nursery-4.0/blob/main/documentation/SwamLab21-1_JavaEEinAction.pdf) given on the course.
+
+#### NoSQL Version
+In this case the Maven integration of Eclipse don't build correctly the project.
+So there are two simple step to run the code:
++ Build the project as a maven build in Eclipse
+++ Select `Run` -> `Run Configurations`
+++ Insert into parameter Goals:`clean package`
+++ The build is `{project directory}\target\{project name}.war`
+
++ Copy the war file into the application server in the directory: `{WildFly directory}\standalone\deployments`
++ Run the application server into Eclipse
 
 ### Endpoints
 The base url is: `{server-url}/plant-nursery/rest`  
 There are seven different endpoints that are the same for the SQL and NoSQL version:
-+ GrowthPlaceEndpoint:
-+ LoginEndpoint:
-+ MeasuramentEndpoint:
-+ PlantEndpoint:
-+ PositionEndpoint:
-+ SensorEndpoint:
-+ SpeciesEndpoint:
++ GrowthPlaceEndpoint: crud of groth places
++ LoginEndpoint: find a user, log in
++ MeasuramentEndpoint: seve a measuramente if sensor exist, retrive measurament by plant or growth place or sensor
++ PlantEndpoint: crud plants, need a species on the database
++ PositionEndpoint: get a free position in a nursery, get all position by a growth place; update a position with a plant, a growth place and a list of sensor
++ SensorEndpoint: crud sensor
++ SpeciesEndpoint: crud species
 
 ### Endpoint Tests
 All the endpoint are tested with the Postman App on Windows OS and Mac Os.
@@ -66,3 +81,9 @@ Is possible to import this file on Postman App to replicate our experiments usin
 
 ### Domain Model SQL
 <img src="https://github.com/jasonravagli/plant-nursery-4.0/blob/main/img/domain-model.png">
+
+### Package Diagram
+The software is subdivided into packages, each with different responsibility:
+<img src="https://github.com/jasonravagli/plant-nursery-4.0/blob/main/img/packages-diagram.png">
+For the nosql version the package are the same but are reimplemented using the NoSQL database Cassandra. Only REST and DTOs are the same.
+
